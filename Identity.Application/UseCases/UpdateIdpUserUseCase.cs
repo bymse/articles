@@ -20,7 +20,7 @@ public class UpdateUserUseCaseHandler(DbContext dbContext) : UseCaseHandler<Upda
             user = new User(new IdpId(useCase.IdpId));
             dbContext.Add(user);
         }
-        
-        await dbContext.SaveChangesAsync(ct);
+
+        return user.Id;
     }
 }
