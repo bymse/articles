@@ -1,12 +1,12 @@
-﻿namespace Identity.Application.Entities;
+﻿using Identity.Integration;
 
-public record UserId(Guid Value);
+namespace Identity.Application.Entities;
 
 public record IdpId(string Value); 
 
 public class User(IdpId idpId)
 {
-    public UserId Id { get; private set; } = new(Guid.NewGuid());
+    public IdentityUserId Id { get; private set; } = new(Guid.NewGuid());
     
     public IdpId IdpId { get; private set; } = idpId;
 }

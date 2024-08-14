@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Infrastructure", "Identity.Infrastructure\Identity.Infrastructure.csproj", "{C50F5507-3562-4B93-A014-8E74790B6AEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Integration", "Identity.Integration\Identity.Integration.csproj", "{ACBEB16B-079D-4E6B-93CE-1AE2CA82E253}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,10 +60,15 @@ Global
 		{C50F5507-3562-4B93-A014-8E74790B6AEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C50F5507-3562-4B93-A014-8E74790B6AEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C50F5507-3562-4B93-A014-8E74790B6AEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACBEB16B-079D-4E6B-93CE-1AE2CA82E253}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACBEB16B-079D-4E6B-93CE-1AE2CA82E253}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACBEB16B-079D-4E6B-93CE-1AE2CA82E253}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACBEB16B-079D-4E6B-93CE-1AE2CA82E253}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E70DC6D6-E62E-4AE9-96D4-AD762510D7A0} = {7BEE66F8-B590-4CDD-B63E-F23E74E79D55}
 		{C46F0243-C9D8-456E-88CE-B37700E8D8E8} = {BFC122E0-8C96-4467-8784-01E59D9F2E30}
 		{C50F5507-3562-4B93-A014-8E74790B6AEE} = {7BEE66F8-B590-4CDD-B63E-F23E74E79D55}
+		{ACBEB16B-079D-4E6B-93CE-1AE2CA82E253} = {7BEE66F8-B590-4CDD-B63E-F23E74E79D55}
 	EndGlobalSection
 EndGlobal
