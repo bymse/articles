@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Application.UseCases;
 
-public record UpdateIdpUserUseCase(string IdpId) : IUseCase<IdentityUserId>;
+public record UpdateIdpUserUseCase(string IdpName, string IdpUserId) : IUseCase<IdentityUserId>;
 
 public class UpdateUserUseCaseHandler(DbContext dbContext) : UseCaseHandler<UpdateIdpUserUseCase, IdentityUserId>
 {
@@ -14,11 +14,12 @@ public class UpdateUserUseCaseHandler(DbContext dbContext) : UseCaseHandler<Upda
     {
         var user = await dbContext
             .Set<User>()
-            .FirstOrDefaultAsync(e => e.IdpId.Value == useCase.IdpId, ct);
+            .Where(e => e.IdP.Name == useCase.IdpName)
+            .FirstOrDefaultAsync(e => e.IdP.UserId == useCase.IdpUserId, ct);
 
         if (user is null)
         {
-            user = new User(new IdpId(useCase.IdpId));
+            user = new User(new IdP(useCase.IdpName, useCase.IdpUserId));
             dbContext.Add(user);
         }
 

@@ -2,11 +2,11 @@
 
 namespace Identity.Application.Entities;
 
-public record IdpId(string Value); 
+public record IdP(string Name, string UserId); 
 
-public class User(IdpId idpId)
+public class User(IdP idP)
 {
     public IdentityUserId Id { get; private set; } = new(Guid.NewGuid());
     
-    public IdpId IdpId { get; private set; } = idpId;
+    public IdP IdP { get; private set; } = idP;
 }
