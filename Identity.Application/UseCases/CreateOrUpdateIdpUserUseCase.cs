@@ -22,7 +22,7 @@ public class CreateOrUpdateIdpUserHandler(DbContext dbContext) : UseCaseHandler<
             dbContext.Add(user);
         }
 
-        user.Email = useCase.Email;
+        user.SetEmail(useCase.Email);
 
         return user.Id;
     }
