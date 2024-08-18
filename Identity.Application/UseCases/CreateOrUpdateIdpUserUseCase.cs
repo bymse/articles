@@ -13,12 +13,12 @@ public class CreateOrUpdateIdpUserHandler(DbContext dbContext) : UseCaseHandler<
     {
         var user = await dbContext
             .Set<User>()
-            .Where(e => e.IdP.Provider == useCase.IdpName)
-            .FirstOrDefaultAsync(e => e.IdP.UserId == useCase.IdpUserId, ct);
+            .Where(e => e.IdPUser.Provider == useCase.IdpName)
+            .FirstOrDefaultAsync(e => e.IdPUser.Id == useCase.IdpUserId, ct);
 
         if (user is null)
         {
-            user = new User(new IdP(useCase.IdpName, useCase.IdpUserId));
+            user = new User(new IdPUser(useCase.IdpName, useCase.IdpUserId));
             dbContext.Add(user);
         }
 

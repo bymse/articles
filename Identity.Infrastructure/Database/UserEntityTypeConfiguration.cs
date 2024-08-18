@@ -10,16 +10,16 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
     {
         builder.ToTable("users");
 
-        builder.HasKey(e => e.Id).HasName("user_id");
+        builder.HasKey(e => e.Id);
 
-        builder.ComplexProperty(e => e.IdP, idp =>
+        builder.Property(e => e.Email).HasMaxLength(100);
+
+        builder.OwnsOne(e => e.IdPUser, idp =>
         {
-            idp.Property(e => e.UserId).HasColumnName("idp_user_id");
-            idp.Property(e => e.Provider).HasColumnName("idp_provider");
+            idp.Property(e => e.Id).HasColumnName("idp_user_id").HasMaxLength(100);
+            idp.Property(e => e.Provider).HasColumnName("idp_provider").HasMaxLength(100);
+
+            idp.HasIndex(e => new { e.Provider, UserId = e.Id }).IsUnique();
         });
-
-        builder.HasIndex(e => new { e.IdP.Provider, e.IdP.UserId }).IsUnique();
-
-        builder.Property(e => e.Email);
     }
 }
