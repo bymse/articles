@@ -6,11 +6,10 @@ namespace Identity.Infrastructure;
 
 public static class IdentityModule
 {
-    private const string Key = nameof(Application.Identity);
-    
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
         return services
-            .AddPostgresDbContext<IdentityDbContext>(Key);
+            .AddPostgresDbContext<IdentityDbContext>(nameof(Application.Identity))
+            .AddUseCases(typeof(Application.Identity).Assembly);
     }
 }
