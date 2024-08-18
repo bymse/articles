@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Application.UseCases;
 
-public record UpdateIdpUserUseCase(string IdpName, string IdpUserId) : IUseCase<IdentityUserId>;
+public record CreateOrUpdateIdpUserUseCase(string IdpName, string IdpUserId, string Email) : IUseCase<IdentityUserId>;
 
-public class UpdateUserUseCaseHandler(DbContext dbContext) : UseCaseHandler<UpdateIdpUserUseCase, IdentityUserId>
+public class CreateOrUpdateIdpUserHandler(DbContext dbContext) : UseCaseHandler<CreateOrUpdateIdpUserUseCase, IdentityUserId>
 {
-    public override async Task<IdentityUserId> Handle(UpdateIdpUserUseCase useCase, CancellationToken ct)
+    public override async Task<IdentityUserId> Handle(CreateOrUpdateIdpUserUseCase useCase, CancellationToken ct)
     {
         var user = await dbContext
             .Set<User>()
@@ -22,6 +22,8 @@ public class UpdateUserUseCaseHandler(DbContext dbContext) : UseCaseHandler<Upda
             user = new User(new IdP(useCase.IdpName, useCase.IdpUserId));
             dbContext.Add(user);
         }
+
+        user.Email = useCase.Email;
 
         return user.Id;
     }
