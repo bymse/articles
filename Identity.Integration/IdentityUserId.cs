@@ -1,3 +1,3 @@
 ﻿namespace Identity.Integration;
 
-public record IdentityUserId(Guid Value);
+public record IdentityUserId(Ulid Value);
