@@ -1,7 +1,9 @@
-﻿using MassTransit;
+﻿using JetBrains.Annotations;
+using MassTransit;
 
 namespace Application.Mediator;
 
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public abstract class UseCaseHandler<TUseCase> : IConsumer<TUseCase> where TUseCase : class, IUseCase
 {
     public abstract Task Handle(TUseCase useCase, CancellationToken ct);
@@ -12,6 +14,7 @@ public abstract class UseCaseHandler<TUseCase> : IConsumer<TUseCase> where TUseC
     }
 }
 
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public abstract class UseCaseHandler<TUseCase, TResult> : IConsumer<TUseCase> where TUseCase : class, IUseCase<TResult>
 {
     public async Task Consume(ConsumeContext<TUseCase> context)

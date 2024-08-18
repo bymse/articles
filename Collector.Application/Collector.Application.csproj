@@ -4,8 +4,4 @@
     <ProjectReference Include="..\Collector.Integration\Collector.Integration.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UseCases\" />
-  </ItemGroup>
-
 </Project>
