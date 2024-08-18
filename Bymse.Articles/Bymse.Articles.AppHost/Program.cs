@@ -1,9 +1,6 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var apiService = builder.AddProject<Projects.Bymse_Articles_ApiService>("apiservice");
-
-builder.AddProject<Projects.Bymse_Articles_Web>("webfrontend")
-    .WithExternalHttpEndpoints()
-    .WithReference(apiService);
+builder.AddProject<Projects.Bymse_Articles_BFFs>("webfrontend")
+    .WithExternalHttpEndpoints();
 
 builder.Build().Run();

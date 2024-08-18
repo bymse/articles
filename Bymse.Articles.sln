@@ -4,9 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.AppHost", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.ServiceDefaults", "Bymse.Articles\Bymse.Articles.ServiceDefaults\Bymse.Articles.ServiceDefaults.csproj", "{7D9A7419-DC82-4672-9764-339C6F92B911}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.ApiService", "Bymse.Articles\Bymse.Articles.ApiService\Bymse.Articles.ApiService.csproj", "{042BFDE9-2479-42E1-A573-45E55D903A88}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.Web", "Bymse.Articles\Bymse.Articles.Web\Bymse.Articles.Web.csproj", "{49A252B7-FA52-4F15-B171-16C09D65E03A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.BFFs", "Bymse.Articles\Bymse.Articles.BFFs\Bymse.Articles.BFFs.csproj", "{49A252B7-FA52-4F15-B171-16C09D65E03A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.Tests", "Bymse.Articles\Bymse.Articles.Tests\Bymse.Articles.Tests.csproj", "{81B21577-C7A4-4C8D-B1B7-5371E440C48F}"
 EndProject
@@ -48,10 +46,6 @@ Global
 		{7D9A7419-DC82-4672-9764-339C6F92B911}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D9A7419-DC82-4672-9764-339C6F92B911}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D9A7419-DC82-4672-9764-339C6F92B911}.Release|Any CPU.Build.0 = Release|Any CPU
-		{042BFDE9-2479-42E1-A573-45E55D903A88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{042BFDE9-2479-42E1-A573-45E55D903A88}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{042BFDE9-2479-42E1-A573-45E55D903A88}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{042BFDE9-2479-42E1-A573-45E55D903A88}.Release|Any CPU.Build.0 = Release|Any CPU
 		{49A252B7-FA52-4F15-B171-16C09D65E03A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{49A252B7-FA52-4F15-B171-16C09D65E03A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49A252B7-FA52-4F15-B171-16C09D65E03A}.Release|Any CPU.ActiveCfg = Release|Any CPU
