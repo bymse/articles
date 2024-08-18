@@ -2,7 +2,7 @@
 
 namespace Identity.Application.Entities;
 
-public record IdP(string Name, string UserId); 
+public record IdP(string Provider, string UserId); 
 
 public class User(IdP idP)
 {

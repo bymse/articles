@@ -14,7 +14,7 @@ public class CreateOrUpdateIdpUserHandler(DbContext dbContext) : UseCaseHandler<
     {
         var user = await dbContext
             .Set<User>()
-            .Where(e => e.IdP.Name == useCase.IdpName)
+            .Where(e => e.IdP.Provider == useCase.IdpName)
             .FirstOrDefaultAsync(e => e.IdP.UserId == useCase.IdpUserId, ct);
 
         if (user is null)
