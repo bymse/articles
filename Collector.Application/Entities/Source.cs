@@ -6,6 +6,8 @@ public record Receiver(string Email);
 
 public abstract class Source(SourceState state)
 {
+    public const int MAX_TITLE_LENGTH = 100;
+    
     public CollectorSourceId Id { get; protected set; } = new(Ulid.NewUlid());
 
     public SourceState State { get; protected set; } = state;

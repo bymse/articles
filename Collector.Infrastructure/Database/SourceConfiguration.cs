@@ -16,6 +16,9 @@ public class SourceConfiguration : IEntityTypeConfiguration<Source>
         builder.Property(e => e.State);
         builder.Property(e => e.CreatedAt);
         
+        builder.Property(e => e.WebPage);
+        builder.Property(e => e.Title).HasMaxLength(Source.MAX_TITLE_LENGTH);
+        
         builder.OwnsOne(e => e.Receiver, r =>
         {
             r.Property(e => e.Email).HasColumnName("receiver_email");
