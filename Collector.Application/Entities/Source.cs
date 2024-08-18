@@ -1,12 +1,12 @@
-﻿namespace Collector.Application.Entities;
+﻿using Collector.Integration;
 
-public record SourceId(Ulid Value);
+namespace Collector.Application.Entities;
 
 public record Receiver(string Email);
 
 public abstract class Source(SourceState state)
 {
-    public SourceId Id { get; } = new SourceId(Ulid.NewUlid());
+    public CollectorSourceId Id { get; } = new CollectorSourceId(Ulid.NewUlid());
 
     public SourceState State { get; protected set; } = state;
 

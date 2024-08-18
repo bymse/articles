@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\Collector.Integration\Collector.Integration.csproj" />
   </ItemGroup>
 
   <ItemGroup>
