@@ -1,4 +1,4 @@
-﻿namespace Identity.Infrastructure.Mediator;
+﻿namespace Application.Mediator;
 
 public class MasstransitUseCaseExecutor
 {

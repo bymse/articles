@@ -1,5 +1,4 @@
-﻿using Identity.Infrastructure.Mediator;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Mediator;

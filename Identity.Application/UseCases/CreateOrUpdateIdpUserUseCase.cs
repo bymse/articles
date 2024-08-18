@@ -1,6 +1,5 @@
 ﻿using Application.Mediator;
 using Identity.Application.Entities;
-using Identity.Infrastructure.Mediator;
 using Identity.Integration;
 using Microsoft.EntityFrameworkCore;
 
