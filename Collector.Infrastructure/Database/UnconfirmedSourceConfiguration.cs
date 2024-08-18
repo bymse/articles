@@ -11,10 +11,5 @@ public class UnconfirmedSourceConfiguration : IEntityTypeConfiguration<Unconfirm
         builder.HasBaseType<Source>();
 
         builder.Property(e => e.WebPage);
-
-        builder.ComplexProperty<Receiver>("receiver", e =>
-        {
-            e.Property(r => r.Email).HasColumnName("receiver_email");
-        });
     }
 }

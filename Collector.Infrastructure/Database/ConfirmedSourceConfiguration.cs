@@ -11,12 +11,5 @@ public class ConfirmedSourceConfiguration : IEntityTypeConfiguration<ConfirmedSo
         builder.HasBaseType<Source>();
 
         builder.Property(e => e.ConfirmedAt);
-
-        builder.ComplexProperty(e => e.Receiver, r =>
-        {
-            r.Property(e => e.Email).HasColumnName("receiver_email"); 
-        });
-
-        builder.HasIndex(e => e.Receiver.Email).IsUnique();
     }
 }

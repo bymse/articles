@@ -1,4 +1,6 @@
-﻿using Infrastructure.Ulids;
+﻿using Collector.Application.Entities;
+using Collector.Integration;
+using Infrastructure.Ulids;
 using Microsoft.EntityFrameworkCore;
 
 namespace Collector.Infrastructure.Database;
@@ -14,14 +16,17 @@ public class CollectorDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
     }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSnakeCaseNamingConvention();
+    }
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         configurationBuilder
-            .Properties<Ulid>()
-            .HaveConversion<UlidToStringConverter>();
-
-        configurationBuilder
-            .Properties<CollectorSourceIdConverter>()
+            .Properties<CollectorSourceId>()
             .HaveConversion<CollectorSourceIdConverter>();
+
+        configurationBuilder.ComplexProperties<Receiver>();
     }
 }

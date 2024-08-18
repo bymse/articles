@@ -6,6 +6,8 @@ public record Receiver(string Email);
 
 public abstract class Source(SourceState state)
 {
+    public Receiver Receiver { get; protected set; } = null!;
+
     public CollectorSourceId Id { get; } = new CollectorSourceId(Ulid.NewUlid());
 
     public SourceState State { get; protected set; } = state;
@@ -13,29 +15,20 @@ public abstract class Source(SourceState state)
     public DateTime CreatedAt { get; } = DateTime.UtcNow;
 }
 
-public class UnconfirmedSource(Uri webPage) : Source(SourceState.Unconfirmed)
+public class UnconfirmedSource : Source
 {
-    private Receiver? receiver;
-
-    public Uri WebPage { get; } = webPage;
-
-    public Receiver GenerateReceiver(string emailDomain)
+    public UnconfirmedSource(Uri webPage, string domain) : base(SourceState.Unconfirmed)
     {
-        if (receiver != null)
-        {
-            throw new InvalidOperationException("Email already generated");
-        }
-
-        receiver = new Receiver($"{Id.Value}@{emailDomain}");
-        return receiver;
+        WebPage = webPage;
+        Receiver = new Receiver($"{Id.Value}@{domain}");
     }
+
+    public Uri WebPage { get; }
 }
 
 public class ConfirmedSource() : Source(SourceState.Confirmed)
 {
     public DateTimeOffset ConfirmedAt { get; } = DateTimeOffset.UtcNow;
-
-    public Receiver Receiver { get; } = null!;
 }
 
 public enum SourceState

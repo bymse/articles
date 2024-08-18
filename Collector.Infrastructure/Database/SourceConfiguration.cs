@@ -1,4 +1,5 @@
 ﻿using Collector.Application.Entities;
+using Infrastructure.Ulids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,6 +15,12 @@ public class SourceConfiguration : IEntityTypeConfiguration<Source>
 
         builder.Property(e => e.State);
         builder.Property(e => e.CreatedAt);
+        
+        builder.OwnsOne(e => e.Receiver, r =>
+        {
+            r.Property(e => e.Email).HasColumnName("receiver_email");
+            r.HasIndex(e => e.Email).IsUnique();
+        });
 
         builder
             .HasDiscriminator(e => e.State)
