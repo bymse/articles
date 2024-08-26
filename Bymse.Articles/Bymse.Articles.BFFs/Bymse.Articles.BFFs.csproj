@@ -2,6 +2,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Collector.Infrastructure\Collector.Infrastructure.csproj" />
+        <ProjectReference Include="..\..\Feeder.Infrastructure\Feeder.Infrastructure.csproj" />
         <ProjectReference Include="..\..\Identity.Infrastructure\Identity.Infrastructure.csproj" />
         <ProjectReference Include="..\Bymse.Articles.ServiceDefaults\Bymse.Articles.ServiceDefaults.csproj"/>
     </ItemGroup>
