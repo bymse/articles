@@ -5,7 +5,7 @@ public interface IUseCase
     
 }
 
-public interface IUseCase<T>
+public interface IUseCase<T> : IUseCase
 {
     
 }

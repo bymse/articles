@@ -20,7 +20,7 @@ public class DbContextProvider<T> : IDbContextProvider<T>
 
     public DbContext Get()
     {
-        var key = typeof(T).Namespace!.Split(".").First();
+        var key = typeof(T).Name;
         return keyedServiceProvider.GetRequiredKeyedService<DbContext>(key);
     }
 }

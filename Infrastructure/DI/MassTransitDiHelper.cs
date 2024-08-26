@@ -23,6 +23,7 @@ public static class MassTransitDiHelper
                 {
                     r.ConfigureMediator((context, cfg) =>
                     {
+                        cfg.UseSendFilter(typeof(UseCaseValidationFilter<>), context);
                         cfg.UseSendFilter(typeof(UseCaseCommitFilter<>), context);
                     });
                 });
