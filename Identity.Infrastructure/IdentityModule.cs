@@ -6,7 +6,7 @@ namespace Identity.Infrastructure;
 
 public static class IdentityModule
 {
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    public static IServiceCollection AddIdentityServices(this IServiceCollection services)
     {
         return services
             .AddPostgresDbContext<IdentityDbContext>(nameof(Application.Identity))

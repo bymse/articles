@@ -6,7 +6,7 @@ namespace Feeder.Infrastructure;
 
 public static class FeederModule
 {
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    public static IServiceCollection AddFeederServices(this IServiceCollection services)
     {
         return services
             .AddPostgresDbContext<FeederDbContext>(nameof(Application.Feeder))

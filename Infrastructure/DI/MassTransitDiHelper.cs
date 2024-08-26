@@ -14,7 +14,7 @@ public static class MassTransitDiHelper
         Assemblies.AddRange(assemblies);
     }
 
-    public static IServiceCollection AddArticlesMassTransit(this IServiceCollection services)
+    public static IServiceCollection AddMassTransitInfrastructure(this IServiceCollection services)
     {
         return services
             .AddMassTransit(x =>
