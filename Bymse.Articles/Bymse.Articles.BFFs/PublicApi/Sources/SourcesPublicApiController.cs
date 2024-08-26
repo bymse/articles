@@ -6,15 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bymse.Articles.BFFs.PublicApi.Sources;
 
 [Route("sources")]
-public class SourcesPublicApiController : PublicApiController
+public class SourcesPublicApiController(IUseCaseExecutor useCaseExecutor) : PublicApiController
 {
-    private readonly IUseCaseExecutor useCaseExecutor;
-
-    public SourcesPublicApiController(IUseCaseExecutor useCaseExecutor)
-    {
-        this.useCaseExecutor = useCaseExecutor;
-    }
-
     [HttpPost]
     public async Task<UnconfirmedSourceInfo> CreateSource([FromBody] CreateSourceRequest request, CancellationToken ct)
     {
