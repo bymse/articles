@@ -9,6 +9,7 @@ public class FeederDbContextFactory : IDesignTimeDbContextFactory<FeederDbContex
     {
         var options = new DbContextOptionsBuilder<FeederDbContext>()
             .UseNpgsql()
+            .UseSnakeCaseNamingConvention()
             .Options;
 
         return new FeederDbContext(options);

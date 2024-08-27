@@ -5,20 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Collector.Infrastructure.Database;
 
-public class CollectorDbContext : DbContext
+public class CollectorDbContext(DbContextOptions options) : DbContext(options)
 {
-    public CollectorDbContext(DbContextOptions options) : base(options)
-    {
-    }
-
+    public const string ConnectionName = "collector";
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSnakeCaseNamingConvention();
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

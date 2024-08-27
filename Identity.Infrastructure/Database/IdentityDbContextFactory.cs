@@ -11,6 +11,7 @@ public class IdentityDbContextFactory : IDesignTimeDbContextFactory<IdentityDbCo
     {
         var options = new DbContextOptionsBuilder<IdentityDbContext>()
             .UseNpgsql()
+            .UseSnakeCaseNamingConvention()
             .Options;
 
         return new IdentityDbContext(options);

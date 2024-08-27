@@ -9,6 +9,7 @@ public class CollectorDbContextFactory : IDesignTimeDbContextFactory<CollectorDb
     {
         var options = new DbContextOptionsBuilder<CollectorDbContext>()
             .UseNpgsql()
+            .UseSnakeCaseNamingConvention()
             .Options;
 
         return new CollectorDbContext(options);

@@ -9,14 +9,11 @@ namespace Feeder.Infrastructure.Database;
 
 public class FeederDbContext(DbContextOptions<FeederDbContext> options) : DbContext(options)
 {
+    public const string ConnectionName = "feeder";
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSnakeCaseNamingConvention();
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

@@ -5,14 +5,11 @@ namespace Identity.Infrastructure.Database;
 
 public class IdentityDbContext(DbContextOptions options) : DbContext(options)
 {
+    public const string ConnectionName = "identity";
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSnakeCaseNamingConvention();
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

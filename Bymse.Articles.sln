@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feeder.Application", "Feede
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feeder.Infrastructure", "Feeder.Infrastructure\Feeder.Infrastructure.csproj", "{B17C7B8D-E383-4502-A602-D624DAB57A6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbMigrator", "DbMigrator\DbMigrator.csproj", "{835A64C6-7D11-419C-B355-6EB9004EFEE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{B17C7B8D-E383-4502-A602-D624DAB57A6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B17C7B8D-E383-4502-A602-D624DAB57A6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B17C7B8D-E383-4502-A602-D624DAB57A6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{835A64C6-7D11-419C-B355-6EB9004EFEE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{835A64C6-7D11-419C-B355-6EB9004EFEE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{835A64C6-7D11-419C-B355-6EB9004EFEE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{835A64C6-7D11-419C-B355-6EB9004EFEE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E70DC6D6-E62E-4AE9-96D4-AD762510D7A0} = {7BEE66F8-B590-4CDD-B63E-F23E74E79D55}
