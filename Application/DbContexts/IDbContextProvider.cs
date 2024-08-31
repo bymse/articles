@@ -9,18 +9,11 @@ public interface IDbContextProvider<T>
     DbContext Get();
 }
 
-public class DbContextProvider<T> : IDbContextProvider<T>
+public class DbContextProvider<T>(IServiceProvider serviceProvider) : IDbContextProvider<T>
 {
-    private readonly IKeyedServiceProvider keyedServiceProvider;
-
-    public DbContextProvider(IKeyedServiceProvider keyedServiceProvider)
-    {
-        this.keyedServiceProvider = keyedServiceProvider;
-    }
-
     public DbContext Get()
     {
         var key = typeof(T).Name;
-        return keyedServiceProvider.GetRequiredKeyedService<DbContext>(key);
+        return serviceProvider.GetRequiredKeyedService<DbContext>(key);
     }
 }

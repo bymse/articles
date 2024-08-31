@@ -27,6 +27,8 @@ public static class MassTransitDiHelper
                         cfg.UseSendFilter(typeof(UseCaseCommitFilter<>), context);
                     });
                 });
+                
+                x.UsingInMemory();
 
                 foreach (var assembly in Assemblies)
                 {

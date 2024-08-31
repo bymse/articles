@@ -9,6 +9,7 @@ public static class PublicApiDiHelper
     public static IServiceCollection AddPublicApiServices(this IServiceCollection services)
     {
         services
+            .AddProblemDetails()
             .AddControllers()
             .AddJsonOptions(e =>
             {
