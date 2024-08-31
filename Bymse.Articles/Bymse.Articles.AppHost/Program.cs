@@ -4,8 +4,12 @@ using Identity.Infrastructure.Database;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
+//dotnet user-secrets set Parameters:articles-postgres-password <value>
+var postgresPassword = builder.AddParameter("articles-postgres-password", secret: true);
+
 var postgres = builder
-    .AddPostgres("ArticlesPostgres");
+    .AddPostgres("articles-postgres", password: postgresPassword, port: 15432)
+    .WithDataVolume();
 
 var identitySql = postgres.AddDatabase(IdentityDbContext.ConnectionName);
 var feederSql = postgres.AddDatabase(FeederDbContext.ConnectionName);
@@ -17,7 +21,6 @@ builder
 
 builder
     .AddProject<Projects.DbMigrator>("DbMigrator")
-    .WithExternalHttpEndpoints()
     .WithReference(identitySql)
     .WithReference(feederSql)
     .WithReference(collectorSql);

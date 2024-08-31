@@ -7,23 +7,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DbMigrator;
 
 public class DbMigratorWorker(
-    IServiceProvider serviceProvider)
-    : IHostedService
+    IServiceProvider serviceProvider,
+    IHostApplicationLifetime hostApplicationLifetime)
+    : BackgroundService
 {
-    public async Task StartAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         using var scope = serviceProvider.CreateScope();
         var sp = scope.ServiceProvider;
         await MigrateAsync(sp.GetRequiredService<IdentityDbContext>(), cancellationToken);
         await MigrateAsync(sp.GetRequiredService<CollectorDbContext>(), cancellationToken);
         await MigrateAsync(sp.GetRequiredService<FeederDbContext>(), cancellationToken);
-    }
 
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        return Task.CompletedTask;
+        hostApplicationLifetime.StopApplication();
     }
-
+    
     private static async Task MigrateAsync(DbContext context, CancellationToken ct)
     {
         await context.Database.MigrateAsync(ct);
