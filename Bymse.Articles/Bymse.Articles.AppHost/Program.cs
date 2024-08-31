@@ -4,6 +4,8 @@ using Identity.Infrastructure.Database;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
+//set cookie .AspNetCore.Culture=c=en|uic=en to get eng dashboard 
+
 //dotnet user-secrets set Parameters:articles-postgres-password <value>
 var postgresPassword = builder.AddParameter("articles-postgres-password", secret: true);
 
