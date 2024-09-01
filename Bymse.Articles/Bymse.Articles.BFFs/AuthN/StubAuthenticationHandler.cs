@@ -8,6 +8,7 @@ namespace Bymse.Articles.BFFs.AuthN;
 public class StubAuthenticationHandler(
     IOptionsMonitor<AuthenticationSchemeOptions> options,
     ILoggerFactory logger,
+    IConfiguration configuration,
     UrlEncoder encoder)
     : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
@@ -15,7 +16,7 @@ public class StubAuthenticationHandler(
 
     protected async override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var stubId = Environment.GetEnvironmentVariable("BYMSE_ARTICLES_STUB_USER_ID");
+        var stubId = configuration.GetValue<string>("StubUserId");
         if (string.IsNullOrWhiteSpace(stubId))
         {
             return AuthenticateResult.Fail("Stub user ID not set.");
