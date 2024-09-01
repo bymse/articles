@@ -10,12 +10,12 @@ public record CreateSourceUseCase(string Title, Uri WebPage) : IUseCase<Unconfir
 
 public record UnconfirmedSourceInfo(CollectorSourceId Id, string Email);
 
-public class CreateSourceHandler(IDbContextProvider<Collector> dbContextProvider)
+public class CreateSourceHandler(IUseCaseDbContextProvider useCaseDbContextProvider)
     : UseCaseHandler<CreateSourceUseCase, UnconfirmedSourceInfo>
 {
     public override async Task<UnconfirmedSourceInfo> Handle(CreateSourceUseCase useCase, CancellationToken ct)
     {
-        var dbContext = dbContextProvider.Get();
+        var dbContext = useCaseDbContextProvider.GetFor<CreateSourceUseCase>();
 
         var source = new UnconfirmedSource(useCase.Title, useCase.WebPage, "");
         dbContext.Add(source);

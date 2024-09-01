@@ -20,7 +20,7 @@ public static class DbContextDiHelper
 
         services.AddKeyedScoped<DbContext>(key, (e, _) => e.GetRequiredService<TDbContext>());
 
-        services.TryAddScoped(typeof(IDbContextProvider<>), typeof(DbContextProvider<>));
+        services.TryAddScoped(typeof(IUseCaseDbContextProvider), typeof(UseCaseDbContextProvider));
 
         return services;
     }

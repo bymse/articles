@@ -8,12 +8,12 @@ namespace Identity.Application.UseCases;
 
 public record CreateOrUpdateIdpUserUseCase(string IdpName, string IdpUserId, string Email) : IUseCase<IdentityUserId>;
 
-public class CreateOrUpdateIdpUserHandler(IDbContextProvider<Identity> dbContextProvider)
+public class CreateOrUpdateIdpUserHandler(IUseCaseDbContextProvider useCaseDbContextProvider)
     : UseCaseHandler<CreateOrUpdateIdpUserUseCase, IdentityUserId>
 {
     public override async Task<IdentityUserId> Handle(CreateOrUpdateIdpUserUseCase useCase, CancellationToken ct)
     {
-        var dbContext = dbContextProvider.Get();
+        var dbContext = useCaseDbContextProvider.GetFor<CreateOrUpdateIdpUserUseCase>();
 
         var user = await dbContext
             .Set<User>()

@@ -3,10 +3,10 @@ using MassTransit;
 
 namespace Application.Mediator;
 
-public class UseCaseValidationFilter<T>(IEnumerable<IValidator<T>> validators) : IFilter<ConsumeContext<T>>
+public class UseCaseValidationFilter<T>(IEnumerable<IValidator<T>> validators) : IFilter<SendContext<T>>
     where T : class, IUseCase
 {
-    public Task Send(ConsumeContext<T> context, IPipe<ConsumeContext<T>> next)
+    public Task Send(SendContext<T> context, IPipe<SendContext<T>> next)
     {
         foreach (var validator in validators)
         {

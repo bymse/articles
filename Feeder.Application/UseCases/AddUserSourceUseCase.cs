@@ -12,12 +12,12 @@ public record AddUserSourceUseCase(IdentityUserId UserId, CollectorSourceId Sour
 
 public class AddUserSourceUseCaseValidator : AbstractValidator<AddUserSourceUseCase>
 {
-    public AddUserSourceUseCaseValidator(IDbContextProvider<Feeder> dbContextProvider)
+    public AddUserSourceUseCaseValidator(IUseCaseDbContextProvider useCaseDbContextProvider)
     {
         RuleFor(e => e)
             .MustAsync(async (uc, ct) =>
             {
-                var dbContext = dbContextProvider.Get();
+                var dbContext = useCaseDbContextProvider.GetFor<AddUserSourceUseCase>();
                 return !await dbContext
                     .Set<UserSource>()
                     .Where(e => e.UserId == uc.UserId)
@@ -27,12 +27,12 @@ public class AddUserSourceUseCaseValidator : AbstractValidator<AddUserSourceUseC
     }
 }
 
-public class AddUserSourceUseCaseHandler(IDbContextProvider<Feeder> dbContextProvider)
+public class AddUserSourceUseCaseHandler(IUseCaseDbContextProvider useCaseDbContextProvider)
     : UseCaseHandler<AddUserSourceUseCase>
 {
     public async override Task Handle(AddUserSourceUseCase useCase, CancellationToken ct)
     {
-        var dbContext = dbContextProvider.Get();
+        var dbContext = useCaseDbContextProvider.GetFor<AddUserSourceUseCase>();
         var userSource = new UserSource(useCase.UserId, useCase.SourceId);
 
         dbContext.Add(userSource);
