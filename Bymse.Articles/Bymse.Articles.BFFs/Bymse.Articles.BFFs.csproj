@@ -7,4 +7,11 @@
         <ProjectReference Include="..\Bymse.Articles.ServiceDefaults\Bymse.Articles.ServiceDefaults.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
+      <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.7.3" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.7.3" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.7.3" />
+    </ItemGroup>
+
 </Project>

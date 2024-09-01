@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bymse.Articles.BFFs.PublicApi;
 
-[Authorize(AuthenticationSchemes = StubAuthenticationHandler.SchemeName)]
-[Route("public-api")]
 [ApiController]
+[Route("public-api")]
+[ApiExplorerSettings(GroupName = PublicApiConstants.DocumentName)]
+[Authorize(AuthenticationSchemes = StubAuthenticationHandler.SchemeName)]
 public class PublicApiController : ControllerBase
 {
     protected IdentityUserId UserId => new(

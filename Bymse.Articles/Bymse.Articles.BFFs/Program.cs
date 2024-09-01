@@ -1,4 +1,5 @@
 using Bymse.Articles.BFFs.PublicApi;
+using Bymse.Articles.BFFs.PublicApi.Configuration;
 using Feeder.Infrastructure;
 using Identity.Infrastructure;
 using Infrastructure.DI;
@@ -26,6 +27,13 @@ app
     .UseExceptionHandler()
     .UseAuthentication()
     .UseAuthorization();
+
+app
+    .UseSwagger()
+    .UseSwaggerUI(e =>
+    {
+        e.ConfigurePublicApi();
+    });
 
 app
     .MapDefaultEndpoints()

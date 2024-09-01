@@ -1,10 +1,11 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bymse.Articles.BFFs.AuthN;
+using Microsoft.OpenApi.Models;
 
-namespace Bymse.Articles.BFFs.PublicApi;
+namespace Bymse.Articles.BFFs.PublicApi.Configuration;
 
-public static class PublicApiDiHelper
+public static class PublicApiServicesConfiguration
 {
     public static IServiceCollection AddPublicApiServices(this IServiceCollection services)
     {
@@ -19,6 +20,17 @@ public static class PublicApiDiHelper
 
         services
             .AddStubAuthN();
+
+        services
+            .AddEndpointsApiExplorer()
+            .AddSwaggerGen(e =>
+            {
+                e.SwaggerDoc(PublicApiConstants.DocumentName, new OpenApiInfo
+                {
+                    Title = PublicApiConstants.DocumentName,
+                });
+            })
+            ;
 
         return services;
     }
