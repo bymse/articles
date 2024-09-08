@@ -4,7 +4,7 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Infrastructure.DI;
+namespace Infrastructure.ServicesConfiguration;
 
 public static class UseCasesServicesConfiguration
 {

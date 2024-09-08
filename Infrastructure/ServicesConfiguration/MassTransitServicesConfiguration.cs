@@ -3,7 +3,7 @@ using Application.Mediator;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.DI;
+namespace Infrastructure.ServicesConfiguration;
 
 public static class MassTransitServicesConfiguration
 {

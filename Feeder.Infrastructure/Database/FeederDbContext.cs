@@ -3,14 +3,15 @@ using Collector.Integration;
 using Feeder.Application.Entities;
 using Identity.Infrastructure.Database;
 using Identity.Integration;
+using Infrastructure.ServicesConfiguration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Feeder.Infrastructure.Database;
 
-public class FeederDbContext(DbContextOptions<FeederDbContext> options) : DbContext(options)
+public class FeederDbContext(DbContextOptions<FeederDbContext> options) : DbContext(options), IKeyedDbContext
 {
-    public const string ConnectionName = "feeder";
-    
+    public static string Key => nameof(Application.Feeder);
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);

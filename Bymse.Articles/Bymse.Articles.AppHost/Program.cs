@@ -13,13 +13,16 @@ var postgres = builder
     .AddPostgres("articles-postgres", password: postgresPassword, port: 15432)
     .WithDataVolume();
 
-var identitySql = postgres.AddDatabase(IdentityDbContext.ConnectionName);
-var feederSql = postgres.AddDatabase(FeederDbContext.ConnectionName);
-var collectorSql = postgres.AddDatabase(CollectorDbContext.ConnectionName);
+var identitySql = postgres.AddDatabase(IdentityDbContext.Key);
+var feederSql = postgres.AddDatabase(FeederDbContext.Key);
+var collectorSql = postgres.AddDatabase(CollectorDbContext.Key);
 
 builder
     .AddProject<Projects.Bymse_Articles_BFFs>("BFFs")
-    .WithExternalHttpEndpoints();
+    .WithExternalHttpEndpoints()
+    .WithReference(identitySql)
+    .WithReference(feederSql)
+    .WithReference(collectorSql);
 
 builder
     .AddProject<Projects.DbMigrator>("DbMigrator")

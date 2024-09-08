@@ -1,11 +1,12 @@
 ﻿using Identity.Integration;
+using Infrastructure.ServicesConfiguration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Infrastructure.Database;
 
-public class IdentityDbContext(DbContextOptions options) : DbContext(options)
+public class IdentityDbContext(DbContextOptions options) : DbContext(options), IKeyedDbContext
 {
-    public const string ConnectionName = "identity";
+    public static string Key => nameof(Application.Identity);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

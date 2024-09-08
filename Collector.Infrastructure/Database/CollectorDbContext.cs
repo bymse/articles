@@ -1,13 +1,14 @@
 ﻿using Collector.Application.Entities;
 using Collector.Integration;
+using Infrastructure.ServicesConfiguration;
 using Infrastructure.Ulids;
 using Microsoft.EntityFrameworkCore;
 
 namespace Collector.Infrastructure.Database;
 
-public class CollectorDbContext(DbContextOptions options) : DbContext(options)
+public class CollectorDbContext(DbContextOptions options) : DbContext(options), IKeyedDbContext
 {
-    public const string ConnectionName = "collector";
+    public static string Key => nameof(Application.Collector);
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
