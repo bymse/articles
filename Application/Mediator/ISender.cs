@@ -6,7 +6,7 @@ namespace Application.Mediator;
 public interface ISender
 {
     Task Send(IUseCase useCase, CancellationToken ct);
-    Task<TR> SendRequest<TR>(IUseCase<TR> useCase, CancellationToken ct) where TR : class;
+    Task<TR> Send<TR>(IUseCase<TR> useCase, CancellationToken ct) where TR : class;
 }
 
 public class Sender : ISender
@@ -23,7 +23,7 @@ public class Sender : ISender
         return mediator.Send(useCase, useCase.GetType(), ct);
     }
 
-    public Task<TR> SendRequest<TR>(IUseCase<TR> useCase, CancellationToken ct) where TR : class
+    public Task<TR> Send<TR>(IUseCase<TR> useCase, CancellationToken ct) where TR : class
     {
         return mediator.SendRequest(useCase, ct);
     }

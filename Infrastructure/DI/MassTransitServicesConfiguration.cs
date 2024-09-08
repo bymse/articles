@@ -23,8 +23,11 @@ public static class MassTransitServicesConfiguration
             x.AddConsumers(assemblies);
             x.ConfigureMediator((context, cfg) =>
             {
-                cfg.UseSendFilter(typeof(UseCaseValidationFilter<>), context);
-                cfg.UseSendFilter(typeof(UseCaseCommitFilter<>), context);
+                cfg.UseConsumeFilter(typeof(UseCaseValidationFilter<>), context,
+                    e => { e.Include(r => r.IsAssignableTo(typeof(IUseCase))); });
+                cfg.UseConsumeFilter(typeof(UseCaseCommitFilter<>), context,
+                    e => { e.Include(r => r.IsAssignableTo(typeof(IUseCase))); });
+
                 cfg.UseInMemoryOutbox(context);
             });
         });

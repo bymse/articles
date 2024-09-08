@@ -4,9 +4,9 @@ using MassTransit;
 namespace Application.Mediator;
 
 public class UseCaseCommitFilter<T>(IUseCaseDbContextProvider dbContextProvider)
-    : IFilter<SendContext<T>> where T : class, IUseCase
+    : IFilter<ConsumeContext<T>> where T : class
 {
-    public async Task Send(SendContext<T> context, IPipe<SendContext<T>> next)
+    public async Task Send(ConsumeContext<T> context, IPipe<ConsumeContext<T>> next)
     {
         await next.Send(context);
 
