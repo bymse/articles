@@ -4,7 +4,8 @@ namespace Collector.Application.Entities;
 
 public class UnconfirmedSource : Source
 {
-    public UnconfirmedSource(string title, Uri webPage, string domain) : base(SourceState.Unconfirmed)
+    public UnconfirmedSource(string title, Uri webPage, string domain, Tenant tenant) : base(
+        SourceState.Unconfirmed)
     {
         WebPage = webPage;
         Title = title;

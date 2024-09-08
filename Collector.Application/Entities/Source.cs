@@ -19,6 +19,8 @@ public abstract class Source(SourceState state)
     public string Title { get; protected set; }
 
     public Uri WebPage { get; protected set; }
+    
+    public Tenant Tenant { get; protected init; }
 }
 
 public enum SourceState
