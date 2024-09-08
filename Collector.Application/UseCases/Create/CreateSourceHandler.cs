@@ -20,6 +20,6 @@ public class CreateSourceHandler(IUseCaseDbContextProvider provider)
         );
         dbContext.Add(source);
 
-        return new UnconfirmedSourceInfo(new CollectorSourceId(Ulid.Empty), useCase.Title);
+        return new UnconfirmedSourceInfo(source.Id, source.Receiver.Email);
     }
 }

@@ -18,7 +18,8 @@ public static class DbContextServicesConfiguration
             var configuration = e.GetRequiredService<IConfiguration>();
             var connectionString = configuration.GetConnectionString(TDbContext.Key) ??
                                    throw new Exception("Connection string not found for " + TDbContext.Key);
-            r.UseNpgsql(connectionString);
+
+            r.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
         });
 
         services.AddKeyedScoped<DbContext>(TDbContext.Key, (e, _) => e.GetRequiredService<TDbContext>());

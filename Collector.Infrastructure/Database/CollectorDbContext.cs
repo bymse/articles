@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Collector.Infrastructure.Database;
 
-public class CollectorDbContext(DbContextOptions options) : DbContext(options), IKeyedDbContext
+public class CollectorDbContext(DbContextOptions<CollectorDbContext> options) : DbContext(options), IKeyedDbContext
 {
     public static string Key => nameof(Application.Collector);
     

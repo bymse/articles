@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Infrastructure.Database;
 
-public class IdentityDbContext(DbContextOptions options) : DbContext(options), IKeyedDbContext
+public class IdentityDbContext(DbContextOptions<IdentityDbContext> options) : DbContext(options), IKeyedDbContext
 {
     public static string Key => nameof(Application.Identity);
 
