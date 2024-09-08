@@ -10,6 +10,6 @@ public static class CollectorModule
     {
         return services
             .AddPostgresDbContext<CollectorDbContext>()
-            .AddUseCases(typeof(Application.Collector).Assembly);
+            .AddUseCases(typeof(Application.CollectorConstants).Assembly);
     }
 }

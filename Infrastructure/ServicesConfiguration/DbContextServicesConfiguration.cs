@@ -1,5 +1,4 @@
 ﻿using Application.DbContexts;
-using Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

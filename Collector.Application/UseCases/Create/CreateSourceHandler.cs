@@ -2,10 +2,11 @@
 using Application.Mediator;
 using Collector.Application.Entities;
 using Collector.Integration;
+using Microsoft.Extensions.Configuration;
 
 namespace Collector.Application.UseCases.Create;
 
-public class CreateSourceHandler(IUseCaseDbContextProvider provider)
+public class CreateSourceHandler(IUseCaseDbContextProvider provider, IConfiguration configuration)
     : UseCaseHandler<CreateSourceUseCase, UnconfirmedSourceInfo>
 {
     protected override async Task<UnconfirmedSourceInfo> Handle(CreateSourceUseCase useCase, CancellationToken ct)

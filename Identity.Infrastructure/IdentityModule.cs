@@ -10,6 +10,6 @@ public static class IdentityModule
     {
         return services
             .AddPostgresDbContext<IdentityDbContext>()
-            .AddUseCases(typeof(Application.Identity).Assembly);
+            .AddUseCases(typeof(Application.IdentityConstants).Assembly);
     }
 }

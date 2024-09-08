@@ -1,4 +1,5 @@
-﻿using Identity.Integration;
+﻿using Identity.Application;
+using Identity.Integration;
 using Infrastructure.ServicesConfiguration;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,7 +7,7 @@ namespace Identity.Infrastructure.Database;
 
 public class IdentityDbContext(DbContextOptions<IdentityDbContext> options) : DbContext(options), IKeyedDbContext
 {
-    public static string Key => nameof(Application.Identity);
+    public static string Key => IdentityConstants.Key;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,5 +1,6 @@
 ﻿using Collector.Infrastructure.Database;
 using Collector.Integration;
+using Feeder.Application;
 using Feeder.Application.Entities;
 using Identity.Infrastructure.Database;
 using Identity.Integration;
@@ -10,7 +11,7 @@ namespace Feeder.Infrastructure.Database;
 
 public class FeederDbContext(DbContextOptions<FeederDbContext> options) : DbContext(options), IKeyedDbContext
 {
-    public static string Key => nameof(Application.Feeder);
+    public static string Key => FeederConstants.Key;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -10,6 +10,6 @@ public static class FeederModule
     {
         return services
             .AddPostgresDbContext<FeederDbContext>()
-            .AddUseCases(typeof(Application.Feeder).Assembly);
+            .AddUseCases(typeof(Application.FeederConstants).Assembly);
     }
 }

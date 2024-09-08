@@ -1,4 +1,5 @@
-﻿using Collector.Application.Entities;
+﻿using Collector.Application;
+using Collector.Application.Entities;
 using Collector.Integration;
 using Infrastructure.ServicesConfiguration;
 using Infrastructure.Ulids;
@@ -8,7 +9,7 @@ namespace Collector.Infrastructure.Database;
 
 public class CollectorDbContext(DbContextOptions<CollectorDbContext> options) : DbContext(options), IKeyedDbContext
 {
-    public static string Key => nameof(Application.Collector);
+    public static string Key => CollectorConstants.Key;
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
