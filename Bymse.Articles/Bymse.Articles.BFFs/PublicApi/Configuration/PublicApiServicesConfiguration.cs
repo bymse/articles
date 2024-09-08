@@ -16,7 +16,11 @@ public static class PublicApiServicesConfiguration
                 e.LowercaseUrls = true;
                 e.LowercaseQueryStrings = true;
             })
-            .AddControllers()
+            .AddProblemDetails()
+            .AddControllers(e =>
+            {
+                e.Filters.Add<ValidationExceptionFilter>();
+            })
             .AddJsonOptions(e =>
             {
                 e.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;

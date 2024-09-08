@@ -16,11 +16,11 @@ public abstract class Source(SourceState state)
 
     public Receiver Receiver { get; protected set; } = null!;
 
-    public string Title { get; protected set; }
+    public string Title { get; protected set; } = null!;
 
-    public Uri WebPage { get; protected set; }
-    
-    public Tenant Tenant { get; protected init; }
+    public Uri WebPage { get; protected set; } = null!;
+
+    public Tenant Tenant { get; protected init; } = null!;
 }
 
 public enum SourceState

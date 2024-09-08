@@ -2,6 +2,6 @@
 
 public class CreateSourceRequest
 {
-    public string Title { get; init; }
-    public Uri WebPage { get; init; }
+    public string Title { get; init; } = null!;
+    public Uri WebPage { get; init; } = null!;
 }

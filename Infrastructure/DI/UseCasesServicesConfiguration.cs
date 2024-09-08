@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Application.Mediator;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -11,6 +12,15 @@ public static class UseCasesServicesConfiguration
     {
         services.TryAddScoped<ISender, Sender>();
         MassTransitServicesConfiguration.AddConsumersAssemblies(assemblies);
+
+        foreach (var assembly in assemblies)
+        {
+            var scanner = AssemblyScanner.FindValidatorsInAssembly(assembly);
+            foreach (var result in scanner)
+            {
+                services.TryAddScoped(result.InterfaceType, result.ValidatorType);
+            }
+        }
 
         return services;
     }

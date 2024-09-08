@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Diagnostics;
+using FluentValidation;
 using MassTransit;
 
 namespace Application.Mediator;
@@ -6,18 +7,22 @@ namespace Application.Mediator;
 public class UseCaseValidationFilter<T>(IEnumerable<IValidator<T>> validators) : IFilter<ConsumeContext<T>>
     where T : class
 {
-    public Task Send(ConsumeContext<T> context, IPipe<ConsumeContext<T>> next)
+    public async Task Send(ConsumeContext<T> context, IPipe<ConsumeContext<T>> next)
     {
+        var timer = Stopwatch.StartNew();
         foreach (var validator in validators)
         {
-            var result = validator.Validate(context.Message);
+            var result = await validator.ValidateAsync(context.Message, context.CancellationToken);
+            timer.Stop();
             if (!result.IsValid)
             {
-                throw new ValidationException(result.Errors);
+                await context.RespondAsync(result);
+                await context.NotifyConsumed(context, timer.Elapsed, nameof(UseCaseValidationFilter<T>));
+                return;
             }
         }
 
-        return next.Send(context);
+        await next.Send(context);
     }
 
     public void Probe(ProbeContext context)
