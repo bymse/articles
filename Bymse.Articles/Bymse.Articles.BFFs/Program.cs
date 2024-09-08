@@ -1,8 +1,10 @@
 using Bymse.Articles.BFFs.PublicApi;
 using Bymse.Articles.BFFs.PublicApi.Configuration;
+using Collector.Infrastructure;
 using Feeder.Infrastructure;
 using Identity.Infrastructure;
 using Infrastructure.DI;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,8 @@ builder
 builder
     .Services
     .AddIdentityServices()
-    .AddFeederServices();
+    .AddFeederServices()
+    .AddCollectorServices();
 
 builder
     .Services

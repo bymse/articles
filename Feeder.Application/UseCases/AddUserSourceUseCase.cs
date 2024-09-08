@@ -30,7 +30,7 @@ public class AddUserSourceUseCaseValidator : AbstractValidator<AddUserSourceUseC
 public class AddUserSourceUseCaseHandler(IUseCaseDbContextProvider useCaseDbContextProvider)
     : UseCaseHandler<AddUserSourceUseCase>
 {
-    public async override Task Handle(AddUserSourceUseCase useCase, CancellationToken ct)
+    protected async override Task Handle(AddUserSourceUseCase useCase, CancellationToken ct)
     {
         var dbContext = useCaseDbContextProvider.GetFor<AddUserSourceUseCase>();
         var userSource = new UserSource(useCase.UserId, useCase.SourceId);

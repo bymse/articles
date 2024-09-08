@@ -1,27 +1,17 @@
 ﻿using JetBrains.Annotations;
 using MassTransit;
+using MassTransit.Mediator;
 
 namespace Application.Mediator;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
-public abstract class UseCaseHandler<TUseCase> : IConsumer<TUseCase> where TUseCase : class, IUseCase
+public abstract class UseCaseHandler<TUseCase> : MediatorRequestHandler<TUseCase> where TUseCase : class, IUseCase
 {
-    public abstract Task Handle(TUseCase useCase, CancellationToken ct);
-
-    public Task Consume(ConsumeContext<TUseCase> context)
-    {
-        return Handle(context.Message, context.CancellationToken);
-    }
 }
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
-public abstract class UseCaseHandler<TUseCase, TResult> : IConsumer<TUseCase> where TUseCase : class, IUseCase<TResult>
+public abstract class UseCaseHandler<TUseCase, TResult> : MediatorRequestHandler<TUseCase, TResult>
+    where TUseCase : class, IUseCase<TResult> where TResult : class
 {
-    public async Task Consume(ConsumeContext<TUseCase> context)
-    {
-        var result = await Handle(context.Message, context.CancellationToken);
-        await context.RespondAsync(result!);
-    }
 
-    public abstract Task<TResult> Handle(TUseCase useCase, CancellationToken ct);
 }

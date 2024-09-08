@@ -10,7 +10,7 @@ public class UseCaseCommitFilter<T>(IUseCaseDbContextProvider dbContextProvider)
     {
         await next.Send(context);
 
-        var dbContext = dbContextProvider.GetFor<T>();
+        var dbContext = dbContextProvider.GetFor(context.Message.GetType());
         if (dbContext.ChangeTracker.HasChanges())
         {
             await dbContext.SaveChangesAsync(context.CancellationToken);

@@ -2,6 +2,7 @@
 using Application.Mediator;
 using Collector.Application.Entities;
 using Collector.Integration;
+using MassTransit.Mediator;
 using Microsoft.EntityFrameworkCore;
 
 namespace Collector.Application.UseCases.Create;
@@ -10,16 +11,15 @@ public record CreateSourceUseCase(string Title, Uri WebPage) : IUseCase<Unconfir
 
 public record UnconfirmedSourceInfo(CollectorSourceId Id, string Email);
 
-public class CreateSourceHandler(IUseCaseDbContextProvider useCaseDbContextProvider)
-    : UseCaseHandler<CreateSourceUseCase, UnconfirmedSourceInfo>
+public class CreateSourceHandler(IUseCaseDbContextProvider provider) : MediatorRequestHandler<CreateSourceUseCase, UnconfirmedSourceInfo>
 {
-    public override async Task<UnconfirmedSourceInfo> Handle(CreateSourceUseCase useCase, CancellationToken ct)
+    protected override async Task<UnconfirmedSourceInfo> Handle(CreateSourceUseCase useCase, CancellationToken ct)
     {
-        var dbContext = useCaseDbContextProvider.GetFor<CreateSourceUseCase>();
-
+        var dbContext = provider.GetFor<CreateSourceUseCase>();
+        
         var source = new UnconfirmedSource(useCase.Title, useCase.WebPage, "");
         dbContext.Add(source);
 
-        return new UnconfirmedSourceInfo(source.Id, source.Receiver.Email);
+        return new UnconfirmedSourceInfo(new CollectorSourceId(Ulid.Empty), useCase.Title);
     }
 }
