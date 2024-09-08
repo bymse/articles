@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bymse.Articles.BFFs.PublicApi.Sources;
 
-[Route("sources")]
-public class SourcesPublicApiController(ISender sender) : PublicApiController
+public class SourcesController(ISender sender) : PublicApiController
 {
     [HttpPost]
     public async Task<UnconfirmedSourceInfo> CreateSource([FromBody] CreateSourceRequest request, CancellationToken ct)

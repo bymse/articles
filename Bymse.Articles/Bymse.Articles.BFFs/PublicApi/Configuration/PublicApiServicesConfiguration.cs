@@ -11,6 +11,11 @@ public static class PublicApiServicesConfiguration
     {
         services
             .AddProblemDetails()
+            .AddRouting(e =>
+            {
+                e.LowercaseUrls = true;
+                e.LowercaseQueryStrings = true;
+            })
             .AddControllers()
             .AddJsonOptions(e =>
             {

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bymse.Articles.BFFs.PublicApi;
 
 [ApiController]
-[Route("public-api")]
+[Route("public-api/[controller]")]
 [ApiExplorerSettings(GroupName = PublicApiConstants.DocumentName)]
 [Authorize(AuthenticationSchemes = StubAuthenticationHandler.SchemeName)]
 public class PublicApiController : ControllerBase

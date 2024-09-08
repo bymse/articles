@@ -11,6 +11,7 @@ public class UnconfirmedSource : Source
         Title = title;
         Receiver = new Receiver($"{Id.Value}@{domain}");
         CreatedAt = DateTimeOffset.UtcNow;
+        Tenant = tenant;
     }
 
     public ConfirmedSource Confirm() => new(this);
