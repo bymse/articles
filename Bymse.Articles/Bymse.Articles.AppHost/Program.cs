@@ -13,9 +13,9 @@ var postgres = builder
     .AddPostgres("articles-postgres", password: postgresPassword, port: 15432)
     .WithDataVolume();
 
-var identitySql = postgres.AddDatabase(IdentityDbContext.Key);
-var feederSql = postgres.AddDatabase(FeederDbContext.Key);
-var collectorSql = postgres.AddDatabase(CollectorDbContext.Key);
+var identitySql = postgres.AddDatabase($"pg-{IdentityDbContext.Key}", IdentityDbContext.Key);
+var feederSql = postgres.AddDatabase($"pg-{FeederDbContext.Key}", FeederDbContext.Key);
+var collectorSql = postgres.AddDatabase($"pg-{CollectorDbContext.Key}", CollectorDbContext.Key);
 
 builder
     .AddProject<Projects.Bymse_Articles_BFFs>("BFFs")

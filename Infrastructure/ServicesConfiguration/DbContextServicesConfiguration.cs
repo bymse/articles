@@ -15,7 +15,7 @@ public static class DbContextServicesConfiguration
         services.AddDbContext<TDbContext>((e, r) =>
         {
             var configuration = e.GetRequiredService<IConfiguration>();
-            var connectionString = configuration.GetConnectionString(TDbContext.Key) ??
+            var connectionString = configuration.GetConnectionString($"pg-{TDbContext.Key}") ??
                                    throw new Exception("Connection string not found for " + TDbContext.Key);
 
             r.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();

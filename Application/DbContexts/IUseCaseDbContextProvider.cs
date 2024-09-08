@@ -15,7 +15,7 @@ public class UseCaseDbContextProvider(IServiceProvider serviceProvider) : IUseCa
 {
     public DbContext GetFor<T>() where T : IUseCase
     {
-        var key = typeof(T).Namespace!.Split('.').First();
+        var key = typeof(T).Namespace!.Split('.').First().ToLower();
         return serviceProvider.GetRequiredKeyedService<DbContext>(key);
     }
 
@@ -26,7 +26,7 @@ public class UseCaseDbContextProvider(IServiceProvider serviceProvider) : IUseCa
             throw new ArgumentException("Type must implement IUseCase", nameof(type));
         }
         
-        var key = type.Namespace!.Split('.').First();
+        var key = type.Namespace!.Split('.').First().ToLower();
         return serviceProvider.GetRequiredKeyedService<DbContext>(key);
     }
 }

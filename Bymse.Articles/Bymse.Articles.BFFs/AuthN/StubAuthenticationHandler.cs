@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Text.Encodings.Web;
+using Identity.Application;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 
@@ -8,7 +9,7 @@ namespace Bymse.Articles.BFFs.AuthN;
 public class StubAuthenticationHandler(
     IOptionsMonitor<AuthenticationSchemeOptions> options,
     ILoggerFactory logger,
-    IConfiguration configuration,
+    IOptions<IdentityApplicationSettings> settings,
     UrlEncoder encoder)
     : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
@@ -16,7 +17,7 @@ public class StubAuthenticationHandler(
 
     protected async override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var stubId = configuration.GetValue<string>("StubUserId");
+        var stubId = settings.Value.StubUserId;
         if (string.IsNullOrWhiteSpace(stubId))
         {
             return AuthenticateResult.Fail("Stub user ID not set.");
