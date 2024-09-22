@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feeder.Infrastructure", "Fe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbMigrator", "DbMigrator\DbMigrator.csproj", "{835A64C6-7D11-419C-B355-6EB9004EFEE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.Workers", "Bymse.Articles.Workers\Bymse.Articles.Workers.csproj", "{F3EAE325-BB4D-47DD-B201-C34B55FA1D36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +112,10 @@ Global
 		{835A64C6-7D11-419C-B355-6EB9004EFEE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{835A64C6-7D11-419C-B355-6EB9004EFEE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{835A64C6-7D11-419C-B355-6EB9004EFEE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3EAE325-BB4D-47DD-B201-C34B55FA1D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3EAE325-BB4D-47DD-B201-C34B55FA1D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3EAE325-BB4D-47DD-B201-C34B55FA1D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3EAE325-BB4D-47DD-B201-C34B55FA1D36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E70DC6D6-E62E-4AE9-96D4-AD762510D7A0} = {7BEE66F8-B590-4CDD-B63E-F23E74E79D55}

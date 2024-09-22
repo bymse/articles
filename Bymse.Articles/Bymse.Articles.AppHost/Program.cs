@@ -1,3 +1,4 @@
+using Collector.Application.Settings;
 using Collector.Infrastructure.Database;
 using Feeder.Infrastructure.Database;
 using Identity.Infrastructure.Database;
@@ -6,9 +7,12 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 //set cookie .AspNetCore.Culture=c=en|uic=en to get eng dashboard 
 
-//dotnet user-secrets set Parameters:articles-postgres-password <value>
-var postgresPassword = builder.AddParameter("articles-postgres-password", secret: true);
+//Bymse.Articles\Bymse.Articles.AppHost: dotnet user-secrets set Parameters:collector-imap-password <value>
+var collectorImapPassword = builder.AddParameter("collector-imap-password", secret: true);
+var collectorImapUsername = builder.AddParameter("collector-imap-username", secret: true);
 
+//Bymse.Articles\Bymse.Articles.AppHost: dotnet user-secrets set Parameters:articles-postgres-password <value>
+var postgresPassword = builder.AddParameter("articles-postgres-password", secret: true);
 var postgres = builder
     .AddPostgres("articles-postgres", password: postgresPassword, port: 15432)
     .WithDataVolume();
@@ -30,5 +34,19 @@ builder
     .WithReference(feederSql)
     .WithReference(collectorSql);
 
+builder
+    .AddProject<Projects.Bymse_Articles_Workers>("Workers")
+    .WithReference(identitySql)
+    .WithReference(feederSql)
+    .WithReference(collectorSql)
+    .WithEnvironment(
+        $"{CollectorApplicationSettings.Path}:{nameof(CollectorApplicationSettings.CollectorImapPassword)}",
+        collectorImapPassword
+    )
+    .WithEnvironment(
+        $"{CollectorApplicationSettings.Path}:{nameof(CollectorApplicationSettings.CollectorImapUsername)}",
+        collectorImapUsername
+    )
+    ;
 
 builder.Build().Run();
