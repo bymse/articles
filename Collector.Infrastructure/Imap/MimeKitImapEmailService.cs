@@ -42,7 +42,7 @@ public class MimeKitImapEmailService(IOptions<ImapEmailServiceSettings> settings
                 {
                     ToEmail = message.To.Mailboxes.First().Address,
                     Subject = message.Subject,
-                    FromEmail = message.Sender.Address,
+                    FromEmail = message.From.Mailboxes.First().Address,
                     Date = message.Date,
                     Body = message.TextBody ?? message.HtmlBody,
 
