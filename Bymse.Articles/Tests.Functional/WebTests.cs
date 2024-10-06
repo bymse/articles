@@ -1,3 +1,4 @@
+﻿
 namespace Bymse.Articles.Tests;
 
 public class WebTests
@@ -7,6 +8,7 @@ public class WebTests
     {
         // Arrange
         var appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.Bymse_Articles_AppHost>();
+        
         appHost.Services.ConfigureHttpClientDefaults(clientBuilder =>
         {
             clientBuilder.AddStandardResilienceHandler();

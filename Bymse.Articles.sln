@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.ServiceDefau
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.BFFs", "Bymse.Articles\Bymse.Articles.BFFs\Bymse.Articles.BFFs.csproj", "{49A252B7-FA52-4F15-B171-16C09D65E03A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.Tests", "Bymse.Articles\Bymse.Articles.Tests\Bymse.Articles.Tests.csproj", "{81B21577-C7A4-4C8D-B1B7-5371E440C48F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Functional", "Bymse.Articles\Tests.Functional\Tests.Functional.csproj", "{81B21577-C7A4-4C8D-B1B7-5371E440C48F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{7BEE66F8-B590-4CDD-B63E-F23E74E79D55}"
 EndProject
@@ -41,6 +41,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbMigrator", "DbMigrator\DbMigrator.csproj", "{835A64C6-7D11-419C-B355-6EB9004EFEE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.Workers", "Bymse.Articles.Workers\Bymse.Articles.Workers.csproj", "{F3EAE325-BB4D-47DD-B201-C34B55FA1D36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{01099D58-8DF0-422D-B888-864A7EBC8A3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,5 +131,6 @@ Global
 		{36B13B36-5E4B-4446-BE22-5F5922FA4CD6} = {BFC122E0-8C96-4467-8784-01E59D9F2E30}
 		{31764BB1-A38E-4DCA-AD11-02ECAA29985F} = {7E8C4596-0773-4F2F-9E7E-F0490453834F}
 		{B17C7B8D-E383-4502-A602-D624DAB57A6F} = {7E8C4596-0773-4F2F-9E7E-F0490453834F}
+		{81B21577-C7A4-4C8D-B1B7-5371E440C48F} = {01099D58-8DF0-422D-B888-864A7EBC8A3A}
 	EndGlobalSection
 EndGlobal
