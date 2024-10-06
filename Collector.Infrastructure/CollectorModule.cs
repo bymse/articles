@@ -1,5 +1,7 @@
-﻿using Collector.Application.Settings;
+﻿using Collector.Application.Services;
+using Collector.Application.Settings;
 using Collector.Infrastructure.Database;
+using Collector.Infrastructure.Imap;
 using Infrastructure.ServicesConfiguration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,9 +14,15 @@ public static class CollectorModule
         services
             .AddOptions<CollectorApplicationSettings>()
             .BindConfiguration(CollectorApplicationSettings.Path);
-        
+
+        services
+            .AddOptions<ImapEmailServiceSettings>()
+            .BindConfiguration(ImapEmailServiceSettings.Path);
+
         return services
             .AddPostgresDbContext<CollectorDbContext>()
-            .AddUseCases(typeof(Application.CollectorConstants).Assembly);
+            .AddUseCases(typeof(Application.CollectorConstants).Assembly)
+            .AddTransient<IImapEmailService, MimeKitImapEmailService>()
+            ;
     }
 }

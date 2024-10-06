@@ -1,5 +1,6 @@
 using Collector.Application.Settings;
 using Collector.Infrastructure.Database;
+using Collector.Infrastructure.Imap;
 using Feeder.Infrastructure.Database;
 using Identity.Infrastructure.Database;
 
@@ -8,6 +9,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 //set cookie .AspNetCore.Culture=c=en|uic=en to get eng dashboard 
 
 //Bymse.Articles\Bymse.Articles.AppHost: dotnet user-secrets set Parameters:collector-imap-password <value>
+//Bymse.Articles\Bymse.Articles.AppHost: dotnet user-secrets set Parameters:collector-imap-username <value>
 var collectorImapPassword = builder.AddParameter("collector-imap-password", secret: true);
 var collectorImapUsername = builder.AddParameter("collector-imap-username", secret: true);
 
@@ -40,11 +42,11 @@ builder
     .WithReference(feederSql)
     .WithReference(collectorSql)
     .WithEnvironment(
-        $"{CollectorApplicationSettings.Path}:{nameof(CollectorApplicationSettings.CollectorImapPassword)}",
+        $"{ImapEmailServiceSettings.Path}:{nameof(ImapEmailServiceSettings.Password)}",
         collectorImapPassword
     )
     .WithEnvironment(
-        $"{CollectorApplicationSettings.Path}:{nameof(CollectorApplicationSettings.CollectorImapUsername)}",
+        $"{CollectorApplicationSettings.Path}:{nameof(ImapEmailServiceSettings.Username)}",
         collectorImapUsername
     )
     ;
