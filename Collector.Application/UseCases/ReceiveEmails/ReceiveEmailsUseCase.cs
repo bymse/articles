@@ -1,6 +1,7 @@
 ﻿using Application.DbContexts;
 using Application.Mediator;
 using Collector.Application.Entities;
+using Collector.Application.Events;
 using Collector.Application.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -26,13 +27,30 @@ public class ReceiveEmailsHandler(
             await dbContext.SaveChangesAsync(ct);
         }
 
-        await foreach (var email in service.GetMessages(mailbox.UidValidity, mailbox.LastUid, ct))
+        await foreach (var model in service.GetMessages(mailbox.UidValidity, mailbox.LastUid, ct))
         {
-            logger.LogInformation("Received email with UID {Uid} for {ToEmail}", email.Uid, email.ToEmail);
+            logger.LogInformation("Received email with UID {Uid} for {ToEmail}", model.Uid, model.ToEmail);
 
-            //todo: publish email to message broker
+            var receivedEmail = new ReceivedEmail
+            {
+                ToEmail = model.ToEmail,
+                Subject = model.Subject,
+                FromEmail = model.FromEmail,
+                ReceivedAt = DateTimeOffset.UtcNow,
+                TextBody = model.TextBody,
+                HtmlBody = model.HtmlBody,
+                UidValidity = model.UidValidity,
+                Uid = model.Uid,
+                MailboxId = mailbox.Id,
+            };
+            dbContext.Add(receivedEmail);
 
-            mailbox.SetUid(email.Uid, email.UidValidity);
+            await PublishEndpoint.Publish(new EmailReceivedEvent
+            {
+                ReceivedEmailId = receivedEmail.Id
+            }, ct);
+
+            mailbox.SetUid(model.Uid, model.UidValidity);
             await dbContext.SaveChangesAsync(ct);
         }
     }

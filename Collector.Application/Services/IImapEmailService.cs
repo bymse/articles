@@ -14,7 +14,8 @@ public class EmailModel
     public required string ToEmail { get; init; }
     public required string Subject { get; init; }
     public required string FromEmail { get; init; }
-    public required string Body { get; init; }
+    public string? TextBody { get; init; }
+    public string? HtmlBody { get; init; }
     public DateTimeOffset Date { get; init; }
     
     public uint Uid { get; init; }

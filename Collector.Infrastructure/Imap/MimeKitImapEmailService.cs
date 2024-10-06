@@ -44,7 +44,8 @@ public class MimeKitImapEmailService(IOptions<ImapEmailServiceSettings> settings
                     Subject = message.Subject,
                     FromEmail = message.From.Mailboxes.First().Address,
                     Date = message.Date,
-                    Body = message.TextBody ?? message.HtmlBody,
+                    TextBody = message.TextBody,
+                    HtmlBody = message.HtmlBody,
 
                     UidValidity = inbox.UidValidity,
                     Uid = uid.Id
