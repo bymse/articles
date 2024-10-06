@@ -23,12 +23,18 @@ var identitySql = postgres.AddDatabase($"pg-{IdentityDbContext.Key}", IdentityDb
 var feederSql = postgres.AddDatabase($"pg-{FeederDbContext.Key}", FeederDbContext.Key);
 var collectorSql = postgres.AddDatabase($"pg-{CollectorDbContext.Key}", CollectorDbContext.Key);
 
+var rabbitMq = builder
+    .AddRabbitMQ("rmq-masstransit")
+    .WithManagementPlugin()
+    .WithDataVolume();
+
 builder
     .AddProject<Projects.Bymse_Articles_BFFs>("BFFs")
     .WithExternalHttpEndpoints()
     .WithReference(identitySql)
     .WithReference(feederSql)
-    .WithReference(collectorSql);
+    .WithReference(collectorSql)
+    .WithReference(rabbitMq);
 
 builder
     .AddProject<Projects.DbMigrator>("DbMigrator")
@@ -41,6 +47,7 @@ builder
     .WithReference(identitySql)
     .WithReference(feederSql)
     .WithReference(collectorSql)
+    .WithReference(rabbitMq)
     .WithEnvironment(
         $"{ImapEmailServiceSettings.Path}:{nameof(ImapEmailServiceSettings.Username)}",
         collectorImapUsername

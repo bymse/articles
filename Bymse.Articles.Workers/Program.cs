@@ -21,7 +21,6 @@ builder
     .AddCollectorServices();
 
 builder
-    .Services
     .AddMassTransitInfrastructure();
 
 builder.EnrichNpgsqlDbContext<IdentityDbContext>();

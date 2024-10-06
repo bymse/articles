@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
 using Application.Mediator;
 using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Infrastructure.ServicesConfiguration;
 
@@ -14,11 +16,13 @@ public static class MassTransitServicesConfiguration
         Assemblies.AddRange(assemblies);
     }
 
-    public static IServiceCollection AddMassTransitInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddMassTransitInfrastructure(this IHostApplicationBuilder builder)
     {
         var assemblies = Assemblies.ToArray();
+        
+        builder.AddRabbitMQClient("rmq-masstransit");
 
-        services.AddMediator(x =>
+        builder.Services.AddMediator(x =>
         {
             x.AddConsumers(assemblies);
             x.ConfigureMediator((context, cfg) =>
@@ -32,6 +36,18 @@ public static class MassTransitServicesConfiguration
             });
         });
 
-        return services;
+        return builder.Services
+                .AddMassTransit(x =>
+                {
+                    x.UsingRabbitMq((context, cfg) =>
+                    {
+                        var configuration = context.GetRequiredService<IConfiguration>();
+                        var connectionStringRaw = configuration.GetConnectionString("rmq-masstransit") ??
+                                                  throw new Exception("Connection string not found for RabbitMQ");
+                        var csUri = new Uri(connectionStringRaw);
+                        cfg.Host(csUri);
+                    });
+                })
+            ;
     }
 }
