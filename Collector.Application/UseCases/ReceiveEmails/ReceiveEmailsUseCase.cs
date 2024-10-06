@@ -18,14 +18,20 @@ public class ReceiveEmailsHandler(
     protected override async Task Handle(ReceiveEmailsUseCase request, CancellationToken ct)
     {
         var dbContext = provider.GetFor<ReceiveEmailsUseCase>();
-        var mailbox = await dbContext.Set<Mailbox>().SingleOrDefaultAsync(ct) ?? new Mailbox();
+        var mailbox = await dbContext.Set<Mailbox>().SingleOrDefaultAsync(ct);
+        if (mailbox == null)
+        {
+            mailbox = new Mailbox();
+            dbContext.Add(mailbox);
+            await dbContext.SaveChangesAsync(ct);
+        }
 
         await foreach (var email in service.GetMessages(mailbox.UidValidity, mailbox.LastUid, ct))
         {
             logger.LogInformation("Received email with UID {Uid} for {ToEmail}", email.Uid, email.ToEmail);
-            
+
             //todo: publish email to message broker
-            
+
             mailbox.SetUid(email.Uid, email.UidValidity);
             await dbContext.SaveChangesAsync(ct);
         }
