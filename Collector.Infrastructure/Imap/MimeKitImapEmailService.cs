@@ -4,6 +4,7 @@ using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
 using Microsoft.Extensions.Options;
+using MimeKit;
 
 namespace Collector.Infrastructure.Imap;
 
@@ -39,7 +40,7 @@ public class MimeKitImapEmailService(IOptions<ImapEmailServiceSettings> settings
                 using var message = await inbox.GetMessageAsync(uid, ct);
                 var email = new EmailModel
                 {
-                    ToEmail = null!, //todo: extract email address from message
+                    ToEmail = message.To.Mailboxes.First().Address,
                     Subject = message.Subject,
                     FromEmail = message.Sender.Address,
                     Date = message.Date,
