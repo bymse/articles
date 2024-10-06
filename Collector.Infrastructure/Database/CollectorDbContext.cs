@@ -23,5 +23,9 @@ public class CollectorDbContext(DbContextOptions<CollectorDbContext> options) : 
             .HaveConversion<CollectorSourceIdConverter>();
 
         configurationBuilder.ComplexProperties<Receiver>();
+
+        configurationBuilder
+            .Properties<Ulid>()
+            .HaveConversion<UlidValueConverter>();
     }
 }

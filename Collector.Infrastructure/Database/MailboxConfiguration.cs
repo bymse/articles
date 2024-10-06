@@ -9,9 +9,5 @@ public class MailboxConfiguration : IEntityTypeConfiguration<Mailbox>
 {
     public void Configure(EntityTypeBuilder<Mailbox> builder)
     {
-        builder.HasKey(e => e.Id);
-        builder
-            .Property(e => e.Id)
-            .HasConversion<UlidValueConverter>();
     }
 }
