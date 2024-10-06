@@ -27,7 +27,7 @@ public class Sender : ISender
 
     public async Task<TR> Send<TR>(IUseCase<TR> useCase, CancellationToken ct) where TR : class
     {
-        using var handle = mediator.CreateRequest<Request<TR>>(useCase, ct);
+        using var handle = mediator.CreateRequest<Request<TR>>(useCase, ct, RequestTimeout.None);
         var resultResponse = handle.GetResponse<TR>(false);
         var errorResponse = handle.GetResponse<FluentValidation.Results.ValidationResult>();
 
