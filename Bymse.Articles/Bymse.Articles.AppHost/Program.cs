@@ -42,12 +42,12 @@ builder
     .WithReference(feederSql)
     .WithReference(collectorSql)
     .WithEnvironment(
-        $"{ImapEmailServiceSettings.Path}:{nameof(ImapEmailServiceSettings.Password)}",
-        collectorImapPassword
+        $"{ImapEmailServiceSettings.Path}:{nameof(ImapEmailServiceSettings.Username)}",
+        collectorImapUsername
     )
     .WithEnvironment(
-        $"{CollectorApplicationSettings.Path}:{nameof(ImapEmailServiceSettings.Username)}",
-        collectorImapUsername
+        $"{ImapEmailServiceSettings.Path}:{nameof(ImapEmailServiceSettings.Password)}",
+        collectorImapPassword
     )
     ;
 

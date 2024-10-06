@@ -6,8 +6,8 @@ public class ImapEmailServiceSettings
 {
     public const string Path = $"{CollectorConstants.Key}:imap";
 
-    public string Hostname { get; init; } = null!;
     public int Port { get; init; }
+    public string Hostname { get; init; } = null!;
     public string Username { get; init; } = null!;
     public string Password { get; init; } = null!;
 }

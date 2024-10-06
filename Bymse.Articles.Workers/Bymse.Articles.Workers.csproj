@@ -12,6 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Bymse.Articles\Bymse.Articles.ServiceDefaults\Bymse.Articles.ServiceDefaults.csproj" />
     <ProjectReference Include="..\Collector.Infrastructure\Collector.Infrastructure.csproj" />
+    <ProjectReference Include="..\Feeder.Infrastructure\Feeder.Infrastructure.csproj" />
+    <ProjectReference Include="..\Identity.Infrastructure\Identity.Infrastructure.csproj" />
   </ItemGroup>
 </Project>
