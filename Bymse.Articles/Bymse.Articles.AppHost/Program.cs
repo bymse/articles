@@ -23,9 +23,10 @@ var identitySql = postgres.AddDatabase($"pg-{IdentityDbContext.Key}", IdentityDb
 var feederSql = postgres.AddDatabase($"pg-{FeederDbContext.Key}", FeederDbContext.Key);
 var collectorSql = postgres.AddDatabase($"pg-{CollectorDbContext.Key}", CollectorDbContext.Key);
 
+var rabbitMqPassword = builder.AddParameter("articles-rabbitmq-password", secret: true);
 var rabbitMq = builder
-    .AddRabbitMQ("rmq-masstransit")
-    .WithManagementPlugin()
+    .AddRabbitMQ("rmq-masstransit", password: rabbitMqPassword, port: 15672)
+    .WithManagementPlugin(port: 15673)
     .WithDataVolume();
 
 builder
