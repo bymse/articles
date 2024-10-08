@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Application.Contexts;
 using Application.Mediator;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -19,8 +20,12 @@ public static class MassTransitServicesConfiguration
     public static IServiceCollection AddMassTransitInfrastructure(this IHostApplicationBuilder builder)
     {
         var assemblies = Assemblies.ToArray();
-        
+
         builder.AddRabbitMQClient("rmq-masstransit");
+
+        builder.Services
+            .AddScoped<ConsumeContextManager>()
+            .AddScoped<IConsumeContextProvider, ConsumeContextManager>();
 
         builder.Services.AddMediator(x =>
         {
@@ -31,6 +36,8 @@ public static class MassTransitServicesConfiguration
                     e => { e.Include(r => r.IsAssignableTo(typeof(IUseCase))); });
                 cfg.UseConsumeFilter(typeof(UseCaseCommitFilter<>), context,
                     e => { e.Include(r => r.IsAssignableTo(typeof(IUseCase))); });
+
+                cfg.UseConsumeFilter(typeof(MassTransitConsumeContextFilter<>), context);
 
                 cfg.UseInMemoryOutbox(context);
             });
@@ -46,6 +53,8 @@ public static class MassTransitServicesConfiguration
                                                   throw new Exception("Connection string not found for RabbitMQ");
                         var csUri = new Uri(connectionStringRaw);
                         cfg.Host(csUri);
+
+                        cfg.UseConsumeFilter(typeof(MassTransitConsumeContextFilter<>), context);
                     });
                 })
             ;
