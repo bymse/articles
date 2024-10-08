@@ -9,7 +9,7 @@ namespace Collector.Infrastructure;
 
 public static class CollectorModule
 {
-    public static IServiceCollection AddCollectorServices(this IServiceCollection services)
+    public static IServiceCollection AddCollectorServices(this IServiceCollection services, bool includeConsumers = false)
     {
         services
             .AddOptions<CollectorApplicationSettings>()
@@ -18,6 +18,11 @@ public static class CollectorModule
         services
             .AddOptions<ImapEmailServiceSettings>()
             .BindConfiguration(ImapEmailServiceSettings.Path);
+
+        if (includeConsumers)
+        {
+            services.AddConsumersFrom(typeof(CollectorModule).Assembly);
+        }
 
         return services
             .AddPostgresDbContext<CollectorDbContext>()

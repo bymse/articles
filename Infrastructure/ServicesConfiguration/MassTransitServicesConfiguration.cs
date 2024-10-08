@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Application.Contexts;
+using Application.Events;
 using Application.Mediator;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -10,22 +11,31 @@ namespace Infrastructure.ServicesConfiguration;
 
 public static class MassTransitServicesConfiguration
 {
-    private static readonly List<Assembly> Assemblies = new();
+    private static readonly List<Assembly> MediatorAssemblies = new();
+    private static readonly List<Assembly> ConsumerAssemblies = new();
 
-    internal static void AddConsumersAssemblies(Assembly[] assemblies)
+    internal static void AddMediatorAssemblies(params Assembly[] assemblies)
     {
-        Assemblies.AddRange(assemblies);
+        MediatorAssemblies.AddRange(assemblies);
+    }
+    
+    public static void AddConsumersFrom(
+        this IServiceCollection services,
+        params Assembly[] assemblies)
+    {
+        ConsumerAssemblies.AddRange(assemblies);
     }
 
     public static IServiceCollection AddMassTransitInfrastructure(this IHostApplicationBuilder builder)
     {
-        var assemblies = Assemblies.ToArray();
+        var assemblies = MediatorAssemblies.ToArray();
 
         builder.AddRabbitMQClient("rmq-masstransit");
 
         builder.Services
             .AddScoped<ConsumeContextManager>()
-            .AddScoped<IConsumeContextProvider, ConsumeContextManager>();
+            .AddScoped<IConsumeContextProvider, ConsumeContextManager>()
+            .AddScoped<IEventPublisher, EventPublisher>();
 
         builder.Services.AddMediator(x =>
         {
@@ -46,6 +56,7 @@ public static class MassTransitServicesConfiguration
         return builder.Services
                 .AddMassTransit(x =>
                 {
+                    x.AddConsumers(ConsumerAssemblies.ToArray());
                     x.UsingRabbitMq((context, cfg) =>
                     {
                         var configuration = context.GetRequiredService<IConfiguration>();
@@ -53,7 +64,8 @@ public static class MassTransitServicesConfiguration
                                                   throw new Exception("Connection string not found for RabbitMQ");
                         var csUri = new Uri(connectionStringRaw);
                         cfg.Host(csUri);
-
+                        
+                        cfg.ConfigureEndpoints(context);
                         cfg.UseConsumeFilter(typeof(MassTransitConsumeContextFilter<>), context);
                     });
                 })

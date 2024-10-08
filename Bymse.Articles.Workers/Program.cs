@@ -10,15 +10,13 @@ using Infrastructure.ServicesConfiguration;
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddHostedService<ReceiveEmailsBackgroundWorker>();
 
-var smth = builder.Configuration;
-
 builder.AddServiceDefaults();
 
 builder
     .Services
     .AddIdentityServices()
     .AddFeederServices()
-    .AddCollectorServices();
+    .AddCollectorServices(includeConsumers: true);
 
 builder
     .AddMassTransitInfrastructure();
