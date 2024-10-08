@@ -31,7 +31,8 @@ public static class MassTransitServicesConfiguration
     }
 
     public static IServiceCollection AddMassTransitInfrastructure<TDbContext>(this IHostApplicationBuilder builder,
-        bool addConsumers = false) where TDbContext : DbContext
+        bool addConsumers = false,
+        bool enableOutboxServices = false) where TDbContext : DbContext
     {
         builder.AddRabbitMQClient("rmq-masstransit");
 
@@ -80,12 +81,22 @@ public static class MassTransitServicesConfiguration
                         cfg.ConfigureEndpoints(context);
                         cfg.UseConsumeFilter(typeof(MassTransitConsumeContextFilter<>), context);
                     });
-                    
+
                     x.AddEntityFrameworkOutbox<TDbContext>(e =>
                     {
                         e.UsePostgres();
-                        
-                        e.UseBusOutbox();
+                        if (!enableOutboxServices)
+                        {
+                            e.DisableInboxCleanupService();
+                        }
+
+                        e.UseBusOutbox(r =>
+                        {
+                            if (!enableOutboxServices)
+                            {
+                                r.DisableDeliveryService();
+                            }
+                        });
                     });
                 })
             ;
