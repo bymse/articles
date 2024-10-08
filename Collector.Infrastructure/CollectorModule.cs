@@ -22,7 +22,6 @@ public static class CollectorModule
             .BindConfiguration(ImapEmailServiceSettings.Path);
 
         return services
-                .AddPostgresDbContext<CollectorDbContext>()
                 .AddUseCases(assembly)
                 .AddConsumers(assembly)
                 .AddTransient<IImapEmailService, MimeKitImapEmailService>()

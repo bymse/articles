@@ -1,5 +1,4 @@
-﻿using Collector.Infrastructure.Database;
-using Feeder.Application.Entities;
+﻿using Feeder.Application.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

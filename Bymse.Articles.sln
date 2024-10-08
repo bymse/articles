@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.Workers", "B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{01099D58-8DF0-422D-B888-864A7EBC8A3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.Database", "Bymse.Articles.Database\Bymse.Articles.Database.csproj", "{05757376-601A-453B-9A4B-6439ADD85CBA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -118,6 +120,10 @@ Global
 		{F3EAE325-BB4D-47DD-B201-C34B55FA1D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3EAE325-BB4D-47DD-B201-C34B55FA1D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3EAE325-BB4D-47DD-B201-C34B55FA1D36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05757376-601A-453B-9A4B-6439ADD85CBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05757376-601A-453B-9A4B-6439ADD85CBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05757376-601A-453B-9A4B-6439ADD85CBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05757376-601A-453B-9A4B-6439ADD85CBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E70DC6D6-E62E-4AE9-96D4-AD762510D7A0} = {7BEE66F8-B590-4CDD-B63E-F23E74E79D55}

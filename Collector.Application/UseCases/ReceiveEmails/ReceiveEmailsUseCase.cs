@@ -1,10 +1,8 @@
-﻿using Application.DbContexts;
-using Application.Events;
+﻿using Application.Events;
 using Application.Mediator;
 using Collector.Application.Entities;
 using Collector.Application.Events;
 using Collector.Application.Services;
-using MassTransit.Transports;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -14,14 +12,13 @@ public class ReceiveEmailsUseCase : IUseCase;
 
 public class ReceiveEmailsHandler(
     IImapEmailService service,
-    IUseCaseDbContextProvider provider,
     ILogger<ReceiveEmailsUseCase> logger,
-    IEventPublisher publisher)
+    IEventPublisher publisher,
+    DbContext dbContext)
     : UseCaseHandler<ReceiveEmailsUseCase>
 {
     protected override async Task Handle(ReceiveEmailsUseCase request, CancellationToken ct)
     {
-        var dbContext = provider.GetFor<ReceiveEmailsUseCase>();
         var mailbox = await dbContext.Set<Mailbox>().SingleOrDefaultAsync(ct);
         if (mailbox == null)
         {

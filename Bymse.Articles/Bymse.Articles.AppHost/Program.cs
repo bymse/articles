@@ -15,13 +15,11 @@ var collectorImapUsername = builder.AddParameter("collector-imap-username", secr
 
 //Bymse.Articles\Bymse.Articles.AppHost: dotnet user-secrets set Parameters:articles-postgres-password <value>
 var postgresPassword = builder.AddParameter("articles-postgres-password", secret: true);
-var postgres = builder
-    .AddPostgres("articles-postgres", password: postgresPassword, port: 15432)
-    .WithDataVolume();
 
-var identitySql = postgres.AddDatabase($"pg-{IdentityDbContext.Key}", IdentityDbContext.Key);
-var feederSql = postgres.AddDatabase($"pg-{FeederDbContext.Key}", FeederDbContext.Key);
-var collectorSql = postgres.AddDatabase($"pg-{CollectorDbContext.Key}", CollectorDbContext.Key);
+var articlesSql = builder
+    .AddPostgres("articles-postgres", password: postgresPassword, port: 15432)
+    .WithDataVolume()
+    .AddDatabase("pg-articles", "articles");
 
 var rabbitMqPassword = builder.AddParameter("articles-rabbitmq-password", secret: true);
 var rabbitMq = builder
@@ -32,22 +30,16 @@ var rabbitMq = builder
 builder
     .AddProject<Projects.Bymse_Articles_BFFs>("BFFs")
     .WithExternalHttpEndpoints()
-    .WithReference(identitySql)
-    .WithReference(feederSql)
-    .WithReference(collectorSql)
+    .WithReference(articlesSql)
     .WithReference(rabbitMq);
 
 builder
     .AddProject<Projects.DbMigrator>("DbMigrator")
-    .WithReference(identitySql)
-    .WithReference(feederSql)
-    .WithReference(collectorSql);
+    .WithReference(articlesSql);
 
 builder
     .AddProject<Projects.Bymse_Articles_Workers>("Workers")
-    .WithReference(identitySql)
-    .WithReference(feederSql)
-    .WithReference(collectorSql)
+    .WithReference(articlesSql)
     .WithReference(rabbitMq)
     .WithEnvironment(
         $"{ImapEmailServiceSettings.Path}:{nameof(ImapEmailServiceSettings.Username)}",

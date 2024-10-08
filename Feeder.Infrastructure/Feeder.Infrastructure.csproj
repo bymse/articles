@@ -6,12 +6,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Collector.Infrastructure\Database\CollectorSourceIdConverter.cs">
-      <Link>CollectorSourceIdConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\Identity.Infrastructure\Database\IdentityUserIdConverter.cs">
-      <Link>IdentityUserIdConverter.cs</Link>
-    </Compile>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -1,29 +1,24 @@
-﻿using Application.DbContexts;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 
 namespace Infrastructure.ServicesConfiguration;
 
 public static class DbContextServicesConfiguration
 {
     public static IServiceCollection AddPostgresDbContext<TDbContext>(this IServiceCollection services)
-        where TDbContext : DbContext, IKeyedDbContext
+        where TDbContext : DbContext
     {
         services.AddDbContext<TDbContext>((e, r) =>
         {
             var configuration = e.GetRequiredService<IConfiguration>();
-            var connectionString = configuration.GetConnectionString($"pg-{TDbContext.Key}") ??
-                                   throw new Exception("Connection string not found for " + TDbContext.Key);
+            var connectionString = configuration.GetConnectionString("pg-articles") ??
+                                   throw new Exception("Connection string not found for pg");
 
             r.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
         });
 
-        services.AddKeyedScoped<DbContext>(TDbContext.Key, (e, _) => e.GetRequiredService<TDbContext>());
-
-        services.TryAddScoped(typeof(IUseCaseDbContextProvider), typeof(UseCaseDbContextProvider));
+        services.AddScoped<DbContext>(e => e.GetRequiredService<DbContext>());
 
         return services;
     }

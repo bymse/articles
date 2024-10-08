@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Bymse.Articles.Database\Bymse.Articles.Database.csproj" />
         <ProjectReference Include="..\..\Collector.Infrastructure\Collector.Infrastructure.csproj" />
         <ProjectReference Include="..\..\Feeder.Infrastructure\Feeder.Infrastructure.csproj" />
         <ProjectReference Include="..\..\Identity.Infrastructure\Identity.Infrastructure.csproj" />

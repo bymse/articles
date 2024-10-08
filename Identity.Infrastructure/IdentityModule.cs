@@ -14,7 +14,6 @@ public static class IdentityModule
             .BindConfiguration(IdentityApplicationSettings.Path);
         
         return services
-            .AddPostgresDbContext<IdentityDbContext>()
             .AddUseCases(typeof(IdentityConstants).Assembly);
     }
 }

@@ -1,5 +1,4 @@
-﻿using Application.DbContexts;
-using Application.Mediator;
+﻿using Application.Mediator;
 using Collector.Integration;
 using Feeder.Application.Entities;
 using FluentValidation;
@@ -12,12 +11,11 @@ public record AddUserSourceUseCase(IdentityUserId UserId, CollectorSourceId Sour
 
 public class AddUserSourceUseCaseValidator : AbstractValidator<AddUserSourceUseCase>
 {
-    public AddUserSourceUseCaseValidator(IUseCaseDbContextProvider useCaseDbContextProvider)
+    public AddUserSourceUseCaseValidator(DbContext dbContext)
     {
         RuleFor(e => e)
             .MustAsync(async (uc, ct) =>
             {
-                var dbContext = useCaseDbContextProvider.GetFor<AddUserSourceUseCase>();
                 return !await dbContext
                     .Set<UserSource>()
                     .Where(e => e.UserId == uc.UserId)
@@ -27,12 +25,10 @@ public class AddUserSourceUseCaseValidator : AbstractValidator<AddUserSourceUseC
     }
 }
 
-public class AddUserSourceUseCaseHandler(IUseCaseDbContextProvider useCaseDbContextProvider)
-    : UseCaseHandler<AddUserSourceUseCase>
+public class AddUserSourceUseCaseHandler(DbContext dbContext) : UseCaseHandler<AddUserSourceUseCase>
 {
     protected async override Task Handle(AddUserSourceUseCase useCase, CancellationToken ct)
     {
-        var dbContext = useCaseDbContextProvider.GetFor<AddUserSourceUseCase>();
         var userSource = new UserSource(useCase.UserId, useCase.SourceId);
 
         dbContext.Add(userSource);

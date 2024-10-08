@@ -1,21 +1,15 @@
-using Collector.Infrastructure.Database;
+using Bymse.Articles.Database;
 using DbMigrator;
-using Feeder.Infrastructure.Database;
-using Identity.Infrastructure.Database;
 using Infrastructure.ServicesConfiguration;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.AddServiceDefaults();
 
 builder.Services
-    .AddPostgresDbContext<IdentityDbContext>()
-    .AddPostgresDbContext<CollectorDbContext>()
-    .AddPostgresDbContext<FeederDbContext>()
+    .AddPostgresDbContext<ArticlesDbContext>()
     .AddHostedService<DbMigratorWorker>();
 
-builder.EnrichNpgsqlDbContext<IdentityDbContext>();
-builder.EnrichNpgsqlDbContext<CollectorDbContext>();
-builder.EnrichNpgsqlDbContext<FeederDbContext>();
+builder.EnrichNpgsqlDbContext<ArticlesDbContext>();
 
 var host = builder.Build();
 
