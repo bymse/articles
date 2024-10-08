@@ -9,8 +9,10 @@ namespace Collector.Infrastructure;
 
 public static class CollectorModule
 {
-    public static IServiceCollection AddCollectorServices(this IServiceCollection services, bool includeConsumers = false)
+    public static IServiceCollection AddCollectorServices(this IServiceCollection services)
     {
+        var assembly = typeof(Application.CollectorConstants).Assembly;
+
         services
             .AddOptions<CollectorApplicationSettings>()
             .BindConfiguration(CollectorApplicationSettings.Path);
@@ -19,15 +21,11 @@ public static class CollectorModule
             .AddOptions<ImapEmailServiceSettings>()
             .BindConfiguration(ImapEmailServiceSettings.Path);
 
-        if (includeConsumers)
-        {
-            services.AddConsumersFrom(typeof(CollectorModule).Assembly);
-        }
-
         return services
-            .AddPostgresDbContext<CollectorDbContext>()
-            .AddUseCases(typeof(Application.CollectorConstants).Assembly)
-            .AddTransient<IImapEmailService, MimeKitImapEmailService>()
+                .AddPostgresDbContext<CollectorDbContext>()
+                .AddUseCases(assembly)
+                .AddConsumers(assembly)
+                .AddTransient<IImapEmailService, MimeKitImapEmailService>()
             ;
     }
 }

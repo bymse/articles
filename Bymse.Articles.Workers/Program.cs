@@ -16,10 +16,10 @@ builder
     .Services
     .AddIdentityServices()
     .AddFeederServices()
-    .AddCollectorServices(includeConsumers: true);
+    .AddCollectorServices();
 
 builder
-    .AddMassTransitInfrastructure();
+    .AddMassTransitInfrastructure(addConsumers: true);
 
 builder.EnrichNpgsqlDbContext<IdentityDbContext>();
 builder.EnrichNpgsqlDbContext<CollectorDbContext>();
