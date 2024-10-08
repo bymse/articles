@@ -18,7 +18,7 @@ public static class DbContextServicesConfiguration
             r.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
         });
 
-        services.AddScoped<DbContext>(e => e.GetRequiredService<DbContext>());
+        services.AddScoped<DbContext>(e => e.GetRequiredService<TDbContext>());
 
         return services;
     }

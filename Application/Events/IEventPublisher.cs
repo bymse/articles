@@ -5,36 +5,23 @@ namespace Application.Events;
 
 public interface IEventPublisher
 {
-    Task PublishEvent<TE>(
-        TE @event,
-        Action<PublishContext<TE>>? config = null
-    ) where TE : class, IEvent;
+    Task PublishEvent<TE>(TE @event,
+        CancellationToken ct,
+        Action<PublishContext<TE>>? config = null) where TE : class, IEvent;
 }
 
-public class EventPublisher : IEventPublisher
+public class EventPublisher(IPublishEndpoint publishEndpoint, ConsumeContextManager contextManager) : IEventPublisher
 {
-    private readonly IPublishEndpoint publishEndpoint;
-    private readonly ConsumeContextManager consumeContextProvider;
-
-    public EventPublisher(IPublishEndpoint publishEndpoint, ConsumeContextManager consumeContextProvider)
+    public Task PublishEvent<TE>(TE @event, CancellationToken ct, Action<PublishContext<TE>>? config = null)
+        where TE : class, IEvent
     {
-        this.publishEndpoint = publishEndpoint;
-        this.consumeContextProvider = consumeContextProvider;
-    }
-
-    public Task PublishEvent<TE>(TE @event, Action<PublishContext<TE>>? config = null) where TE : class, IEvent
-    {
-        var consumeContext = consumeContextProvider.Find();
-        if (consumeContext == null)
-        {
-            throw new InvalidOperationException("Cannot publish event outside of use case handler");
-        }
+        var consumeContext = contextManager.Find();
 
         return publishEndpoint.Publish(@event, sendContext =>
             {
-                sendContext.TransferConsumeContextHeaders(consumeContext);
+                if (consumeContext != null) sendContext.TransferConsumeContextHeaders(consumeContext);
                 config?.Invoke(sendContext);
             },
-            consumeContext.CancellationToken);
+            ct);
     }
 }

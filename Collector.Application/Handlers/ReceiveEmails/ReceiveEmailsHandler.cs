@@ -44,7 +44,7 @@ public class ReceiveEmailsHandler(
             await publisher.PublishEvent(new EmailReceivedEvent
             {
                 ReceivedEmailId = receivedEmail.Id
-            });
+            }, ct);
 
             mailbox.SetUid(model.Uid, model.UidValidity);
             await dbContext.SaveChangesAsync(ct);
