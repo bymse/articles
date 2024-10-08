@@ -28,13 +28,13 @@ var rabbitMq = builder
     .WithDataVolume();
 
 builder
-    .AddProject<Projects.Bymse_Articles_BFFs>("BFFs")
+    .AddProject<Projects.Bymse_Articles_Apis>("Apis")
     .WithExternalHttpEndpoints()
     .WithReference(articlesSql)
     .WithReference(rabbitMq);
 
 builder
-    .AddProject<Projects.DbMigrator>("DbMigrator")
+    .AddProject<Projects.Bymse_Articles_DbMigrator>("DbMigrator")
     .WithReference(articlesSql);
 
 builder

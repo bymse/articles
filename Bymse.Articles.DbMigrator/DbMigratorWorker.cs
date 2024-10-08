@@ -1,7 +1,7 @@
 using Bymse.Articles.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace DbMigrator;
+namespace Bymse.Articles.DbMigrator;
 
 public class DbMigratorWorker(
     IServiceProvider serviceProvider,

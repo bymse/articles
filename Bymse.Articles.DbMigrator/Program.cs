@@ -1,5 +1,5 @@
 using Bymse.Articles.Database;
-using DbMigrator;
+using Bymse.Articles.DbMigrator;
 using Infrastructure.ServicesConfiguration;
 
 var builder = Host.CreateApplicationBuilder(args);
