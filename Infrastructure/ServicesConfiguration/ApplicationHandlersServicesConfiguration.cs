@@ -16,7 +16,7 @@ public static class ApplicationHandlersServicesConfiguration
             var scanner = AssemblyScanner.FindValidatorsInAssembly(assembly);
             foreach (var result in scanner)
             {
-                services.TryAddScoped(result.InterfaceType, result.ValidatorType);
+                services.TryAddScoped(result.ValidatorType);
             }
 
             foreach (var handlerType in assembly.GetTypes()
