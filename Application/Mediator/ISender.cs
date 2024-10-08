@@ -15,13 +15,22 @@ public interface ISender
 public class Sender(IScopedMediator mediator, ConsumeContextManager consumeContextProvider)
     : ISender
 {
-    public Task Send(IUseCase useCase, CancellationToken ct)
+    public async Task Send(IUseCase useCase, CancellationToken ct)
     {
         var consumeContext = consumeContextProvider.Find();
-        return mediator.Send(useCase, useCase.GetType(), e =>
+        using var handle = consumeContext != null
+            ? mediator.CreateRequest(consumeContext, useCase, ct, RequestTimeout.None)
+            : mediator.CreateRequest(useCase, ct, RequestTimeout.None);
+
+        var resultResponse = handle.GetResponse<VoidResponse>(false);
+        var errorResponse = handle.GetResponse<FluentValidation.Results.ValidationResult>();
+
+        var response = await Task.WhenAny(resultResponse, errorResponse);
+        if (response == errorResponse)
         {
-            if (consumeContext != null) e.TransferConsumeContextHeaders(consumeContext);
-        }, ct);
+            var validationResult = (await errorResponse).Message;
+            throw new ValidationException(validationResult.Errors);
+        }
     }
 
     public async Task<TR> Send<TR>(IUseCase<TR> useCase, CancellationToken ct) where TR : class

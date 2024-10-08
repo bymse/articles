@@ -47,8 +47,6 @@ public static class MassTransitServicesConfiguration
                     e => { e.Include(r => r.IsAssignableTo(typeof(IUseCase))); });
 
                 cfg.UseConsumeFilter(typeof(MassTransitConsumeContextFilter<>), context);
-
-                cfg.UseInMemoryOutbox(context);
             });
         });
 
