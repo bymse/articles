@@ -18,7 +18,7 @@ builder
     .AddPostgresDbContext<ArticlesDbContext>();
 
 builder
-    .AddMassTransitInfrastructure(addConsumers: true);
+    .AddMassTransitInfrastructure<ArticlesDbContext>(addConsumers: true);
 
 var host = builder.Build();
 host.Run();

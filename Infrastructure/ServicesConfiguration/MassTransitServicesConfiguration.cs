@@ -4,6 +4,7 @@ using Application.Contexts;
 using Application.Events;
 using Application.Mediator;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,8 +30,8 @@ public static class MassTransitServicesConfiguration
         return services;
     }
 
-    public static IServiceCollection AddMassTransitInfrastructure(this IHostApplicationBuilder builder,
-        bool addConsumers = false)
+    public static IServiceCollection AddMassTransitInfrastructure<TDbContext>(this IHostApplicationBuilder builder,
+        bool addConsumers = false) where TDbContext : DbContext
     {
         builder.AddRabbitMQClient("rmq-masstransit");
 
@@ -78,6 +79,13 @@ public static class MassTransitServicesConfiguration
 
                         cfg.ConfigureEndpoints(context);
                         cfg.UseConsumeFilter(typeof(MassTransitConsumeContextFilter<>), context);
+                    });
+                    
+                    x.AddEntityFrameworkOutbox<TDbContext>(e =>
+                    {
+                        e.UsePostgres();
+                        
+                        e.UseBusOutbox();
                     });
                 })
             ;

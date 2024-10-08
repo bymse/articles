@@ -1,14 +1,9 @@
-using Bymse.Articles.BFFs.PublicApi;
 using Bymse.Articles.BFFs.PublicApi.Configuration;
 using Bymse.Articles.Database;
 using Collector.Infrastructure;
-using Collector.Infrastructure.Database;
 using Feeder.Infrastructure;
-using Feeder.Infrastructure.Database;
 using Identity.Infrastructure;
-using Identity.Infrastructure.Database;
 using Infrastructure.ServicesConfiguration;
-using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +20,7 @@ builder
     .AddCollectorServices();
 
 builder
-    .AddMassTransitInfrastructure();
+    .AddMassTransitInfrastructure<ArticlesDbContext>();
 
 builder.Services.AddPostgresDbContext<ArticlesDbContext>();
 builder.EnrichNpgsqlDbContext<ArticlesDbContext>();

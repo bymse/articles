@@ -9,6 +9,7 @@ using Identity.Infrastructure;
 using Identity.Infrastructure.Database;
 using Identity.Integration;
 using Infrastructure.Ulids;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bymse.Articles.Database;
@@ -20,6 +21,8 @@ public class ArticlesDbContext(DbContextOptions<ArticlesDbContext> options) : Db
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CollectorModule).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(IdentityModule).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(FeederModule).Assembly);
+        
+        modelBuilder.AddTransactionalOutboxEntities();
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
