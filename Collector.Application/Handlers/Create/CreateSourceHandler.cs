@@ -1,5 +1,4 @@
-﻿using Application.Handlers;
-using Collector.Application.Entities;
+﻿using Collector.Application.Entities;
 using Collector.Application.Settings;
 using Collector.Integration;
 using FluentValidation;
@@ -15,7 +14,7 @@ public record UnconfirmedSourceInfo(CollectorSourceId Id, string Email);
 public class CreateSourceHandler(
     DbContext dbContext,
     CreateSourceValidator validator,
-    IOptions<CollectorApplicationSettings> settings) : IApplicationHandler
+    IOptions<CollectorApplicationSettings> settings)
 {
     public async Task<UnconfirmedSourceInfo> Handle(CreateSourceCommand command, CancellationToken ct)
     {

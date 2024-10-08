@@ -1,5 +1,4 @@
-﻿using Application.Handlers;
-using Collector.Integration;
+﻿using Collector.Integration;
 using Feeder.Application.Entities;
 using FluentValidation;
 using Identity.Integration;
@@ -25,7 +24,7 @@ public class AddUserSourceValidator : AbstractValidator<AddUserSourceCommand>
     }
 }
 
-public class AddUserSourceHandler(AddUserSourceValidator validator, DbContext dbContext) : IApplicationHandler
+public class AddUserSourceHandler(AddUserSourceValidator validator, DbContext dbContext)
 {
     public async Task Handle(AddUserSourceCommand command, CancellationToken ct)
     {

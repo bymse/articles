@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Application.Handlers;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -20,7 +19,9 @@ public static class ApplicationHandlersServicesConfiguration
             }
 
             foreach (var handlerType in assembly.GetTypes()
-                         .Where(e => e.IsAssignableTo(typeof(IApplicationHandler))))
+                         .Where(e => e is { IsClass: true, IsAbstract: false })
+                         .Where(e => e.Name.EndsWith("Handler"))
+                    )
             {
                 services.TryAddScoped(handlerType);
             }

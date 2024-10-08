@@ -1,10 +1,8 @@
-﻿using Application.Handlers;
-
-namespace Collector.Application.Handlers.ProcessEmail;
+﻿namespace Collector.Application.Handlers.ProcessEmail;
 
 public record ProcessEmailCommand(Ulid ReceivedEmailId);
 
-public class ProcessEmailHandler : IApplicationHandler
+public class ProcessEmailHandler
 {
     public async Task Handle(ProcessEmailCommand request, CancellationToken ct)
     {
