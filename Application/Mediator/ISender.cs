@@ -12,7 +12,7 @@ public interface ISender
     Task<TR> Send<TR>(IUseCase<TR> useCase, CancellationToken ct) where TR : class;
 }
 
-public class Sender(IScopedMediator mediator, IConsumeContextProvider consumeContextProvider)
+public class Sender(IScopedMediator mediator, ConsumeContextManager consumeContextProvider)
     : ISender
 {
     public Task Send(IUseCase useCase, CancellationToken ct)

@@ -14,9 +14,9 @@ public interface IEventPublisher
 public class EventPublisher : IEventPublisher
 {
     private readonly IPublishEndpoint publishEndpoint;
-    private readonly IConsumeContextProvider consumeContextProvider;
+    private readonly ConsumeContextManager consumeContextProvider;
 
-    public EventPublisher(IPublishEndpoint publishEndpoint, IConsumeContextProvider consumeContextProvider)
+    public EventPublisher(IPublishEndpoint publishEndpoint, ConsumeContextManager consumeContextProvider)
     {
         this.publishEndpoint = publishEndpoint;
         this.consumeContextProvider = consumeContextProvider;

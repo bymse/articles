@@ -2,7 +2,7 @@
 
 namespace Application.Contexts;
 
-public class ConsumeContextManager : IConsumeContextProvider
+public class ConsumeContextManager
 {
     private ConsumeContext? consumeContext;
 
@@ -20,9 +20,4 @@ public class ConsumeContextManager : IConsumeContextProvider
     {
         consumeContext = null;
     }
-}
-
-public interface IConsumeContextProvider
-{
-    ConsumeContext? Find();
 }

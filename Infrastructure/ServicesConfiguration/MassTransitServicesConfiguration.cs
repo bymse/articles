@@ -34,7 +34,6 @@ public static class MassTransitServicesConfiguration
 
         builder.Services
             .AddScoped<ConsumeContextManager>()
-            .AddScoped<IConsumeContextProvider, ConsumeContextManager>()
             .AddScoped<IEventPublisher, EventPublisher>();
 
         builder.Services.AddMediator(x =>
