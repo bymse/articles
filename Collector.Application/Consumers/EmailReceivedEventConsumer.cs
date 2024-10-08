@@ -1,14 +1,13 @@
 ﻿using Application.Consumers;
-using Application.Mediator;
 using Collector.Application.Events;
-using Collector.Application.UseCases.ProcessEmail;
+using Collector.Application.Handlers.ProcessEmail;
 
 namespace Collector.Application.Consumers;
 
-public class EmailReceivedEventConsumer(ISender sender) : EventConsumer<EmailReceivedEvent>
+public class EmailReceivedEventConsumer(ProcessEmailHandler handler) : EventConsumer<EmailReceivedEvent>
 {
     protected override Task Consume(EmailReceivedEvent @event, CancellationToken ct)
     {
-        return sender.Send(new ProcessEmailUseCase(@event.ReceivedEmailId), ct);
+        return handler.Handle(new ProcessEmailCommand(@event.ReceivedEmailId), ct);
     }
 }

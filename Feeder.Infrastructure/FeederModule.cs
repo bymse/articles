@@ -8,6 +8,6 @@ public static class FeederModule
     public static IServiceCollection AddFeederServices(this IServiceCollection services)
     {
         return services
-            .AddUseCases(typeof(Application.FeederConstants).Assembly);
+            .AddApplicationHandlers(typeof(Application.FeederConstants).Assembly);
     }
 }

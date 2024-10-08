@@ -1,18 +1,19 @@
-﻿using Application.Mediator;
-using Collector.Application.Entities;
-using Collector.Application.UseCases.Create;
-using Feeder.Application.UseCases;
+﻿using Collector.Application.Entities;
+using Collector.Application.Handlers.Create;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bymse.Articles.BFFs.PublicApi.Sources;
 
-public class SourcesController(ISender sender) : PublicApiController
+public class SourcesController : PublicApiController
 {
     [HttpPost]
-    public async Task<UnconfirmedSourceInfo> CreateSource([FromBody] CreateSourceRequest request, CancellationToken ct)
+    public async Task<UnconfirmedSourceInfo> CreateSource(
+        [FromBody] CreateSourceRequest request,
+        [FromServices] CreateSourceHandler handler,
+        CancellationToken ct)
     {
-        var sourceInfo = await sender.Send(
-            new CreateSourceUseCase(request.Title, request.WebPage, Tenant.User(UserId.Value)), ct
+        var sourceInfo = await handler.Handle(
+            new CreateSourceCommand(request.Title, request.WebPage, Tenant.User(UserId.Value)), ct
         );
 
         return sourceInfo;

@@ -1,23 +1,19 @@
 ﻿using Application.Events;
-using Application.Mediator;
 using Collector.Application.Entities;
 using Collector.Application.Events;
 using Collector.Application.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Collector.Application.UseCases.ReceiveEmails;
-
-public class ReceiveEmailsUseCase : IUseCase;
+namespace Collector.Application.Handlers.ReceiveEmails;
 
 public class ReceiveEmailsHandler(
     IImapEmailService service,
-    ILogger<ReceiveEmailsUseCase> logger,
+    ILogger<ReceiveEmailsHandler> logger,
     IEventPublisher publisher,
     DbContext dbContext)
-    : UseCaseHandler<ReceiveEmailsUseCase>
 {
-    protected override async Task Handle(ReceiveEmailsUseCase request, CancellationToken ct)
+    public async Task Handle(CancellationToken ct)
     {
         var mailbox = await dbContext.Set<Mailbox>().SingleOrDefaultAsync(ct);
         if (mailbox == null)

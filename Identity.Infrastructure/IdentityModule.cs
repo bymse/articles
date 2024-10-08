@@ -14,6 +14,6 @@ public static class IdentityModule
             .BindConfiguration(IdentityApplicationSettings.Path);
         
         return services
-            .AddUseCases(typeof(IdentityConstants).Assembly);
+            .AddApplicationHandlers(typeof(IdentityConstants).Assembly);
     }
 }

@@ -1,9 +1,8 @@
-﻿using Application.Mediator;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace Collector.Application.UseCases.Create;
+namespace Collector.Application.Handlers.Create;
 
-public class CreateSourceValidator : UseCaseValidator<CreateSourceUseCase>
+public class CreateSourceValidator : AbstractValidator<CreateSourceCommand>
 {
     public CreateSourceValidator()
     {

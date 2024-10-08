@@ -2,7 +2,6 @@
 using Application.Consumers;
 using Application.Contexts;
 using Application.Events;
-using Application.Mediator;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,13 +12,7 @@ namespace Infrastructure.ServicesConfiguration;
 
 public static class MassTransitServicesConfiguration
 {
-    private static readonly List<Assembly> MediatorAssemblies = new();
     private static readonly List<Assembly> ConsumerAssemblies = new();
-
-    internal static void AddMediatorAssemblies(params Assembly[] assemblies)
-    {
-        MediatorAssemblies.AddRange(assemblies);
-    }
 
     public static IServiceCollection AddConsumers(
         this IServiceCollection services,
@@ -39,25 +32,6 @@ public static class MassTransitServicesConfiguration
         builder.Services
             .AddScoped<ConsumeContextManager>()
             .AddScoped<IEventPublisher, EventPublisher>();
-
-        builder.Services.AddMediator(x =>
-        {
-            x.AddConsumers(e =>
-            {
-                var baseType = e.BaseType?.GetGenericTypeDefinition();
-                return baseType == typeof(UseCaseHandler<>) || baseType == typeof(UseCaseHandler<,>);
-            }, MediatorAssemblies.ToArray());
-
-            x.ConfigureMediator((context, cfg) =>
-            {
-                cfg.UseConsumeFilter(typeof(UseCaseValidationFilter<>), context,
-                    e => { e.Include(r => r.IsAssignableTo(typeof(IUseCase))); });
-                cfg.UseConsumeFilter(typeof(UseCaseCommitFilter<>), context,
-                    e => { e.Include(r => r.IsAssignableTo(typeof(IUseCase))); });
-
-                cfg.UseConsumeFilter(typeof(MassTransitConsumeContextFilter<>), context);
-            });
-        });
 
         return builder.Services
                 .AddMassTransit(x =>

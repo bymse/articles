@@ -22,7 +22,7 @@ public static class CollectorModule
             .BindConfiguration(ImapEmailServiceSettings.Path);
 
         return services
-                .AddUseCases(assembly)
+                .AddApplicationHandlers(assembly)
                 .AddConsumers(assembly)
                 .AddTransient<IImapEmailService, MimeKitImapEmailService>()
             ;

@@ -1,6 +1,4 @@
-﻿using Application.Mediator;
-using Collector.Application.UseCases.ReceiveEmails;
-using MassTransit.Mediator;
+﻿using Collector.Application.Handlers.ReceiveEmails;
 
 namespace Bymse.Articles.Workers.Collector;
 
@@ -9,8 +7,8 @@ public class ReceiveEmailsBackgroundWorker(IServiceProvider serviceProvider) : B
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         using var scope = serviceProvider.CreateScope();
-        var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+        var handler = scope.ServiceProvider.GetRequiredService<ReceiveEmailsHandler>();
 
-        await sender.Send(new ReceiveEmailsUseCase(), stoppingToken);
+        await handler.Handle(stoppingToken);
     }
 }

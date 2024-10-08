@@ -1,24 +1,28 @@
 ﻿using System.Reflection;
-using Application.Mediator;
+using Application.Handlers;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Infrastructure.ServicesConfiguration;
 
-public static class UseCasesServicesConfiguration
+public static class ApplicationHandlersServicesConfiguration
 {
-    public static IServiceCollection AddUseCases(this IServiceCollection services, params Assembly[] assemblies)
+    public static IServiceCollection AddApplicationHandlers(this IServiceCollection services,
+        params Assembly[] assemblies)
     {
-        services.TryAddScoped<ISender, Sender>();
-        MassTransitServicesConfiguration.AddMediatorAssemblies(assemblies);
-
         foreach (var assembly in assemblies)
         {
             var scanner = AssemblyScanner.FindValidatorsInAssembly(assembly);
             foreach (var result in scanner)
             {
                 services.TryAddScoped(result.InterfaceType, result.ValidatorType);
+            }
+
+            foreach (var handlerType in assembly.GetTypes()
+                         .Where(e => e.IsAssignableTo(typeof(IApplicationHandler))))
+            {
+                services.TryAddScoped(handlerType);
             }
         }
 
