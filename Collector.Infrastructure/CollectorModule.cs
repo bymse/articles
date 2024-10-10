@@ -1,6 +1,7 @@
 ﻿using Collector.Application.Services;
 using Collector.Application.Settings;
 using Collector.Infrastructure.Database;
+using Collector.Infrastructure.Html;
 using Collector.Infrastructure.Imap;
 using Infrastructure.ServicesConfiguration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,8 +25,9 @@ public static class CollectorModule
         return services
                 .AddApplicationHandlers(assembly)
                 .AddConsumers(assembly)
-                .AddTransient<IImapEmailService, MimeKitImapEmailService>()
+                .AddScoped<IImapEmailService, MimeKitImapEmailService>()
                 .AddScoped<EmailClassifier>()
+                .AddScoped<IHtmlLinksFinder, AngleSharpHtmlLinksFinder>()
             ;
     }
 }

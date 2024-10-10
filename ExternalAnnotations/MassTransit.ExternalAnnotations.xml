@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<assembly name="MassTransit">
-  <member name="T:MassTransit.IConsumer`1">
-    <attribute
-        ctor="M:JetBrains.Annotations.UsedImplicitlyAttribute.#ctor(JetBrains.Annotations.ImplicitUseTargetFlags)">
-      <argument>4</argument>
-    </attribute>
-  </member>
-</assembly>
