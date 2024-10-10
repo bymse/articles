@@ -27,10 +27,7 @@ public class ReceiveEmailsHandler(
         await foreach (var model in service.GetMessages(mailbox.UidValidity, mailbox.LastUid, ct))
         {
             var receivedEmail = await HandleEmail(model, mailbox, ct);
-            logger.LogInformation(
-                "Received email with for {ToEmail}. Saved with id {ReceivedEmailId}",
-                receivedEmail.ToEmail, receivedEmail.Id
-            );
+            logger.LogInformation("Received email {ReceivedEmailId}", receivedEmail.Id);
 
             mailbox.SetUid(model.Uid, model.UidValidity);
             dbContext.Add(receivedEmail);
@@ -68,6 +65,8 @@ public class ReceiveEmailsHandler(
             case EmailType.Unknown:
                 await publisher.Publish(new UnknownEmailReceivedEvent(receivedEmail.Id), ct);
                 break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
 
         return receivedEmail;

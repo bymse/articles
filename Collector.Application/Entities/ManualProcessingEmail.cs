@@ -10,20 +10,20 @@ public class ManualProcessingEmail
 
     public ManualProcessingEmailType Type { get; init; }
 
-    public static ManualProcessingEmail UnknownEmail(Ulid receivedEmailId)
+    public static ManualProcessingEmail UnknownEmail(ReceivedEmail email)
     {
         return new ManualProcessingEmail
         {
-            ReceivedEmailId = receivedEmailId,
+            ReceivedEmailId = email.Id,
             Type = ManualProcessingEmailType.UnknownEmailType,
         };
     }
 
-    public static ManualProcessingEmail FailedToConfirm(Ulid receivedEmailId, string message)
+    public static ManualProcessingEmail FailedToConfirm(ReceivedEmail email, string message)
     {
         return new ManualProcessingEmail
         {
-            ReceivedEmailId = receivedEmailId,
+            ReceivedEmailId = email.Id,
             Type = ManualProcessingEmailType.FailedToConfirmSubscription,
             Description = message
         };
