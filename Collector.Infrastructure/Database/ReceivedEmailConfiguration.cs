@@ -12,5 +12,8 @@ public class ReceivedEmailConfiguration : IEntityTypeConfiguration<ReceivedEmail
             .HasOne<Mailbox>()
             .WithMany()
             .HasForeignKey(e => e.MailboxId);
+
+
+        builder.OwnsOne(e => e.Headers, e => e.ToJson());
     }
 }
