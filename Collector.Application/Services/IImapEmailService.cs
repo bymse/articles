@@ -17,6 +17,7 @@ public class EmailModel
     public string? TextBody { get; init; }
     public string? HtmlBody { get; init; }
     public DateTimeOffset Date { get; init; }
+    public Dictionary<string, string> Headers { get; init; } = new();
     
     public uint Uid { get; init; }
     public uint UidValidity { get; init; }

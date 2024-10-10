@@ -11,7 +11,8 @@ public class ReceiveEmailsHandler(
     IImapEmailService service,
     ILogger<ReceiveEmailsHandler> logger,
     IEventPublisher publisher,
-    DbContext dbContext)
+    DbContext dbContext,
+    EmailClassifier emailClassifier)
 {
     public async Task Handle(CancellationToken ct)
     {
@@ -25,29 +26,50 @@ public class ReceiveEmailsHandler(
 
         await foreach (var model in service.GetMessages(mailbox.UidValidity, mailbox.LastUid, ct))
         {
-            logger.LogInformation("Received email with UID {Uid} for {ToEmail}", model.Uid, model.ToEmail);
-
-            var receivedEmail = new ReceivedEmail
-            {
-                ToEmail = model.ToEmail,
-                Subject = model.Subject,
-                FromEmail = model.FromEmail,
-                ReceivedAt = DateTimeOffset.UtcNow,
-                TextBody = model.TextBody,
-                HtmlBody = model.HtmlBody,
-                UidValidity = model.UidValidity,
-                Uid = model.Uid,
-                MailboxId = mailbox.Id,
-            };
-            dbContext.Add(receivedEmail);
-
-            await publisher.PublishEvent(new EmailReceivedEvent
-            {
-                ReceivedEmailId = receivedEmail.Id
-            }, ct);
+            var receivedEmail = await HandleEmail(model, mailbox, ct);
+            logger.LogInformation(
+                "Received email with for {ToEmail}. Saved with id {ReceivedEmailId}",
+                receivedEmail.ToEmail, receivedEmail.Id
+            );
 
             mailbox.SetUid(model.Uid, model.UidValidity);
+            dbContext.Add(receivedEmail);
             await dbContext.SaveChangesAsync(ct);
         }
+    }
+
+    private async Task<ReceivedEmail> HandleEmail(EmailModel model, Mailbox mailbox, CancellationToken ct)
+    {
+        var emailType = await emailClassifier.Classify(model);
+
+        var receivedEmail = new ReceivedEmail
+        {
+            ToEmail = model.ToEmail,
+            Subject = model.Subject,
+            FromEmail = model.FromEmail,
+            ReceivedAt = DateTimeOffset.UtcNow,
+            TextBody = model.TextBody,
+            HtmlBody = model.HtmlBody,
+            UidValidity = model.UidValidity,
+            Uid = model.Uid,
+            MailboxId = mailbox.Id,
+            Type = emailType
+        };
+        receivedEmail.SetHeaders(model.Headers);
+
+        switch (emailType)
+        {
+            case EmailType.Articles:
+                await publisher.Publish(new ArticlesEmailReceivedEvent(receivedEmail.Id), ct);
+                break;
+            case EmailType.Confirmation:
+                await publisher.Publish(new ConfirmationEmailReceivedEvent(receivedEmail.Id), ct);
+                break;
+            case EmailType.Unknown:
+                await publisher.Publish(new UnknownEmailReceivedEvent(receivedEmail.Id), ct);
+                break;
+        }
+
+        return receivedEmail;
     }
 }

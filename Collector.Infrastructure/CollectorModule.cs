@@ -25,6 +25,7 @@ public static class CollectorModule
                 .AddApplicationHandlers(assembly)
                 .AddConsumers(assembly)
                 .AddTransient<IImapEmailService, MimeKitImapEmailService>()
+                .AddScoped<EmailClassifier>()
             ;
     }
 }
