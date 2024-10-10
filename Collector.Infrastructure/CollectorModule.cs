@@ -1,8 +1,6 @@
-﻿using Collector.Application.Services;
-using Collector.Application.Settings;
-using Collector.Infrastructure.Database;
-using Collector.Infrastructure.Html;
+﻿using Collector.Application.Settings;
 using Collector.Infrastructure.Imap;
+using Infrastructure.Di;
 using Infrastructure.ServicesConfiguration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +10,8 @@ public static class CollectorModule
 {
     public static IServiceCollection AddCollectorServices(this IServiceCollection services)
     {
-        var assembly = typeof(Application.CollectorConstants).Assembly;
+        var applicationAssembly = typeof(Application.CollectorConstants).Assembly;
+        var infrastructureAssembly = typeof(CollectorModule).Assembly;
 
         services
             .AddOptions<CollectorApplicationSettings>()
@@ -23,11 +22,9 @@ public static class CollectorModule
             .BindConfiguration(ImapEmailServiceSettings.Path);
 
         return services
-                .AddApplicationHandlers(assembly)
-                .AddConsumers(assembly)
-                .AddScoped<IImapEmailService, MimeKitImapEmailService>()
-                .AddScoped<EmailClassifier>()
-                .AddScoped<IHtmlLinksFinder, AngleSharpHtmlLinksFinder>()
+                .AddApplicationHandlers(applicationAssembly)
+                .AddConsumers(infrastructureAssembly)
+                .AddAutoRegistrations(applicationAssembly, infrastructureAssembly)
             ;
     }
 }
