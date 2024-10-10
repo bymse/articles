@@ -13,51 +13,18 @@ public record ConfirmSubscriptionCommand(Ulid ReceivedEmailId);
 public class ConfirmSubscriptionHandler(
     ConfirmSubscriptionValidator validator,
     DbContext context,
-    EmailSubscriptionConfirmationService confirmationService,
     ILogger<ConfirmSubscriptionHandler> logger
 )
 {
     public async Task Handle(ConfirmSubscriptionCommand command, CancellationToken ct)
     {
         await validator.ValidateAndThrowAsync(command, ct);
-        var email = await context.GetEntity<ReceivedEmail>(command.ReceivedEmailId, ct);
+        logger.LogInformation("Planning manual confirmation for email {ReceivedEmailId}", command.ReceivedEmailId);
 
-        var result = await confirmationService.TryConfirm(email);
-        if (result.IsSuccess)
-        {
-            await ConfirmSource(email);
-        }
-        else
-        {
-            HandleFailure(email, result);
-        }
+        var email = await context.GetEntity<ReceivedEmail>(command.ReceivedEmailId, ct);
+        var manualProcessing = ManualProcessingEmail.Confirm(email);
+        context.Add(manualProcessing);
 
         await context.SaveChangesAsync(ct);
-    }
-
-    private async Task ConfirmSource(ReceivedEmail email)
-    {
-        var source = await context
-            .Set<UnconfirmedSource>()
-            .Where(e => e.Receiver.Email == email.ToEmail)
-            .SingleOrDefaultAsync();
-
-        if (source is not null)
-        {
-            source.Confirm();
-        }
-        else
-        {
-            logger.LogWarning("No unconfirmed source found for email {ReceivedEmailId}", email.Id);
-        }
-    }
-
-    private void HandleFailure(ReceivedEmail email, IResultBase result)
-    {
-        var error = string.Join(", ", result.Errors.Select(e => e.Message));
-        logger.LogWarning("Failed to confirm email {ReceivedEmailId}: {Error}", email.Id, error);
-
-        var manualProcessing = ManualProcessingEmail.FailedToConfirm(email, error);
-        context.Add(manualProcessing);
     }
 }

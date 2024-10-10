@@ -19,13 +19,12 @@ public class ManualProcessingEmail
         };
     }
 
-    public static ManualProcessingEmail FailedToConfirm(ReceivedEmail email, string message)
+    public static ManualProcessingEmail Confirm(ReceivedEmail email)
     {
         return new ManualProcessingEmail
         {
             ReceivedEmailId = email.Id,
-            Type = ManualProcessingEmailType.FailedToConfirmSubscription,
-            Description = message
+            Type = ManualProcessingEmailType.ConfirmSubscription,
         };
     }
 }
@@ -33,5 +32,5 @@ public class ManualProcessingEmail
 public enum ManualProcessingEmailType
 {
     UnknownEmailType,
-    FailedToConfirmSubscription,
+    ConfirmSubscription,
 }
