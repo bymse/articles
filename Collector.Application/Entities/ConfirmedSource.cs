@@ -11,9 +11,10 @@ public class ConfirmedSource : Source
         Receiver = unconfirmed.Receiver;
         Title = unconfirmed.Title;
         WebPage = unconfirmed.WebPage;
+        ConfirmedAt = DateTimeOffset.UtcNow;
     }
 
-    public DateTimeOffset ConfirmedAt { get; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset ConfirmedAt { get; }
 
     [UsedImplicitly]
     protected ConfirmedSource() : base(SourceState.Confirmed)
