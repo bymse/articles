@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Collector.Application.Handlers.Create;
+namespace Collector.Application.Handlers.CreateSource;
 
 public class CreateSourceValidator : AbstractValidator<CreateSourceCommand>
 {

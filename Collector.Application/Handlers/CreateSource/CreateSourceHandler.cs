@@ -5,7 +5,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace Collector.Application.Handlers.Create;
+namespace Collector.Application.Handlers.CreateSource;
 
 public record CreateSourceCommand(string Title, Uri WebPage, Tenant Tenant);
 
