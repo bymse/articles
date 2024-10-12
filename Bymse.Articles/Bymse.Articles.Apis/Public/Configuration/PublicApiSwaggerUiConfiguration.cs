@@ -1,6 +1,6 @@
 ﻿using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace Bymse.Articles.BFFs.PublicApi.Configuration;
+namespace Bymse.Articles.BFFs.Public.Configuration;
 
 public static class PublicApiSwaggerUiConfiguration
 {

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using Bymse.Articles.BFFs.AuthN;
 using Microsoft.OpenApi.Models;
 
-namespace Bymse.Articles.BFFs.PublicApi.Configuration;
+namespace Bymse.Articles.BFFs.Public.Configuration;
 
 public static class PublicApiServicesConfiguration
 {

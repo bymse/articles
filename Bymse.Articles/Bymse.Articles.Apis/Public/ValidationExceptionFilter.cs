@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
-namespace Bymse.Articles.BFFs.PublicApi;
+namespace Bymse.Articles.BFFs.Public;
 
 public class ValidationExceptionFilter : ExceptionFilterAttribute
 {

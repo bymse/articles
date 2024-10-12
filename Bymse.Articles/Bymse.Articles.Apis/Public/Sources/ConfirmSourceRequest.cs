@@ -1,4 +1,4 @@
-﻿namespace Bymse.Articles.BFFs.PublicApi.Sources;
+﻿namespace Bymse.Articles.BFFs.Public.Sources;
 
 public class ConfirmSourceRequest
 {

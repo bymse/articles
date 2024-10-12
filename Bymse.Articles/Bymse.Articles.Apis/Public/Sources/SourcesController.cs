@@ -3,7 +3,7 @@ using Collector.Application.Handlers.ConfirmSource;
 using Collector.Application.Handlers.CreateSource;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bymse.Articles.BFFs.PublicApi.Sources;
+namespace Bymse.Articles.BFFs.Public.Sources;
 
 public class SourcesController : PublicApiController
 {

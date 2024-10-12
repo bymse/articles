@@ -4,7 +4,7 @@ using Identity.Integration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bymse.Articles.BFFs.PublicApi;
+namespace Bymse.Articles.BFFs.Public;
 
 [ApiController]
 [Route("public-api/[controller]")]
