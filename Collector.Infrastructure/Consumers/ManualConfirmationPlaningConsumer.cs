@@ -4,13 +4,13 @@ using MassTransit;
 
 namespace Collector.Infrastructure.Consumers;
 
-public class ConfirmSubscriptionFromEmailConsumer(ConfirmSubscriptionHandler handler)
+public class ManualConfirmationPlaningConsumer(PlanManualConfirmationHandler handler)
     : IConsumer<ConfirmationEmailReceivedEvent>
 {
     public async Task Consume(ConsumeContext<ConfirmationEmailReceivedEvent> context)
     {
         await handler.Handle(
-            new ConfirmSubscriptionCommand(context.Message.ReceivedEmailId),
+            new PlanManualConfirmationCommand(context.Message.ReceivedEmailId),
             context.CancellationToken
         );
     }

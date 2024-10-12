@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Collector.Application.Handlers.ConfirmSubscription;
 
-public class ConfirmSubscriptionValidator : AbstractValidator<ConfirmSubscriptionCommand>
+public class PlanManualConfirmationValidator : AbstractValidator<PlanManualConfirmationCommand>
 {
-    public ConfirmSubscriptionValidator(DbContext context)
+    public PlanManualConfirmationValidator(DbContext context)
     {
         RuleFor(x => x.ReceivedEmailId)
             .MustAsync(async (id, ct) =>
