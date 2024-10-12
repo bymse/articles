@@ -1,4 +1,5 @@
 ﻿using Collector.Application.Entities;
+using Collector.Application.Handlers.ConfirmSource;
 using Collector.Application.Handlers.CreateSource;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,5 +18,14 @@ public class SourcesController : PublicApiController
         );
 
         return sourceInfo;
+    }
+
+    [HttpPost("confirm")]
+    public async Task ConfirmSource(
+        [FromBody] ConfirmSourceRequest request,
+        [FromServices] ConfirmSourceHandler handler,
+        CancellationToken ct)
+    {
+        await handler.Handle(new ConfirmSourceCommand(request.ReceiverEmail), ct);
     }
 }
