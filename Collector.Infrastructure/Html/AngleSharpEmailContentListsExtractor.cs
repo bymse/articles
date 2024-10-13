@@ -35,16 +35,9 @@ public class AngleSharpEmailContentListsExtractor : IEmailContentListsExtractor
 
             yield return new EmailContentList
             {
-                Header = FindHeader(result.CommonParent),
                 Elements = BuildElements(result.Links, processedLinks)
             };
         }
-    }
-
-    private static string? FindHeader(IElement parent)
-    {
-        var content = parent.QuerySelector("h1, h2, h3, h4, h5, h6")?.TextContent;
-        return CleanText(content);
     }
 
     private static IReadOnlyList<EmailContentListElement> BuildElements(

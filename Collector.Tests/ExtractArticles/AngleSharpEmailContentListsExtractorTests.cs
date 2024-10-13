@@ -12,6 +12,8 @@ public class AngleSharpEmailContentListsExtractorTests
     [TestCase("some string")]
     public async Task Should_ReturnEmptyList_OnNonHtml(string html)
     {
+        var result = await extractor.ExtractFromHtml(html).ToArrayAsync();
+        result.Should().BeEmpty();
     }
 
     [Test]
@@ -30,7 +32,6 @@ public class AngleSharpEmailContentListsExtractorTests
 
         var reactionList = new EmailContentList
         {
-            Header = "how did you like this issue?",
             Elements =
             [
                 new EmailContentListElement { Url = new Uri("https://example.com/reaction1"), Title = "Reaction 1" },
@@ -41,7 +42,6 @@ public class AngleSharpEmailContentListsExtractorTests
 
         var newsLettersList = new EmailContentList
         {
-            Header = "newsletters",
             Elements =
             [
                 new EmailContentListElement
@@ -63,7 +63,6 @@ public class AngleSharpEmailContentListsExtractorTests
 
         var subscriptionSettings = new EmailContentList
         {
-            Header = "subscription settings",
             Elements =
             [
                 new EmailContentListElement { Url = new Uri("https://example.com/settings1"), Title = "Settings 1" },

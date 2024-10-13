@@ -2,7 +2,6 @@
 
 public class EmailContentList
 {
-    public string? Header { get; init; }
     public required IReadOnlyList<EmailContentListElement> Elements { get; init; }
 }
 
