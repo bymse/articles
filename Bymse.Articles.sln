@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.ServiceDefau
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.Apis", "Bymse.Articles\Bymse.Articles.Apis\Bymse.Articles.Apis.csproj", "{49A252B7-FA52-4F15-B171-16C09D65E03A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Functional", "Bymse.Articles\Tests.Functional\Tests.Functional.csproj", "{81B21577-C7A4-4C8D-B1B7-5371E440C48F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.Tests", "Bymse.Articles\Bymse.Articles.Tests\Bymse.Articles.Tests.csproj", "{81B21577-C7A4-4C8D-B1B7-5371E440C48F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{7BEE66F8-B590-4CDD-B63E-F23E74E79D55}"
 EndProject
