@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Application.Di;
 using Collector.Application.Services;
 using MailKit;
 using MailKit.Net.Imap;
@@ -8,6 +9,7 @@ using MimeKit;
 
 namespace Collector.Infrastructure.Imap;
 
+[AutoRegistration]
 public class MimeKitImapEmailService(IOptions<ImapEmailServiceSettings> settings) : IImapEmailService
 {
     private readonly ImapEmailServiceSettings settings = settings.Value;

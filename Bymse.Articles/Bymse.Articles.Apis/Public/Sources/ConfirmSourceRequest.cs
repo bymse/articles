@@ -2,5 +2,5 @@
 
 public class ConfirmSourceRequest
 {
-    public string ReceiverEmail { get; init; } = default!;
+    public Ulid ReceivedEmailId { get; init; } = default!;
 }

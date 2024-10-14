@@ -26,6 +26,6 @@ public class SourcesController : PublicApiController
         [FromServices] ConfirmSourceHandler handler,
         CancellationToken ct)
     {
-        await handler.Handle(new ConfirmSourceCommand(request.ReceiverEmail), ct);
+        await handler.Handle(new ConfirmSourceCommand(request.ReceivedEmailId), ct);
     }
 }
