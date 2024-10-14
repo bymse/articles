@@ -1,51 +1,25 @@
 ﻿using Collector.Application.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Collector.Application.Services;
 
-public class EmailClassifier
+public class EmailClassifier(DbContext context)
 {
-    public Task<EmailType> Classify(EmailModel email)
+    public async Task<EmailType> Classify(EmailModel email, CancellationToken ct)
     {
-        if (IsArticlesEmail(email))
-        {
-            return Task.FromResult(EmailType.Articles);
-        }
-        
-        if (IsConfirmationEmail(email))
-        {
-            return Task.FromResult(EmailType.Confirmation);
-        }
-        
-        return Task.FromResult(EmailType.Unknown);
-    }
-    
-    private static bool IsArticlesEmail(EmailModel info)
-    {
-        if (info.Headers.ContainsKey("List-Unsubscribe"))
-        {
-            return true;
-        }
+        var sourceState = await context
+            .Set<Source>()
+            .Where(e => e.Receiver.Email == email.ToEmail)
+            .Select(e => e.State)
+            .Cast<SourceState?>()
+            .FirstOrDefaultAsync(ct);
 
-        return false;
-    }
-
-    private static bool IsConfirmationEmail(EmailModel model)
-    {
-        if (model.Subject.Contains("confirm", StringComparison.OrdinalIgnoreCase))
+        return sourceState switch
         {
-            return true;
-        }
-
-        if (model.HtmlBody?.Contains("confirm", StringComparison.OrdinalIgnoreCase) == true)
-        {
-            return true;
-        }
-
-        if (model.TextBody?.Contains("confirm", StringComparison.OrdinalIgnoreCase) == true)
-        {
-            return true;
-        }
-
-        return false;
+            SourceState.Unconfirmed => EmailType.Confirmation,
+            SourceState.Confirmed => EmailType.Articles,
+            null => EmailType.Unknown,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }

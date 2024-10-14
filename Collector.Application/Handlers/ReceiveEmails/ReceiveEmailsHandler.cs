@@ -37,7 +37,7 @@ public class ReceiveEmailsHandler(
 
     private async Task<ReceivedEmail> HandleEmail(EmailModel model, Mailbox mailbox, CancellationToken ct)
     {
-        var emailType = await emailClassifier.Classify(model);
+        var emailType = await emailClassifier.Classify(model, ct);
 
         var receivedEmail = new ReceivedEmail
         {
