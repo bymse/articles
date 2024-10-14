@@ -44,6 +44,7 @@ public class ReceiveEmailsHandler(
             ToEmail = model.ToEmail,
             Subject = model.Subject,
             FromEmail = model.FromEmail,
+            FromName = model.FromName,
             ReceivedAt = DateTimeOffset.UtcNow,
             TextBody = model.TextBody,
             HtmlBody = model.HtmlBody,

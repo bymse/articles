@@ -38,11 +38,13 @@ public class MimeKitImapEmailService(IOptions<ImapEmailServiceSettings> settings
             foreach (var uid in foundIds)
             {
                 using var message = await inbox.GetMessageAsync(uid, ct);
+                var from = message.From.Mailboxes.First();
                 var email = new EmailModel
                 {
                     ToEmail = message.To.Mailboxes.First().Address,
                     Subject = message.Subject,
-                    FromEmail = message.From.Mailboxes.First().Address,
+                    FromEmail = from.Address,
+                    FromName = from.Name,
                     Date = message.Date,
                     TextBody = message.TextBody,
                     HtmlBody = message.HtmlBody,

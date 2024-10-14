@@ -14,6 +14,7 @@ public class ReceivedEmail
 
     public required string ToEmail { get; init; }
     public required string FromEmail { get; init; }
+    public required string? FromName { get; init; }
     public string? Subject { get; init; }
     public string? HtmlBody { get; init; }
     public string? TextBody { get; init; }
