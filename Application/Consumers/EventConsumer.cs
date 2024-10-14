@@ -1,5 +1,6 @@
 ﻿using Application.Contexts;
 using Application.Events;
+using Integration;
 using JetBrains.Annotations;
 using MassTransit;
 

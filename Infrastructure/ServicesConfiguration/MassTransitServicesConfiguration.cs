@@ -31,7 +31,7 @@ public static class MassTransitServicesConfiguration
 
         builder.Services
             .AddScoped<ConsumeContextManager>()
-            .AddScoped<IEventPublisher, EventPublisher>();
+            .AddScoped<IPublisher, Publisher>();
 
         return builder.Services
                 .AddMassTransit(x =>

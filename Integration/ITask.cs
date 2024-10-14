@@ -1,10 +1,10 @@
 ﻿using MassTransit;
 
-namespace Application.Events;
+namespace Integration;
 
 [ExcludeFromTopology]
 [ExcludeFromImplementedTypes]
-public interface IEvent
+public interface ITask
 {
     
 }

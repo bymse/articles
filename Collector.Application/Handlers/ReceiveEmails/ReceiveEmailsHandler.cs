@@ -10,7 +10,7 @@ namespace Collector.Application.Handlers.ReceiveEmails;
 public class ReceiveEmailsHandler(
     IImapEmailService service,
     ILogger<ReceiveEmailsHandler> logger,
-    IEventPublisher publisher,
+    IPublisher publisher,
     DbContext dbContext,
     EmailClassifier emailClassifier)
 {
@@ -57,13 +57,13 @@ public class ReceiveEmailsHandler(
         switch (emailType)
         {
             case EmailType.Articles:
-                await publisher.Publish(new ArticlesEmailReceivedEvent(receivedEmail.Id), ct);
+                await publisher.PublishEvent(new ArticlesEmailReceivedEvent(receivedEmail.Id), ct);
                 break;
             case EmailType.Confirmation:
-                await publisher.Publish(new ConfirmationEmailReceivedEvent(receivedEmail.Id), ct);
+                await publisher.PublishEvent(new ConfirmationEmailReceivedEvent(receivedEmail.Id), ct);
                 break;
             case EmailType.Unknown:
-                await publisher.Publish(new UnknownEmailReceivedEvent(receivedEmail.Id), ct);
+                await publisher.PublishEvent(new UnknownEmailReceivedEvent(receivedEmail.Id), ct);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

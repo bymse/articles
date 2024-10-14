@@ -1,4 +1,5 @@
 ﻿using Application.Events;
+using Integration;
 
 namespace Collector.Application.Events;
 
