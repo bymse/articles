@@ -9,7 +9,7 @@ public class EmailContentListElement
 {
     public required Uri Url { get; init; }
     public required string Title { get; init; }
-    public string? Description { get; init; }
+    public string? Description { get; init; } //todo add description
 }
 
 public interface IEmailContentListsExtractor

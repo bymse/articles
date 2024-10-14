@@ -1,15 +1,16 @@
 ﻿using Application.Extensions;
 using Collector.Application.Entities;
+using Collector.Application.Services;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 namespace Collector.Application.Handlers.ExtractArticles;
 
-public record ExtractArticlesCommand(Ulid ReceivedEmailId);
+public record SaveArticlesCommand(Ulid ReceivedEmailId);
 
-public class ExtractArticlesHandler(DbContext context, ExtractArticlesValidator validator)
+public class SaveArticlesHandler(DbContext context, SaveArticlesValidator validator, EmailArticlesExtractor extractor)
 {
-    public async Task Handle(ExtractArticlesCommand command, CancellationToken ct)
+    public async Task Handle(SaveArticlesCommand command, CancellationToken ct)
     {
         await validator.ValidateAndThrowAsync(command, ct);
 
@@ -18,7 +19,10 @@ public class ExtractArticlesHandler(DbContext context, ExtractArticlesValidator 
             .Set<ConfirmedSource>()
             .Local
             .Single(e => e.Receiver.Email == email.ToEmail);
-        
-        //todo extract and store articles
+
+        await foreach (var emailArticleInfo in extractor.Extract(email, ct))
+        {
+            
+        }
     }
 }

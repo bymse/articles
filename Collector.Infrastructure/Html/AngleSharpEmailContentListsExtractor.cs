@@ -1,10 +1,12 @@
 ﻿using System.Text.RegularExpressions;
 using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
+using Application.Di;
 using Collector.Application.Services;
 
 namespace Collector.Infrastructure.Html;
 
+[AutoRegistration]
 public class AngleSharpEmailContentListsExtractor : IEmailContentListsExtractor
 {
     public async IAsyncEnumerable<EmailContentList> ExtractFromHtml(string html)

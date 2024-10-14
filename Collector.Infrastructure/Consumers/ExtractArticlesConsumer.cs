@@ -4,12 +4,12 @@ using MassTransit;
 
 namespace Collector.Infrastructure.Consumers;
 
-public class ExtractArticlesConsumer(ExtractArticlesHandler handler) : IConsumer<ArticlesEmailReceivedEvent>
+public class ExtractArticlesConsumer(SaveArticlesHandler handler) : IConsumer<ArticlesEmailReceivedEvent>
 {
     public async Task Consume(ConsumeContext<ArticlesEmailReceivedEvent> context)
     {
         await handler.Handle(
-            new ExtractArticlesCommand(context.Message.ReceivedEmailId),
+            new SaveArticlesCommand(context.Message.ReceivedEmailId),
             context.CancellationToken
         );
     }

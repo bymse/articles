@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Collector.Application.Handlers.ExtractArticles;
 
-public class ExtractArticlesValidator : AbstractValidator<ExtractArticlesCommand>
+public class SaveArticlesValidator : AbstractValidator<SaveArticlesCommand>
 {
-    public ExtractArticlesValidator(DbContext context)
+    public SaveArticlesValidator(DbContext context)
     {
         RuleFor(x => x.ReceivedEmailId)
             .MustAsync(async (id, ct) =>
