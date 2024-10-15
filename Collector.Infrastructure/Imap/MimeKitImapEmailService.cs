@@ -50,7 +50,10 @@ public class MimeKitImapEmailService(IOptions<ImapEmailServiceSettings> settings
                     Date = message.Date,
                     TextBody = message.TextBody,
                     HtmlBody = message.HtmlBody,
-                    Headers = message.Headers.ToDictionary(x => x.Field, x => x.Value),
+                    Headers = message
+                        .Headers
+                        .ToLookup(x => x.Field, x => x.Value)
+                        .ToDictionary(e => e.Key, e => string.Join(",", e)),
 
                     UidValidity = inbox.UidValidity,
                     Uid = uid.Id

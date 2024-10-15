@@ -12,10 +12,12 @@ public static class AutoRegistrationHelper
         {
             foreach (var type in asm.GetTypes().Where(e => e is { IsClass: true, IsAbstract: false }))
             {
-                if (type.GetCustomAttribute<AutoRegistrationAttribute>() is not null)
+                if (type.GetCustomAttribute<AutoRegistrationAttribute>() is null)
                 {
-                    services.AddScoped(type);
+                    continue;
                 }
+                
+                services.AddScoped(type);
 
                 foreach (var @interface in type.GetInterfaces())
                 {

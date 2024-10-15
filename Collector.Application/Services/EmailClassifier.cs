@@ -1,8 +1,10 @@
-﻿using Collector.Application.Entities;
+﻿using Application.Di;
+using Collector.Application.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Collector.Application.Services;
 
+[AutoRegistration]
 public class EmailClassifier(DbContext context)
 {
     public async Task<EmailType> Classify(EmailModel email, CancellationToken ct)

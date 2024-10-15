@@ -39,7 +39,8 @@ public static class MassTransitServicesConfiguration
                     if (addConsumers)
                     {
                         x.AddConsumers(
-                            e => e.BaseType?.GetGenericTypeDefinition() == typeof(EventConsumer<>),
+                            e => e.BaseType?.IsGenericType == true
+                                 && e.BaseType?.GetGenericTypeDefinition() == typeof(EventConsumer<>),
                             ConsumerAssemblies.ToArray()
                         );
                     }
