@@ -1,9 +1,10 @@
-﻿using Collector.Application.Entities;
+﻿using Bymse.Articles.Apis.Public.Sources.Models;
+using Collector.Application.Entities;
 using Collector.Application.Handlers.ConfirmSource;
 using Collector.Application.Handlers.CreateSource;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bymse.Articles.BFFs.Public.Sources;
+namespace Bymse.Articles.Apis.Public.Sources;
 
 public class SourcesController : PublicApiController
 {

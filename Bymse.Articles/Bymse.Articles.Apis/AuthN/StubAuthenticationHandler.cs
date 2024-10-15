@@ -4,7 +4,7 @@ using Identity.Application;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 
-namespace Bymse.Articles.BFFs.AuthN;
+namespace Bymse.Articles.Apis.AuthN;
 
 public class StubAuthenticationHandler(
     IOptionsMonitor<AuthenticationSchemeOptions> options,

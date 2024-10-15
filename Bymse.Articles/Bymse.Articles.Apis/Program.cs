@@ -1,4 +1,4 @@
-using Bymse.Articles.BFFs.Public.Configuration;
+using Bymse.Articles.Apis.Public.Configuration;
 using Bymse.Articles.Database;
 using Collector.Infrastructure;
 using Feeder.Infrastructure;

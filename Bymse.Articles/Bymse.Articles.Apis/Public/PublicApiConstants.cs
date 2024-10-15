@@ -1,4 +1,4 @@
-﻿namespace Bymse.Articles.BFFs.Public;
+﻿namespace Bymse.Articles.Apis.Public;
 
 public static class PublicApiConstants
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 
-namespace Bymse.Articles.BFFs.AuthN;
+namespace Bymse.Articles.Apis.AuthN;
 
 public static class AuthNDiHelper
 {

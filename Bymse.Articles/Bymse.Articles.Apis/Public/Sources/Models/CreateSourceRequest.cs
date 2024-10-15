@@ -1,4 +1,4 @@
-﻿namespace Bymse.Articles.BFFs.Public.Sources;
+﻿namespace Bymse.Articles.Apis.Public.Sources.Models;
 
 public class CreateSourceRequest
 {

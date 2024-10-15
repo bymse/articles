@@ -1,10 +1,10 @@
 ﻿using System.Security.Claims;
-using Bymse.Articles.BFFs.AuthN;
+using Bymse.Articles.Apis.AuthN;
 using Identity.Integration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bymse.Articles.BFFs.Public;
+namespace Bymse.Articles.Apis.Public;
 
 [ApiController]
 [Route("public-api/[controller]")]

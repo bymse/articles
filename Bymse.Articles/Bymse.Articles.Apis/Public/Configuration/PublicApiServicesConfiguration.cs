@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Bymse.Articles.BFFs.AuthN;
+using Bymse.Articles.Apis.AuthN;
 using Microsoft.OpenApi.Models;
 
-namespace Bymse.Articles.BFFs.Public.Configuration;
+namespace Bymse.Articles.Apis.Public.Configuration;
 
 public static class PublicApiServicesConfiguration
 {
