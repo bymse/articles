@@ -2,6 +2,7 @@
 using Collector.Application.Entities;
 using Collector.Application.Handlers.ConfirmSource;
 using Collector.Application.Handlers.CreateSource;
+using Collector.Application.Handlers.GetSources;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bymse.Articles.Apis.Public.Sources;
@@ -28,5 +29,14 @@ public class SourcesController : PublicApiController
         CancellationToken ct)
     {
         await handler.Handle(new ConfirmSourceCommand(request.ReceivedEmailId), ct);
+    }
+
+    [HttpGet]
+    public async Task<SourceInfoCollection> GetSources(
+        [FromServices] GetSourcesHandler handler,
+        CancellationToken ct
+    )
+    {
+        return await handler.Handle(new GetSourcesQuery(Tenant.User(UserId.Value)), ct);
     }
 }

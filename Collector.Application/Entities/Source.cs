@@ -25,6 +25,6 @@ public abstract class Source(SourceState state)
 
 public enum SourceState
 {
-    Unconfirmed,
-    Confirmed,
+    Unconfirmed = 0,
+    Confirmed = 1,
 }
