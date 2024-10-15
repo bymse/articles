@@ -1,8 +1,4 @@
-using Collector.Application.Settings;
-using Collector.Infrastructure.Database;
 using Collector.Infrastructure.Imap;
-using Feeder.Infrastructure.Database;
-using Identity.Infrastructure.Database;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -23,7 +19,7 @@ var articlesSql = builder
 
 var rabbitMqPassword = builder.AddParameter("articles-rabbitmq-password", secret: true);
 var rabbitMq = builder
-    .AddRabbitMQ("rmq-masstransit", password: rabbitMqPassword, port: 15672)
+    .AddRabbitMQ("articles-rabbitmq", password: rabbitMqPassword, port: 15672)
     .WithManagementPlugin(port: 15673)
     .WithDataVolume();
 

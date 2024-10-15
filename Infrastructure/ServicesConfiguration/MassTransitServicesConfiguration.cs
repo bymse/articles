@@ -27,7 +27,7 @@ public static class MassTransitServicesConfiguration
         bool addConsumers = false,
         bool enableOutboxServices = false) where TDbContext : DbContext
     {
-        builder.AddRabbitMQClient("rmq-masstransit");
+        builder.AddRabbitMQClient("articles-rabbitmq");
 
         builder.Services
             .AddScoped<ConsumeContextManager>()
@@ -48,7 +48,7 @@ public static class MassTransitServicesConfiguration
                     x.UsingRabbitMq((context, cfg) =>
                     {
                         var configuration = context.GetRequiredService<IConfiguration>();
-                        var connectionStringRaw = configuration.GetConnectionString("rmq-masstransit") ??
+                        var connectionStringRaw = configuration.GetConnectionString("articles-rabbitmq") ??
                                                   throw new Exception("Connection string not found for RabbitMQ");
                         var csUri = new Uri(connectionStringRaw);
                         cfg.Host(csUri);

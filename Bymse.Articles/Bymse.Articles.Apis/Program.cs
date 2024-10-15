@@ -34,10 +34,7 @@ app
 
 app
     .UseSwagger()
-    .UseSwaggerUI(e =>
-    {
-        e.ConfigurePublicApi();
-    });
+    .UseSwaggerUI(e => { e.ConfigurePublicApi(); });
 
 app
     .MapDefaultEndpoints()
