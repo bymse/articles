@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.AppHost", "Bymse.Articles\Bymse.Articles.AppHost\Bymse.Articles.AppHost.csproj", "{712F4820-C8C5-4A31-BC1E-A5D92A8253F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.AppHost", "Bymse.Articles.AppHost\Bymse.Articles.AppHost.csproj", "{712F4820-C8C5-4A31-BC1E-A5D92A8253F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.ServiceDefaults", "Bymse.Articles\Bymse.Articles.ServiceDefaults\Bymse.Articles.ServiceDefaults.csproj", "{7D9A7419-DC82-4672-9764-339C6F92B911}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.ServiceDefaults", "Bymse.Articles.ServiceDefaults\Bymse.Articles.ServiceDefaults.csproj", "{7D9A7419-DC82-4672-9764-339C6F92B911}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.Apis", "Bymse.Articles\Bymse.Articles.Apis\Bymse.Articles.Apis.csproj", "{49A252B7-FA52-4F15-B171-16C09D65E03A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.Apis", "Bymse.Articles.Apis\Bymse.Articles.Apis.csproj", "{49A252B7-FA52-4F15-B171-16C09D65E03A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.Tests", "Bymse.Articles\Bymse.Articles.Tests\Bymse.Articles.Tests.csproj", "{81B21577-C7A4-4C8D-B1B7-5371E440C48F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.Tests", "Bymse.Articles.Tests\Bymse.Articles.Tests.csproj", "{81B21577-C7A4-4C8D-B1B7-5371E440C48F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{7BEE66F8-B590-4CDD-B63E-F23E74E79D55}"
 EndProject

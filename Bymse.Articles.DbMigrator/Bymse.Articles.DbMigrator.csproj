@@ -13,6 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bymse.Articles.Database\Bymse.Articles.Database.csproj" />
-    <ProjectReference Include="..\Bymse.Articles\Bymse.Articles.ServiceDefaults\Bymse.Articles.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Bymse.Articles.ServiceDefaults\Bymse.Articles.ServiceDefaults.csproj" />
   </ItemGroup>
 </Project>
