@@ -1,0 +1,151 @@
+openapi: 3.0.1
+info:
+  title: public-api
+  version: '1'
+paths:
+  /public-api/sources:
+    post:
+      tags:
+        - Sources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CreateSourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/CreateSourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/UnconfirmedSourceInfo'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnconfirmedSourceInfo'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UnconfirmedSourceInfo'
+    get:
+      tags:
+        - Sources
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SourceInfoCollection'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceInfoCollection'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SourceInfoCollection'
+  /public-api/sources/confirm:
+    post:
+      tags:
+        - Sources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmSourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmSourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ConfirmSourceRequest'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    CollectorSourceId:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/Ulid'
+      additionalProperties: false
+    ConfirmSourceRequest:
+      type: object
+      properties:
+        receivedEmailId:
+          $ref: '#/components/schemas/Ulid'
+      additionalProperties: false
+    CreateSourceRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          nullable: true
+        webPage:
+          type: string
+          format: uri
+          nullable: true
+      additionalProperties: false
+    SourceInfo:
+      required:
+        - receiverEmail
+        - state
+        - title
+        - webPage
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Ulid'
+        title:
+          type: string
+          nullable: true
+        webPage:
+          type: string
+          format: uri
+          nullable: true
+        state:
+          $ref: '#/components/schemas/SourceState'
+        receiverEmail:
+          type: string
+          nullable: true
+      additionalProperties: false
+    SourceInfoCollection:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceInfo'
+          nullable: true
+      additionalProperties: false
+    SourceState:
+      enum:
+        - Unconfirmed
+        - Confirmed
+      type: string
+    Ulid:
+      type: object
+      properties:
+        random:
+          type: string
+          format: byte
+          nullable: true
+          readOnly: true
+        time:
+          type: string
+          format: date-time
+          readOnly: true
+      additionalProperties: false
+    UnconfirmedSourceInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/CollectorSourceId'
+        email:
+          type: string
+          nullable: true
+      additionalProperties: false

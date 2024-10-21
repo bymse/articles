@@ -37,6 +37,7 @@ public static class PublicApiServicesConfiguration
                 e.SwaggerDoc(PublicApiConstants.DocumentName, new OpenApiInfo
                 {
                     Title = PublicApiConstants.DocumentName,
+                    Version = "1"
                 });
             })
             ;
