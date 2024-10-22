@@ -38,6 +38,7 @@ public static class PublicApiServicesConfiguration
                     Title = PublicApiConstants.DocumentName,
                     Version = "1"
                 });
+                e.MapType<Ulid>(() => new OpenApiSchema { Type = "string" });
             })
             ;
 

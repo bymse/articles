@@ -121,7 +121,7 @@
         "type": "object",
         "properties": {
           "value": {
-            "$ref": "#/components/schemas/Ulid"
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -130,7 +130,7 @@
         "type": "object",
         "properties": {
           "receivedEmailId": {
-            "$ref": "#/components/schemas/Ulid"
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -160,7 +160,7 @@
         "type": "object",
         "properties": {
           "id": {
-            "$ref": "#/components/schemas/Ulid"
+            "type": "string"
           },
           "title": {
             "type": "string",
@@ -200,23 +200,6 @@
           "Confirmed"
         ],
         "type": "string"
-      },
-      "Ulid": {
-        "type": "object",
-        "properties": {
-          "random": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true,
-            "readOnly": true
-          },
-          "time": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
       },
       "UnconfirmedSourceInfo": {
         "type": "object",

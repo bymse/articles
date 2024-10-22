@@ -422,7 +422,7 @@ namespace Bymse.Articles.PublicApi.Client
     public partial class CollectorSourceId
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public Ulid Value { get; set; }
+        public string Value { get; set; }
 
     }
 
@@ -430,7 +430,7 @@ namespace Bymse.Articles.PublicApi.Client
     public partial class ConfirmSourceRequest
     {
         [Newtonsoft.Json.JsonProperty("receivedEmailId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public Ulid ReceivedEmailId { get; set; }
+        public string ReceivedEmailId { get; set; }
 
     }
 
@@ -449,7 +449,7 @@ namespace Bymse.Articles.PublicApi.Client
     public partial class SourceInfo
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public Ulid Id { get; set; }
+        public string Id { get; set; }
 
         [Newtonsoft.Json.JsonProperty("title", Required = Newtonsoft.Json.Required.AllowNull)]
         public string Title { get; set; }
@@ -484,17 +484,6 @@ namespace Bymse.Articles.PublicApi.Client
 
         [System.Runtime.Serialization.EnumMember(Value = @"Confirmed")]
         Confirmed = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Ulid
-    {
-        [Newtonsoft.Json.JsonProperty("random", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public byte[] Random { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Time { get; set; }
 
     }
 
