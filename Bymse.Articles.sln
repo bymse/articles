@@ -54,6 +54,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Registry", "Registry", "{5C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Registry.Integration", "Registry.Integration\Registry.Integration.csproj", "{7B295308-43CE-4E46-87EF-514997ED82BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bymse.Articles.PublicApi.Client", "Bymse.Articles.PublicApi.Client\Bymse.Articles.PublicApi.Client.csproj", "{B6EED3B3-6D67-4B44-BE5A-5F2C9F2EE42D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -144,6 +146,10 @@ Global
 		{7B295308-43CE-4E46-87EF-514997ED82BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B295308-43CE-4E46-87EF-514997ED82BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B295308-43CE-4E46-87EF-514997ED82BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6EED3B3-6D67-4B44-BE5A-5F2C9F2EE42D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6EED3B3-6D67-4B44-BE5A-5F2C9F2EE42D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6EED3B3-6D67-4B44-BE5A-5F2C9F2EE42D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6EED3B3-6D67-4B44-BE5A-5F2C9F2EE42D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E70DC6D6-E62E-4AE9-96D4-AD762510D7A0} = {7BEE66F8-B590-4CDD-B63E-F23E74E79D55}

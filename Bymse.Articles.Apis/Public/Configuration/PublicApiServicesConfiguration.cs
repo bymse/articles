@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bymse.Articles.Apis.AuthN;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi.Models;
 
 namespace Bymse.Articles.Apis.Public.Configuration;
@@ -17,10 +18,7 @@ public static class PublicApiServicesConfiguration
                 e.LowercaseQueryStrings = true;
             })
             .AddProblemDetails()
-            .AddControllers(e =>
-            {
-                e.Filters.Add<ValidationExceptionFilter>();
-            })
+            .AddControllers(e => { e.Filters.Add<ValidationExceptionFilter>(); })
             .AddJsonOptions(e =>
             {
                 e.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
@@ -34,6 +32,7 @@ public static class PublicApiServicesConfiguration
             .AddEndpointsApiExplorer()
             .AddSwaggerGen(e =>
             {
+                e.CustomOperationIds(r => r.ActionDescriptor.RouteValues["action"]);
                 e.SwaggerDoc(PublicApiConstants.DocumentName, new OpenApiInfo
                 {
                     Title = PublicApiConstants.DocumentName,
