@@ -7,4 +7,10 @@ public partial class PublicApiClient
         settings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
         settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
     }
+
+    public PublicApiClient(HttpClient client)
+    {
+        _httpClient = client;
+        _baseUrl = "";
+    }
 }
