@@ -5,6 +5,36 @@
     "version": "1"
   },
   "paths": {
+    "/public-api/manual-processing-emails": {
+      "get": {
+        "tags": [
+          "ManualProcessingEmails"
+        ],
+        "operationId": "GetManualProcessingEmails",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManualProcessingEmailInfoCollection"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManualProcessingEmailInfoCollection"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManualProcessingEmailInfoCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/public-api/sources": {
       "post": {
         "tags": [
@@ -149,6 +179,72 @@
           }
         },
         "additionalProperties": false
+      },
+      "ManualProcessingEmailInfo": {
+        "required": [
+          "fromEmail",
+          "fromName",
+          "htmlBody",
+          "receivedEmailId",
+          "subject",
+          "textBody",
+          "toEmail",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "receivedEmailId": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ManualProcessingEmailType"
+          },
+          "toEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "fromEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "fromName": {
+            "type": "string",
+            "nullable": true
+          },
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "textBody": {
+            "type": "string",
+            "nullable": true
+          },
+          "htmlBody": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ManualProcessingEmailInfoCollection": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ManualProcessingEmailInfo"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ManualProcessingEmailType": {
+        "enum": [
+          "UnknownEmailType",
+          "ConfirmSubscription"
+        ],
+        "type": "string"
       },
       "SourceInfo": {
         "required": [
