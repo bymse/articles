@@ -9,5 +9,5 @@ public static class ArticlesResources
     public const string Postgres = "articles-postgres";
     public const string GreenMail = "GreenMail";
 
-    public static readonly string[] Services = [RabbitMq, Postgres, Apis, Workers];
+    public static readonly string[] Services = [RabbitMq, Postgres, Apis, Workers, GreenMail];
 }

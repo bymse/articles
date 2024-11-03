@@ -6,14 +6,14 @@ public class SmtpEmailSender : IEmailSender
 {
     public async Task SendEmail(EmailMessage message)
     {
-        using var smtpClient = new SmtpClient("localhost", 3025);
+        using var smtpClient = new SmtpClient("localhost", 13025);
 
         var mailMessage = new MailMessage
         {
             From = new MailAddress(message.From),
             Subject = message.Subject,
             Body = message.Body,
-            IsBodyHtml = message.BodyType.Equals("html", StringComparison.OrdinalIgnoreCase),
+            IsBodyHtml = message.BodyType == BodyType.Html
         };
 
         mailMessage.To.Add(message.To);

@@ -22,7 +22,7 @@ var postgresPassword = builder.AddParameter("articles-postgres-password", secret
 
 var articlesSql = builder
     .AddPostgres(ArticlesResources.Postgres, password: postgresPassword, port: 15432)
-    //.If(!noVolumes, e => e.WithDataVolume())
+    .If(!noVolumes, e => e.WithDataVolume())
     .AddDatabase("pg-articles", "articles");
 
 var rabbitMqPassword = builder.AddParameter("articles-rabbitmq-password", secret: true);
@@ -40,8 +40,10 @@ if (needGreenmail)
     builder
         .AddResource(new ContainerResource(ArticlesResources.GreenMail))
         .WithImage("greenmail/standalone", "2.1.0")
-        .WithEndpoint(3025, 3025)
-        .WithEndpoint(imapPort.Value, imapPort.Value)
+        .WithEndpoint(13025, 3025, name: "smtp", scheme: "tcp", isProxied: false)
+        .WithEndpoint(imapPort.Value, imapPort.Value, name: "imap", scheme: "tcp", isProxied: false)
+        .WithEnvironment("GREENMAIL_OPTS",
+            "-Dgreenmail.setup.test.all -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.auth.disabled -Dgreenmail.verbose")
         ;
 }
 

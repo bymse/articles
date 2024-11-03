@@ -1,6 +1,12 @@
 ﻿namespace Bymse.Articles.Tests.Emails;
 
-public record EmailMessage(string To, string Subject, string Body, string BodyType, string From);
+public enum BodyType
+{
+    PlainText,
+    Html
+}
+
+public record EmailMessage(string To, string Subject, string Body, BodyType BodyType, string From);
 
 public interface IEmailSender
 {
