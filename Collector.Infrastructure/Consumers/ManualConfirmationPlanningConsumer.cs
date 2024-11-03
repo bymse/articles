@@ -4,7 +4,7 @@ using Collector.Application.Handlers.ConfirmSubscription;
 
 namespace Collector.Infrastructure.Consumers;
 
-public class ManualConfirmationPlaningConsumer(PlanManualConfirmationHandler handler)
+public class ManualConfirmationPlanningConsumer(PlanManualConfirmationHandler handler)
     : EventConsumer<ConfirmationEmailReceivedEvent>
 {
     protected override async Task Consume(ConfirmationEmailReceivedEvent @event, CancellationToken ct)
