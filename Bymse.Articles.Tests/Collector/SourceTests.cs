@@ -40,10 +40,11 @@ public class SourceTests : TestsBase
     {
         var source = await Actions.Collector.CreateSource();
 
-        await EmailSender.SendEmail(new EmailMessage(source.Email, "Test subject", "Test body", BodyType.PlainText,
-            "me@localhost"));
-
+        var message = new EmailMessage(source.Email, "Test subject", "Test body", BodyType.PlainText,
+            "me@localhost");
+        await EmailSender.SendEmail(message);
         await Task.Delay(TimeSpan.FromSeconds(15));
+
         var client = GetPublicApiClient();
         var manualProcessingEmails = await client.GetManualProcessingEmailsAsync();
 
@@ -51,6 +52,17 @@ public class SourceTests : TestsBase
             .Should()
             .ContainSingle()
             .Which
-            .ToEmail.Should().Be(source.Email);
+            .Should().BeEquivalentTo(new ManualProcessingEmailInfo
+                {
+                    ReceivedEmailId = "",
+                    FromEmail = message.From,
+                    FromName = "",
+                    Subject = message.Subject,
+                    TextBody = message.Body,
+                    ToEmail = message.To,
+                    Type = ManualProcessingEmailType.ConfirmSubscription,
+                    HtmlBody = null
+                }, e => e.Excluding(r => r.ReceivedEmailId)
+            );
     }
 }
