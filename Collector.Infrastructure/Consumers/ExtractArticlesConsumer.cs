@@ -1,16 +1,14 @@
-﻿using Collector.Application.Events;
+﻿using Application.Consumers;
+using Collector.Application.Events;
 using Collector.Application.Handlers.ExtractArticles;
 using MassTransit;
 
 namespace Collector.Infrastructure.Consumers;
 
-public class ExtractArticlesConsumer(SaveArticlesHandler handler) : IConsumer<ArticlesEmailReceivedEvent>
+public class ExtractArticlesConsumer(SaveArticlesHandler handler) : EventConsumer<ArticlesEmailReceivedEvent>
 {
-    public async Task Consume(ConsumeContext<ArticlesEmailReceivedEvent> context)
+    protected override async Task Consume(ArticlesEmailReceivedEvent @event, CancellationToken ct)
     {
-        await handler.Handle(
-            new SaveArticlesCommand(context.Message.ReceivedEmailId),
-            context.CancellationToken
-        );
+        await handler.Handle(new SaveArticlesCommand(@event.ReceivedEmailId), ct);
     }
 }

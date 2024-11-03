@@ -1,17 +1,14 @@
-﻿using Collector.Application.Events;
+﻿using Application.Consumers;
+using Collector.Application.Events;
 using Collector.Application.Handlers.ConfirmSubscription;
-using MassTransit;
 
 namespace Collector.Infrastructure.Consumers;
 
 public class ManualConfirmationPlaningConsumer(PlanManualConfirmationHandler handler)
-    : IConsumer<ConfirmationEmailReceivedEvent>
+    : EventConsumer<ConfirmationEmailReceivedEvent>
 {
-    public async Task Consume(ConsumeContext<ConfirmationEmailReceivedEvent> context)
+    protected override async Task Consume(ConfirmationEmailReceivedEvent @event, CancellationToken ct)
     {
-        await handler.Handle(
-            new PlanManualConfirmationCommand(context.Message.ReceivedEmailId),
-            context.CancellationToken
-        );
+        await handler.Handle(new PlanManualConfirmationCommand(@event.ReceivedEmailId), ct);
     }
 }
