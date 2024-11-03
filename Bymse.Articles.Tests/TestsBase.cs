@@ -1,5 +1,6 @@
 ﻿using Bymse.Articles.AppHost;
 using Bymse.Articles.PublicApi.Client;
+using Bymse.Articles.Tests.Actions;
 
 namespace Bymse.Articles.Tests;
 
@@ -13,15 +14,18 @@ public abstract class TestsBase
         return new PublicApiClient(httpClient);
     }
 
+    protected IArticlesActions Actions => app.Services.GetRequiredService<IArticlesActions>();
+
     [SetUp]
     public async Task SetUp()
     {
-        var appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.Bymse_Articles_AppHost>(["--no-volumes"]);
+        var appHost = await DistributedApplicationTestingBuilder
+            .CreateAsync<Projects.Bymse_Articles_AppHost>(["--no-volumes"]);
 
-        appHost.Services.ConfigureHttpClientDefaults(clientBuilder =>
-        {
-            clientBuilder.AddStandardResilienceHandler();
-        });
+        appHost.Services
+            .AddSingleton<IArticlesActions, ArticlesActions>()
+            .AddSingleton<ICollectorActions, CollectorActions>()
+            .AddSingleton(_ => GetPublicApiClient());
 
         app = await appHost.BuildAsync();
         var resourceNotificationService = app.Services.GetRequiredService<ResourceNotificationService>();
