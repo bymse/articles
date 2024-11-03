@@ -12,6 +12,12 @@ public class ConfirmSourceHandler(DbContext context, ConfirmSourceValidator vali
     public async Task Handle(ConfirmSourceCommand command, CancellationToken ct)
     {
         await validator.ValidateAndThrowAsync(command, ct);
+        
+        var manualProcessingEmail = await context
+            .Set<ManualProcessingEmail>()
+            .SingleOrDefaultAsync(e => e.ReceivedEmailId == command.ReceivedEmailId, ct);
+
+        manualProcessingEmail?.Process();
 
         var email = await context.GetEntity<ReceivedEmail>(command.ReceivedEmailId, ct);
 

@@ -9,6 +9,13 @@ public class ManualProcessingEmail
     public string? Description { get; init; }
 
     public ManualProcessingEmailType Type { get; init; }
+    
+    public bool IsProcessed { get; private set; }
+    
+    public void Process()
+    {
+        IsProcessed = true;
+    }
 
     public static ManualProcessingEmail UnknownEmail(ReceivedEmail email)
     {
