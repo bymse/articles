@@ -23,7 +23,7 @@ public class CreateSourceHandler(
         var source = new UnconfirmedSource(
             command.Title,
             command.WebPage,
-            settings.Value.Domain,
+            settings.Value.RootReceiver,
             command.Tenant
         );
         dbContext.Add(source);

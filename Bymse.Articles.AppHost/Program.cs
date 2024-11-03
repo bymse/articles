@@ -1,5 +1,6 @@
 using Application.Extensions;
 using Bymse.Articles.AppHost;
+using Collector.Application.Settings;
 using Collector.Infrastructure.Imap;
 
 var noVolumes = args.Contains("--no-volumes");
@@ -12,6 +13,9 @@ var builder = DistributedApplication.CreateBuilder(args);
 //Bymse.Articles\Bymse.Articles.AppHost: dotnet user-secrets set Parameters:collector-imap-username <value>
 var collectorImapPassword = builder.AddParameter("collector-imap-password", secret: true);
 var collectorImapUsername = builder.AddParameter("collector-imap-username", secret: true);
+
+//Bymse.Articles\Bymse.Articles.AppHost: dotnet user-secrets set Parameters:collector-root-receiver <value>
+var collectorRootReceiver = builder.AddParameter("collector-root-receiver");
 
 //Bymse.Articles\Bymse.Articles.AppHost: dotnet user-secrets set Parameters:articles-postgres-password <value>
 var postgresPassword = builder.AddParameter("articles-postgres-password", secret: true);
@@ -31,7 +35,11 @@ builder
     .AddProject<Projects.Bymse_Articles_Apis>(ArticlesResources.Apis)
     .WithExternalHttpEndpoints()
     .WithReference(articlesSql)
-    .WithReference(rabbitMq);
+    .WithReference(rabbitMq)
+    .WithEnvironment(
+        $"{CollectorApplicationSettings.Path}:{nameof(CollectorApplicationSettings.RootReceiver)}",
+        collectorRootReceiver
+    );
 
 builder
     .AddProject<Projects.Bymse_Articles_DbMigrator>(ArticlesResources.DbMigrator)

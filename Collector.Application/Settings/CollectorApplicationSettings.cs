@@ -4,5 +4,5 @@ public class CollectorApplicationSettings
 {
     public const string Path = $"{CollectorConstants.Key}:application";
     
-    public string Domain { get; init; } = null!;
+    public string RootReceiver { get; init; } = null!;
 }
