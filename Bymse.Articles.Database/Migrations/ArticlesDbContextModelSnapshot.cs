@@ -90,6 +90,11 @@ namespace Bymse.Articles.Database.Migrations
                         .HasColumnType("text")
                         .HasColumnName("from_name");
 
+                    b.Property<string>("Headers")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("headers");
+
                     b.Property<string>("HtmlBody")
                         .HasColumnType("text")
                         .HasColumnName("html_body");
@@ -516,25 +521,6 @@ namespace Bymse.Articles.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_received_email_mailbox_mailbox_id");
-
-                    b.OwnsOne("System.Collections.Specialized.NameValueCollection", "Headers", b1 =>
-                        {
-                            b1.Property<string>("ReceivedEmailId")
-                                .HasColumnType("character varying(26)");
-
-                            b1.HasKey("ReceivedEmailId");
-
-                            b1.ToTable("received_email");
-
-                            b1.ToJson("headers");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ReceivedEmailId")
-                                .HasConstraintName("fk_received_email_received_email_id");
-                        });
-
-                    b.Navigation("Headers")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Collector.Application.Entities.Source", b =>

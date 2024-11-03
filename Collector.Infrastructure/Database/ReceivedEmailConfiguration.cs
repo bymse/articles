@@ -1,4 +1,6 @@
-﻿using Collector.Application.Entities;
+﻿using System.Collections.Specialized;
+using System.Text.Json;
+using Collector.Application.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,6 +16,13 @@ public class ReceivedEmailConfiguration : IEntityTypeConfiguration<ReceivedEmail
             .HasForeignKey(e => e.MailboxId);
 
 
-        builder.OwnsOne(e => e.Headers, e => e.ToJson());
+        builder
+            .Property(e => e.Headers)
+            .HasColumnType("jsonb")
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, JsonSerializerOptions.Default),
+                v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, JsonSerializerOptions.Default) ??
+                     new Dictionary<string, string>()
+            );
     }
 }

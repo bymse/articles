@@ -4,6 +4,8 @@ namespace Collector.Application.Entities;
 
 public class ReceivedEmail
 {
+    private readonly Dictionary<string, string> headers = new();
+    
     public Ulid Id { get; private init; } = Ulid.NewUlid();
     public EmailType Type { get; init; }
     
@@ -18,7 +20,7 @@ public class ReceivedEmail
     public string? Subject { get; init; }
     public string? HtmlBody { get; init; }
     public string? TextBody { get; init; }
-    public NameValueCollection Headers { get; private init; } = new();
+    public IReadOnlyDictionary<string, string> Headers => headers;
 
     public DateTimeOffset ReceivedAt { get; init; }
 
@@ -26,7 +28,7 @@ public class ReceivedEmail
     {
         foreach (var (key, value) in headers)
         {
-            Headers[key] = value;
+            this.headers[key] = value;
         }
     }
 }

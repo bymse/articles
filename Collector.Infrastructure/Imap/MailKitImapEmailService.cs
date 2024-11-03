@@ -10,7 +10,7 @@ using MimeKit;
 namespace Collector.Infrastructure.Imap;
 
 [AutoRegistration]
-public class MimeKitImapEmailService(IOptions<ImapEmailServiceSettings> settings) : IImapEmailService
+public class MailKitImapEmailService(IOptions<ImapEmailServiceSettings> settings) : IImapEmailService
 {
     private readonly ImapEmailServiceSettings settings = settings.Value;
 
@@ -20,7 +20,7 @@ public class MimeKitImapEmailService(IOptions<ImapEmailServiceSettings> settings
     {
         using var client = new ImapClient();
 
-        await client.ConnectAsync(settings.Hostname, settings.Port, useSsl: true, ct);
+        await client.ConnectAsync(settings.Hostname, settings.Port, useSsl: false, ct);
         await client.AuthenticateAsync(settings.Username, settings.Password, ct);
 
         var inbox = client.Inbox;
@@ -63,7 +63,7 @@ public class MimeKitImapEmailService(IOptions<ImapEmailServiceSettings> settings
                 lastUid = uid.Id;
             }
 
-            await Task.Delay(TimeSpan.FromMinutes(1), ct);
+            await Task.Delay(TimeSpan.FromSeconds(10), ct);
         }
 
         await client.DisconnectAsync(true, ct);
