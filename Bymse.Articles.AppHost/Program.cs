@@ -33,18 +33,28 @@ var rabbitMq = builder
 
 var needGreenmail = args.Contains("--run-green-mail");
 
-int? imapPort = null;
+int imapPort;
+string imapHost;
+bool useSsl;
 if (needGreenmail)
 {
     imapPort = 3143;
+    imapHost = "localhost";
+    useSsl = false;
     builder
         .AddResource(new ContainerResource(ArticlesResources.GreenMail))
         .WithImage("greenmail/standalone", "2.1.0")
         .WithEndpoint(13025, 3025, name: "smtp", scheme: "tcp", isProxied: false)
-        .WithEndpoint(imapPort.Value, imapPort.Value, name: "imap", scheme: "tcp", isProxied: false)
+        .WithEndpoint(imapPort, imapPort, name: "imap", scheme: "tcp", isProxied: false)
         .WithEnvironment("GREENMAIL_OPTS",
-            "-Dgreenmail.setup.test.all -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.auth.disabled -Dgreenmail.verbose")
+            "-Dgreenmail.setup.test.all -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.auth.disabled -Dgreenmail.verbose -Dgreenmail.users=collector1:collector1")
         ;
+}
+else
+{
+    imapPort = 993;
+    imapHost = "imap.mail.ru";
+    useSsl = true;
 }
 
 builder
@@ -73,9 +83,17 @@ builder
         $"{ImapEmailServiceSettings.Path}:{nameof(ImapEmailServiceSettings.Password)}",
         collectorImapPassword
     )
-    .If(imapPort.HasValue, e => e.WithEnvironment(
+    .WithEnvironment(
         $"{ImapEmailServiceSettings.Path}:{nameof(ImapEmailServiceSettings.Port)}",
-        imapPort!.Value.ToString()
-    ));
+        imapPort.ToString()
+    )
+    .WithEnvironment(
+        $"{ImapEmailServiceSettings.Path}:{nameof(ImapEmailServiceSettings.Hostname)}",
+        imapHost
+    )
+    .WithEnvironment(
+        $"{ImapEmailServiceSettings.Path}:{nameof(ImapEmailServiceSettings.UseSsl)}",
+        useSsl.ToString()
+    );
 
 builder.Build().Run();

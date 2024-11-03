@@ -20,7 +20,7 @@ public class MailKitImapEmailService(IOptions<ImapEmailServiceSettings> settings
     {
         using var client = new ImapClient();
 
-        await client.ConnectAsync(settings.Hostname, settings.Port, useSsl: false, ct);
+        await client.ConnectAsync(settings.Hostname, settings.Port, useSsl: settings.UseSsl, ct);
         await client.AuthenticateAsync(settings.Username, settings.Password, ct);
 
         var inbox = client.Inbox;

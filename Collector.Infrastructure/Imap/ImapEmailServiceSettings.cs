@@ -10,4 +10,5 @@ public class ImapEmailServiceSettings
     public string Hostname { get; init; } = null!;
     public string Username { get; init; } = null!;
     public string Password { get; init; } = null!;
+    public bool UseSsl { get; init; }
 }
