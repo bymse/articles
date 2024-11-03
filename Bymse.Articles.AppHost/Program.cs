@@ -31,6 +31,20 @@ var rabbitMq = builder
     .WithManagementPlugin(port: 15673)
     .If(!noVolumes, e => e.WithDataVolume());
 
+var needGreenmail = args.Contains("--run-green-mail");
+
+int? imapPort = null;
+if (needGreenmail)
+{
+    imapPort = 3143;
+    builder
+        .AddResource(new ContainerResource(ArticlesResources.GreenMail))
+        .WithImage("greenmail/standalone", "2.1.0")
+        .WithEndpoint(3025, 3025)
+        .WithEndpoint(imapPort.Value, imapPort.Value)
+        ;
+}
+
 builder
     .AddProject<Projects.Bymse_Articles_Apis>(ArticlesResources.Apis)
     .WithExternalHttpEndpoints()
@@ -57,6 +71,9 @@ builder
         $"{ImapEmailServiceSettings.Path}:{nameof(ImapEmailServiceSettings.Password)}",
         collectorImapPassword
     )
-    ;
+    .If(imapPort.HasValue, e => e.WithEnvironment(
+        $"{ImapEmailServiceSettings.Path}:{nameof(ImapEmailServiceSettings.Port)}",
+        imapPort!.Value.ToString()
+    ));
 
 builder.Build().Run();
