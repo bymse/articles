@@ -9,7 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Collector.Infrastructure\Collector.Infrastructure.csproj" />
     <ProjectReference Include="..\Tests\Tests.csproj" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
   </ItemGroup>
 
   <ItemGroup>

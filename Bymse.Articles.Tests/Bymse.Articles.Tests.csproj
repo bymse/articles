@@ -9,7 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Aspire.Hosting.Testing" Version="8.2.1" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
         <PackageReference Include="NUnit" Version="4.1.0"/>
         <PackageReference Include="NUnit.Analyzers" Version="4.2.0"/>
         <PackageReference Include="NUnit3TestAdapter" Version="4.5.0"/>
@@ -17,6 +17,8 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Bymse.Articles.AppHost\Bymse.Articles.AppHost.csproj"/>
+        <ProjectReference Include="..\Bymse.Articles.PublicApi.Client\Bymse.Articles.PublicApi.Client.csproj" />
+        <ProjectReference Include="..\Tests\Tests.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,4 +1,8 @@
+using Application.Extensions;
+using Bymse.Articles.AppHost;
 using Collector.Infrastructure.Imap;
+
+var noVolumes = args.Contains("--no-volumes");
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -13,28 +17,28 @@ var collectorImapUsername = builder.AddParameter("collector-imap-username", secr
 var postgresPassword = builder.AddParameter("articles-postgres-password", secret: true);
 
 var articlesSql = builder
-    .AddPostgres("articles-postgres", password: postgresPassword, port: 15432)
-    .WithDataVolume()
+    .AddPostgres(ArticlesResources.Postgres, password: postgresPassword, port: 15432)
+    //.If(!noVolumes, e => e.WithDataVolume())
     .AddDatabase("pg-articles", "articles");
 
 var rabbitMqPassword = builder.AddParameter("articles-rabbitmq-password", secret: true);
 var rabbitMq = builder
-    .AddRabbitMQ("articles-rabbitmq", password: rabbitMqPassword, port: 15672)
+    .AddRabbitMQ(ArticlesResources.RabbitMq, password: rabbitMqPassword, port: 15672)
     .WithManagementPlugin(port: 15673)
-    .WithDataVolume();
+    .If(!noVolumes, e => e.WithDataVolume());
 
 builder
-    .AddProject<Projects.Bymse_Articles_Apis>("Apis")
+    .AddProject<Projects.Bymse_Articles_Apis>(ArticlesResources.Apis)
     .WithExternalHttpEndpoints()
     .WithReference(articlesSql)
     .WithReference(rabbitMq);
 
 builder
-    .AddProject<Projects.Bymse_Articles_DbMigrator>("DbMigrator")
+    .AddProject<Projects.Bymse_Articles_DbMigrator>(ArticlesResources.DbMigrator)
     .WithReference(articlesSql);
 
 builder
-    .AddProject<Projects.Bymse_Articles_Workers>("Workers")
+    .AddProject<Projects.Bymse_Articles_Workers>(ArticlesResources.Workers)
     .WithReference(articlesSql)
     .WithReference(rabbitMq)
     .WithEnvironment(

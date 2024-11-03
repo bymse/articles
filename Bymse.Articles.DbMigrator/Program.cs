@@ -13,4 +13,5 @@ builder.EnrichNpgsqlDbContext<ArticlesDbContext>();
 
 var host = builder.Build();
 
+Thread.Sleep(TimeSpan.FromSeconds(10));
 host.Run();

@@ -20,5 +20,6 @@ builder
 builder
     .AddMassTransitInfrastructure<ArticlesDbContext>(addConsumers: true, enableOutboxServices: true);
 
+Thread.Sleep(TimeSpan.FromSeconds(20));
 var host = builder.Build();
 host.Run();
