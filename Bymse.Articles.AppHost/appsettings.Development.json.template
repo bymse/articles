@@ -1,0 +1,23 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "identity": {
+    "StubUserId": "01J6QKR2PAVK15Y8YAQ73MG1G0"
+  },
+  "collector": {
+    "imap": {
+      "Hostname": "",
+      "Port": 1,
+      "Username" : "",
+      "Password" : "",
+      "UseSsl": true
+    },
+    "application": {
+      "RootReceiver": ""
+    }
+  }
+}
