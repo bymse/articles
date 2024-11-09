@@ -13,40 +13,43 @@ public class AngleSharpEmailContentListsExtractor : IEmailContentListsExtractor
 {
     public async Task<EmailContentList> ExtractFromHtml(string html, SourceType type, CancellationToken ct)
     {
+        if (type != SourceType.BonoboEmailDigest)
+        {
+            throw new NotSupportedException($"Source type {type} is not supported.");
+        }
+        
         var htmlParser = new HtmlParser();
         var doc = await htmlParser.ParseDocumentAsync(html);
-        var settings = ExtractorSettingsProvider.GetSettings(type);
 
         return new EmailContentList
         {
-            Elements = GetElements(doc, settings).ToArray()
+            Elements = GetElements(doc).ToArray()
         };
     }
 
-    private static IEnumerable<EmailContentListElement> GetElements(IHtmlDocument doc, ExtractorSettings settings)
+    private static IEnumerable<EmailContentListElement> GetElements(IHtmlDocument doc)
     {
-        var items = doc.QuerySelectorAll(settings.BlockQuery);
+        var items = doc.QuerySelectorAll("#content-blocks td.dd");
 
-        foreach (var element in items)
+        for (var i = 0; i < items.Length; i+=2)
         {
-            var title = element.QuerySelector(settings.TitleQuery);
-            var url = element.QuerySelector(settings.UrlQuery);
-            var description = element.QuerySelector(settings.DescriptionQuery);
-
-            if (title?.TextContent == null || url == null)
+            var link = items[i].QuerySelector("a");
+            var description = items[i + 1].QuerySelector("p");
+            
+            if (link == null)
             {
                 continue;
             }
-
-            var href = url.GetAttribute("href");
+            
+            var href = link.GetAttribute("href");
             if (string.IsNullOrWhiteSpace(href))
             {
                 continue;
             }
-
+            
             yield return new EmailContentListElement
             {
-                Title = CleanText(title.TextContent)!,
+                Title = CleanText(link.TextContent)!,
                 Url = new Uri(href),
                 Description = description?.TextContent
             };
