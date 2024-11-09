@@ -13,11 +13,13 @@ public interface ICollectorActions
 {
     Task<UnconfirmedSourceInfo> CreateSource();
     Task<ManualProcessingEmailInfoCollection> GetManualProcessingEmails();
+    Task<SourceInfo> CreateConfirmedSource();
 }
 
 public interface IExternalSystemActions
 {
     Task<EmailMessage> SendConfirmationEmail(UnconfirmedSourceInfo source);
+    Task<EmailMessage> SendArticlesEmail(SourceInfo source, string fileName);
 }
 
 public class ArticlesActions(ICollectorActions collectorActions, IExternalSystemActions externalSystemActions) : IArticlesActions

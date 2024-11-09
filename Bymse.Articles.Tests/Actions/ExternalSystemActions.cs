@@ -19,4 +19,20 @@ public class ExternalSystemActions(IEmailSender emailSender) : IExternalSystemAc
 
         return message;
     }
+
+    public async Task<EmailMessage> SendArticlesEmail(SourceInfo source, string fileName)
+    {
+        var message = new EmailMessage(
+            source.ReceiverEmail,
+            "Articles subject",
+            await File.ReadAllTextAsync($"TestData/{fileName}"),
+            BodyType.Html,
+            "articles@localhost"
+        );
+        
+        await emailSender.SendEmail(message);
+        await Task.Delay(TimeSpan.FromSeconds(15));
+        
+        return message;
+    }
 }

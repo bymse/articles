@@ -2,7 +2,7 @@
 
 namespace Bymse.Articles.Tests.Actions;
 
-public class CollectorActions(PublicApiClient client) : ICollectorActions
+public class CollectorActions(PublicApiClient client, IExternalSystemActions externalSystem) : ICollectorActions
 {
     public Task<UnconfirmedSourceInfo> CreateSource()
     {
@@ -18,5 +18,19 @@ public class CollectorActions(PublicApiClient client) : ICollectorActions
     public Task<ManualProcessingEmailInfoCollection> GetManualProcessingEmails()
     {
         return client.GetManualProcessingEmailsAsync();
+    }
+
+    public async Task<SourceInfo> CreateConfirmedSource()
+    {
+        var source = await CreateSource();
+        await externalSystem.SendConfirmationEmail(source);
+        var manualProcessingEmails = await GetManualProcessingEmails();
+        
+        await client.ConfirmSourceAsync(new ConfirmSourceRequest
+        {
+            ReceivedEmailId = manualProcessingEmails.Items.Single().ReceivedEmailId
+        });
+        
+        return (await client.GetSourcesAsync()).Items.Single();
     }
 }

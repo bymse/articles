@@ -88,4 +88,11 @@ public class SourceTests : TestsBase
                 ReceiverEmail = source.Email
             });
     }
+
+    [Test]
+    public async Task Should_PublishSaveArticlesTask_OnArticleEmailReceived()
+    {
+        var confirmedSource = await Actions.Collector.CreateConfirmedSource();
+        await Actions.ExternalSystem.SendArticlesEmail(confirmedSource, "test-email.html");
+    }
 }
