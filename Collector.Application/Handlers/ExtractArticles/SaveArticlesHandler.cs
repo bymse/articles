@@ -42,6 +42,7 @@ public class SaveArticlesHandler(
             };
 
             await publisher.PublishTask(task, ct);
+            await context.SaveChangesAsync(ct);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Bymse.Articles.PublicApi.Client;
 using Bymse.Articles.Tests.Emails;
 using FluentAssertions;
+using Registry.Integration;
 
 namespace Bymse.Articles.Tests.Collector;
 
@@ -14,7 +15,8 @@ public class SourceTests : TestsBase
         var request = new CreateSourceRequest
         {
             Title = "First source",
-            WebPage = new("https://example.com")
+            WebPage = new("https://example.com"),
+            Type = SourceType.BonoboEmailDigest
         };
         var unconfirmedSource = await client.CreateSourceAsync(request);
 
@@ -90,9 +92,21 @@ public class SourceTests : TestsBase
     }
 
     [Test]
-    public async Task Should_PublishSaveArticlesTask_OnArticleEmailReceived()
+    public async Task Should_PublishSaveArticleTask_OnArticleEmailReceived()
     {
         var confirmedSource = await Actions.Collector.CreateConfirmedSource();
-        await Actions.ExternalSystem.SendArticlesEmail(confirmedSource, "test-email.html");
+        await Actions.ExternalSystem.SendArticlesEmail(confirmedSource, "digest-email.html");
+
+        var savedArticles = MessagesReceiver
+            .GetReceivedMessages<SaveArticleTask>()
+            .ToArray();
+
+        savedArticles.Should().BeEquivalentTo([
+            new { Url = new Uri("https://exmaple.com/3"), },
+            new { Url = new Uri("https://exmaple.com/5"), },
+            new { Url = new Uri("https://exmaple.com/6"), },
+            new { Url = new Uri("https://exmaple.com/7"), },
+            new { Url = new Uri("https://exmaple.com/8"), }
+        ]);
     }
 }
