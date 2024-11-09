@@ -38,7 +38,8 @@ public class SaveArticlesHandler(
                     new ArticleTag(CollectorWellKnownTags.SourceIds, source.Id.ToString()),
                     new ArticleTag(CollectorWellKnownTags.From, email.FromName ?? email.FromEmail),
                     new ArticleTag(CollectorWellKnownTags.EmailIds, email.Id.ToString())
-                ]
+                ],
+                Desription = emailArticleInfo.Description?[..300]
             };
 
             await publisher.PublishTask(task, ct);
