@@ -16,5 +16,5 @@ public class EmailContentListElement
 
 public interface IEmailContentListsExtractor
 {
-    IAsyncEnumerable<EmailContentList> ExtractFromHtml(string html, SourceType type);
+    Task<EmailContentList> ExtractFromHtml(string html, SourceType type, CancellationToken ct);
 }

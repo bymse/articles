@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
 using Application.Di;
 using Collector.Application.Entities;
@@ -10,11 +11,20 @@ namespace Collector.Infrastructure.Html;
 [AutoRegistration]
 public class AngleSharpEmailContentListsExtractor : IEmailContentListsExtractor
 {
-    public async IAsyncEnumerable<EmailContentList> ExtractFromHtml(string html, SourceType type)
+    public async Task<EmailContentList> ExtractFromHtml(string html, SourceType type, CancellationToken ct)
     {
         var htmlParser = new HtmlParser();
         var doc = await htmlParser.ParseDocumentAsync(html);
         var settings = ExtractorSettingsProvider.GetSettings(type);
+
+        return new EmailContentList
+        {
+            Elements = GetElements(doc, settings).ToArray()
+        };
+    }
+
+    private static IEnumerable<EmailContentListElement> GetElements(IHtmlDocument doc, ExtractorSettings settings)
+    {
         var items = doc.QuerySelectorAll(settings.BlockQuery);
 
         foreach (var element in items)
@@ -34,17 +44,11 @@ public class AngleSharpEmailContentListsExtractor : IEmailContentListsExtractor
                 continue;
             }
 
-            yield return new EmailContentList
+            yield return new EmailContentListElement
             {
-                Elements = new List<EmailContentListElement>
-                {
-                    new()
-                    {
-                        Title = CleanText(title.TextContent)!,
-                        Url = new Uri(href),
-                        Description = description?.TextContent
-                    }
-                }
+                Title = CleanText(title.TextContent)!,
+                Url = new Uri(href),
+                Description = description?.TextContent
             };
         }
     }
