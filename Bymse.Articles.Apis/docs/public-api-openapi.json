@@ -176,6 +176,9 @@
             "type": "string",
             "format": "uri",
             "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/SourceType"
           }
         },
         "additionalProperties": false
@@ -294,6 +297,12 @@
         "enum": [
           "Unconfirmed",
           "Confirmed"
+        ],
+        "type": "string"
+      },
+      "SourceType": {
+        "enum": [
+          "BonoboEmailDigest"
         ],
         "type": "string"
       },

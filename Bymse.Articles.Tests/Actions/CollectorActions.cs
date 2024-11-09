@@ -10,7 +10,8 @@ public class CollectorActions(PublicApiClient client, IExternalSystemActions ext
         var request = new CreateSourceRequest
         {
             Title = random,
-            WebPage = new($"https://example.com/{random}")
+            WebPage = new($"https://example.com/{random}"),
+            Type = SourceType.BonoboEmailDigest
         };
         return client.CreateSourceAsync(request);
     }

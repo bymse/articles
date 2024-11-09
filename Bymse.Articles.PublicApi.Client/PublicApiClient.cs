@@ -521,6 +521,10 @@ namespace Bymse.Articles.PublicApi.Client
         [Newtonsoft.Json.JsonProperty("webPage", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Uri WebPage { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public SourceType Type { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -614,6 +618,15 @@ namespace Bymse.Articles.PublicApi.Client
 
         [System.Runtime.Serialization.EnumMember(Value = @"Confirmed")]
         Confirmed = 1,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum SourceType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"BonoboEmailDigest")]
+        BonoboEmailDigest = 0,
 
     }
 
