@@ -17,7 +17,7 @@ public class AngleSharpEmailContentListsExtractor : IEmailContentListsExtractor
         {
             throw new NotSupportedException($"Source type {type} is not supported.");
         }
-        
+
         var htmlParser = new HtmlParser();
         var doc = await htmlParser.ParseDocumentAsync(html);
 
@@ -31,27 +31,33 @@ public class AngleSharpEmailContentListsExtractor : IEmailContentListsExtractor
     {
         var items = doc.QuerySelectorAll("#content-blocks td.dd");
 
-        for (var i = 0; i < items.Length; i+=2)
+        for (var i = 0; i < items.Length; i += 2)
         {
-            var link = items[i].QuerySelector("a");
-            var description = items[i + 1].QuerySelector("p");
-            
-            if (link == null)
+            if (items[i].Id == "newsletters")
+            {
+                break;
+            }
+
+            var note = items[i].QuerySelector("i");
+            var noteText = CleanText(note?.TextContent);
+            if (noteText?.Contains("sponsored by", StringComparison.OrdinalIgnoreCase) ?? false)
             {
                 continue;
             }
-            
-            var href = link.GetAttribute("href");
+
+            var link = items[i].QuerySelector("a");
+            var href = link?.GetAttribute("href");
             if (string.IsNullOrWhiteSpace(href))
             {
                 continue;
             }
-            
+
+            var description = items[i + 1].QuerySelector("p");
             yield return new EmailContentListElement
             {
-                Title = CleanText(link.TextContent)!,
+                Title = CleanText(link!.TextContent)!,
                 Url = new Uri(href),
-                Description = description?.TextContent
+                Description = CleanText(description?.TextContent)
             };
         }
     }
