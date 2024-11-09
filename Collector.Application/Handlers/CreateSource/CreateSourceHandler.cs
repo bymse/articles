@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace Collector.Application.Handlers.CreateSource;
 
-public record CreateSourceCommand(string Title, Uri WebPage, Tenant Tenant);
+public record CreateSourceCommand(string Title, Uri WebPage, Tenant Tenant, SourceType SourceType);
 
 public record UnconfirmedSourceInfo(CollectorSourceId Id, string Email);
 
@@ -24,7 +24,8 @@ public class CreateSourceHandler(
             command.Title,
             command.WebPage,
             settings.Value.RootReceiver,
-            command.Tenant
+            command.Tenant,
+            command.SourceType
         );
         dbContext.Add(source);
         await dbContext.SaveChangesAsync(ct);

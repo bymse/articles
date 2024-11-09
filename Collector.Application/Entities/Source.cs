@@ -4,7 +4,7 @@ namespace Collector.Application.Entities;
 
 public record Receiver(string Email);
 
-public abstract class Source(SourceState state)
+public abstract class Source(SourceState state, SourceType? type)
 {
     public const int MAX_TITLE_LENGTH = 100;
     
@@ -21,10 +21,17 @@ public abstract class Source(SourceState state)
     public Uri WebPage { get; protected set; } = null!;
 
     public Tenant Tenant { get; protected init; } = null!;
+    
+    public SourceType? Type { get; protected init; } = type;
 }
 
 public enum SourceState
 {
     Unconfirmed = 0,
     Confirmed = 1,
+}
+
+public enum SourceType
+{
+    BonoboEmailDigest,
 }

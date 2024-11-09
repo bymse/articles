@@ -16,7 +16,7 @@ public class SourcesController : PublicApiController
         CancellationToken ct)
     {
         var sourceInfo = await handler.Handle(
-            new CreateSourceCommand(request.Title, request.WebPage, Tenant.User(UserId.Value)), ct
+            new CreateSourceCommand(request.Title, request.WebPage, Tenant.User(UserId.Value), request.Type), ct
         );
 
         return sourceInfo;
