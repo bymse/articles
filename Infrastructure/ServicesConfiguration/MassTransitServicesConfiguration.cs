@@ -34,46 +34,53 @@ public static class MassTransitServicesConfiguration
             .AddScoped<IPublisher, Publisher>();
 
         return builder.Services
-                .AddMassTransit(x =>
+            .AddMassTransit(x =>
+            {
+                if (addConsumers)
                 {
-                    if (addConsumers)
+                    x.AddConsumers(
+                        e => e.BaseType?.IsGenericType == true
+                             && e.BaseType?.GetGenericTypeDefinition() == typeof(EventConsumer<>),
+                        ConsumerAssemblies.ToArray()
+                    );
+                }
+
+                x.UsingArticlesRabbitMq();
+
+                x.AddEntityFrameworkOutbox<TDbContext>(e =>
+                {
+                    e.UsePostgres();
+                    if (!enableOutboxServices)
                     {
-                        x.AddConsumers(
-                            e => e.BaseType?.IsGenericType == true
-                                 && e.BaseType?.GetGenericTypeDefinition() == typeof(EventConsumer<>),
-                            ConsumerAssemblies.ToArray()
-                        );
+                        e.DisableInboxCleanupService();
                     }
 
-                    x.UsingRabbitMq((context, cfg) =>
+                    e.UseBusOutbox(r =>
                     {
-                        var configuration = context.GetRequiredService<IConfiguration>();
-                        var connectionStringRaw = configuration.GetConnectionString("articles-rabbitmq") ??
-                                                  throw new Exception("Connection string not found for RabbitMQ");
-                        var csUri = new Uri(connectionStringRaw);
-                        cfg.Host(csUri);
-
-                        cfg.ConfigureEndpoints(context);
-                        cfg.UseConsumeFilter(typeof(MassTransitConsumeContextFilter<>), context);
-                    });
-
-                    x.AddEntityFrameworkOutbox<TDbContext>(e =>
-                    {
-                        e.UsePostgres();
                         if (!enableOutboxServices)
                         {
-                            e.DisableInboxCleanupService();
+                            r.DisableDeliveryService();
                         }
-
-                        e.UseBusOutbox(r =>
-                        {
-                            if (!enableOutboxServices)
-                            {
-                                r.DisableDeliveryService();
-                            }
-                        });
                     });
-                })
-            ;
+                });
+            });
+    }
+
+    public static void UsingArticlesRabbitMq(this IBusRegistrationConfigurator configurator,
+        Func<string?>? connectionStringFactory = null)
+    {
+        configurator.UsingRabbitMq((context, cfg) =>
+        {
+            var configuration = context.GetRequiredService<IConfiguration>();
+            var connectionStringRaw = connectionStringFactory?.Invoke() ??
+                                      configuration.GetConnectionString("articles-rabbitmq") ??
+                                      throw new Exception("Connection string not found for RabbitMQ");
+            var csUri = new Uri(connectionStringRaw);
+            cfg.Host(csUri);
+        
+            cfg.ConfigureEndpoints(context);
+        
+            cfg.UseConsumeFilter(typeof(MassTransitConsumeContextFilter<>), context);
+        });
     }
 }
