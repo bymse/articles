@@ -19,10 +19,11 @@ public class EmailArticlesExtractor(IEmailContentListsExtractor emailContentList
         "React Digest",
         "\ud83d\udc4e Bad",
         "\ud83d\udc4c Amazing",
-        "\ud83d\ude42 Good"
+        "\ud83d\ude42 Good",
+        "Read Online"
     };
 
-    public async IAsyncEnumerable<EmailArticleInfo> Extract(ReceivedEmail email,
+    public async IAsyncEnumerable<EmailArticleInfo> Extract(ReceivedEmail email, ConfirmedSource source,
         [EnumeratorCancellation] CancellationToken ct)
     {
         if (string.IsNullOrWhiteSpace(email.HtmlBody))
@@ -30,7 +31,9 @@ public class EmailArticlesExtractor(IEmailContentListsExtractor emailContentList
             yield break;
         }
 
-        await foreach (var list in emailContentListsExtractor.ExtractFromHtml(email.HtmlBody).WithCancellation(ct))
+        await foreach (var list in emailContentListsExtractor
+                           .ExtractFromHtml(email.HtmlBody, source.Type)
+                           .WithCancellation(ct))
         {
             foreach (var element in list.Elements)
             {

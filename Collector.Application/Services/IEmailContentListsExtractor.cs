@@ -1,4 +1,6 @@
-﻿namespace Collector.Application.Services;
+﻿using Collector.Application.Entities;
+
+namespace Collector.Application.Services;
 
 public class EmailContentList
 {
@@ -9,10 +11,10 @@ public class EmailContentListElement
 {
     public required Uri Url { get; init; }
     public required string Title { get; init; }
-    public string? Description { get; init; } //todo add description
+    public string? Description { get; init; }
 }
 
 public interface IEmailContentListsExtractor
 {
-    IAsyncEnumerable<EmailContentList> ExtractFromHtml(string html);
+    IAsyncEnumerable<EmailContentList> ExtractFromHtml(string html, SourceType type);
 }

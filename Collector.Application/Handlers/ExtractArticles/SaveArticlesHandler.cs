@@ -27,7 +27,7 @@ public class SaveArticlesHandler(
             .Local
             .Single(e => e.Receiver.Email == email.ToEmail);
 
-        await foreach (var emailArticleInfo in extractor.Extract(email, ct))
+        await foreach (var emailArticleInfo in extractor.Extract(email, source, ct))
         {
             var task = new SaveArticleTask
             {

@@ -2,6 +2,7 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
 using Application.Di;
+using Collector.Application.Entities;
 using Collector.Application.Services;
 
 namespace Collector.Infrastructure.Html;
@@ -9,78 +10,43 @@ namespace Collector.Infrastructure.Html;
 [AutoRegistration]
 public class AngleSharpEmailContentListsExtractor : IEmailContentListsExtractor
 {
-    public async IAsyncEnumerable<EmailContentList> ExtractFromHtml(string html)
+    public async IAsyncEnumerable<EmailContentList> ExtractFromHtml(string html, SourceType type)
     {
         var htmlParser = new HtmlParser();
         var doc = await htmlParser.ParseDocumentAsync(html);
-        var links = doc.QuerySelectorAll("a");
-        var processedLinks = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var settings = ExtractorSettingsProvider.GetSettings(type);
+        var items = doc.QuerySelectorAll(settings.BlockQuery);
 
-        foreach (var link in links)
+        foreach (var element in items)
         {
-            var href = link.GetAttribute("href");
+            var title = element.QuerySelector(settings.TitleQuery);
+            var url = element.QuerySelector(settings.UrlQuery);
+            var description = element.QuerySelector(settings.DescriptionQuery);
+
+            if (title?.TextContent == null || url == null)
+            {
+                continue;
+            }
+
+            var href = url.GetAttribute("href");
             if (string.IsNullOrWhiteSpace(href))
-            {
-                continue;
-            }
-
-            if (processedLinks.Contains(href))
-            {
-                continue;
-            }
-
-            var result = SimilarParentLinksSearcher.Search(link);
-            if (result == SearchResult.Empty)
             {
                 continue;
             }
 
             yield return new EmailContentList
             {
-                Elements = BuildElements(result.Links, processedLinks)
+                Elements = new List<EmailContentListElement>
+                {
+                    new()
+                    {
+                        Title = CleanText(title.TextContent)!,
+                        Url = new Uri(href),
+                        Description = description?.TextContent
+                    }
+                }
             };
         }
-    }
-
-    private static IReadOnlyList<EmailContentListElement> BuildElements(
-        IReadOnlyList<IElement> links,
-        HashSet<string> processedLinks
-    )
-    {
-        var elements = new List<EmailContentListElement>();
-        foreach (var link in links)
-        {
-            var href = link.GetAttribute("href");
-            if (string.IsNullOrWhiteSpace(href))
-            {
-                continue;
-            }
-
-            if (!processedLinks.Add(href))
-            {
-                continue;
-            }
-
-            if (!Uri.TryCreate(href, UriKind.Absolute, out var uri))
-            {
-                continue;
-            }
-
-            if (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps)
-            {
-                continue;
-            }
-
-            var element = new EmailContentListElement
-            {
-                Url = uri,
-                Title = CleanText(link.TextContent) ?? uri.ToString(),
-            };
-
-            elements.Add(element);
-        }
-
-        return elements;
     }
 
     private static readonly Regex WhitespaceRegex = new(@"\s+", RegexOptions.Compiled);
