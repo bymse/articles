@@ -17,8 +17,6 @@ public abstract class TestsBase
 
     protected IArticlesActions Actions => app.Services.GetRequiredService<IArticlesActions>();
     
-    protected IEmailSender EmailSender => app.Services.GetRequiredService<IEmailSender>();
-
     [SetUp]
     public async Task SetUp()
     {
@@ -28,8 +26,9 @@ public abstract class TestsBase
         appHost.Services
             .AddSingleton<IArticlesActions, ArticlesActions>()
             .AddSingleton<ICollectorActions, CollectorActions>()
-            .AddSingleton(_ => GetPublicApiClient())
+            .AddSingleton<IExternalSystemActions, ExternalSystemActions>()
             .AddSingleton<IEmailSender, SmtpEmailSender>()
+            .AddSingleton(_ => GetPublicApiClient())
             ;
 
         app = await appHost.BuildAsync();

@@ -39,11 +39,8 @@ public class SourceTests : TestsBase
     public async Task Should_ReceiveEmailForManualProcessing_OnUnconfirmedSource()
     {
         var source = await Actions.Collector.CreateSource();
-
-        var message = new EmailMessage(source.Email, "Test subject", "Test body", BodyType.PlainText,
-            "me@localhost");
-        await EmailSender.SendEmail(message);
-        await Task.Delay(TimeSpan.FromSeconds(15));
+        
+        var message = await Actions.ExternalSystem.SendConfirmationEmail(source);
 
         var client = GetPublicApiClient();
         var manualProcessingEmails = await client.GetManualProcessingEmailsAsync();
