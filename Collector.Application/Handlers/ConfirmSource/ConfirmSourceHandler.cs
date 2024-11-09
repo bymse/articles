@@ -26,8 +26,8 @@ public class ConfirmSourceHandler(DbContext context, ConfirmSourceValidator vali
             .Local
             .Single(s => s.Receiver.Email == email.ToEmail);
 
-        var entry = context.Attach(source.Confirm());
-        entry.State = EntityState.Modified;
+        context.Remove(source);
+        context.Add(source.Confirm());
         await context.SaveChangesAsync(ct);
     }
 }

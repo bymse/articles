@@ -14,4 +14,9 @@ public class CollectorActions(PublicApiClient client) : ICollectorActions
         };
         return client.CreateSourceAsync(request);
     }
+
+    public Task<ManualProcessingEmailInfoCollection> GetManualProcessingEmails()
+    {
+        return client.GetManualProcessingEmailsAsync();
+    }
 }

@@ -39,7 +39,7 @@ public class SourceTests : TestsBase
     public async Task Should_ReceiveEmailForManualProcessing_OnUnconfirmedSource()
     {
         var source = await Actions.Collector.CreateSource();
-        
+
         var message = await Actions.ExternalSystem.SendConfirmationEmail(source);
 
         var client = GetPublicApiClient();
@@ -61,5 +61,31 @@ public class SourceTests : TestsBase
                     HtmlBody = null
                 }, e => e.Excluding(r => r.ReceivedEmailId)
             );
+    }
+
+    [Test]
+    public async Task Should_ConfirmSourceManually_OnReceivedConfirmationEmail()
+    {
+        var source = await Actions.Collector.CreateSource();
+        await Actions.ExternalSystem.SendConfirmationEmail(source);
+        var manualProcessingEmails = await Actions.Collector.GetManualProcessingEmails();
+
+        var client = GetPublicApiClient();
+        await client.ConfirmSourceAsync(new ConfirmSourceRequest
+        {
+            ReceivedEmailId = manualProcessingEmails.Items.Single().ReceivedEmailId
+        });
+
+        var sources = await client.GetSourcesAsync();
+
+        sources.Items
+            .Should()
+            .ContainSingle()
+            .Which.Should().BeEquivalentTo(new
+            {
+                State = SourceState.Confirmed,
+                Id = source.Id.Value,
+                ReceiverEmail = source.Email
+            });
     }
 }

@@ -12,6 +12,7 @@ public interface IArticlesActions
 public interface ICollectorActions
 {
     Task<UnconfirmedSourceInfo> CreateSource();
+    Task<ManualProcessingEmailInfoCollection> GetManualProcessingEmails();
 }
 
 public interface IExternalSystemActions

@@ -8,9 +8,10 @@ public class ConfirmedSource : Source
     {
         Id = unconfirmed.Id;
         CreatedAt = unconfirmed.CreatedAt;
-        Receiver = unconfirmed.Receiver;
+        Receiver = new Receiver(unconfirmed.Receiver.Email);
         Title = unconfirmed.Title;
         WebPage = unconfirmed.WebPage;
+        Tenant = unconfirmed.Tenant;
         ConfirmedAt = DateTimeOffset.UtcNow;
     }
 
