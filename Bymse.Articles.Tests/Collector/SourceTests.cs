@@ -21,20 +21,16 @@ public class SourceTests : TestsBase
         var unconfirmedSource = await client.CreateSourceAsync(request);
 
         var sources = await client.GetSourcesAsync();
-        sources.Should().BeEquivalentTo(new SourceInfoCollection
-        {
-            Items =
-            [
-                new SourceInfo
-                {
-                    Title = request.Title,
-                    Id = unconfirmedSource.Id.Value,
-                    WebPage = request.WebPage,
-                    State = SourceState.Unconfirmed,
-                    ReceiverEmail = unconfirmedSource.Email
-                }
-            ]
-        });
+        sources.Items
+            .Should()
+            .ContainEquivalentOf(new SourceInfo
+            {
+                Title = request.Title,
+                Id = unconfirmedSource.Id.Value,
+                WebPage = request.WebPage,
+                State = SourceState.Unconfirmed,
+                ReceiverEmail = unconfirmedSource.Email
+            });
     }
 
     [Test]
@@ -49,20 +45,17 @@ public class SourceTests : TestsBase
 
         manualProcessingEmails.Items
             .Should()
-            .ContainSingle()
-            .Which
-            .Should().BeEquivalentTo(new ManualProcessingEmailInfo
-                {
-                    ReceivedEmailId = "",
-                    FromEmail = message.From,
-                    FromName = "",
-                    Subject = message.Subject,
-                    TextBody = message.Body,
-                    ToEmail = message.To,
-                    Type = ManualProcessingEmailType.ConfirmSubscription,
-                    HtmlBody = null
-                }, e => e.Excluding(r => r.ReceivedEmailId)
-            );
+            .ContainEquivalentOf(new ManualProcessingEmailInfo
+            {
+                ReceivedEmailId = "",
+                FromEmail = message.From,
+                FromName = "",
+                Subject = message.Subject,
+                TextBody = message.Body,
+                ToEmail = message.To,
+                Type = ManualProcessingEmailType.ConfirmSubscription,
+                HtmlBody = null
+            }, e => e.Excluding(r => r.ReceivedEmailId));
     }
 
     [Test]
@@ -82,8 +75,7 @@ public class SourceTests : TestsBase
 
         sources.Items
             .Should()
-            .ContainSingle()
-            .Which.Should().BeEquivalentTo(new
+            .ContainEquivalentOf(new
             {
                 State = SourceState.Confirmed,
                 Id = source.Id.Value,

@@ -30,7 +30,7 @@ public abstract class TestsBase
 
     protected MessagesReceiver MessagesReceiver => app.Services.GetRequiredService<MessagesReceiver>();
 
-    [SetUp]
+    [OneTimeSetUp]
     public async Task SetUp()
     {
         var appHost = await DistributedApplicationTestingBuilder
@@ -89,7 +89,7 @@ public abstract class TestsBase
         services.Remove(toRemove);
     }
 
-    [TearDown]
+    [OneTimeTearDown]
     public async Task TearDown()
     {
         await massTransitHostedService.StopAsync(ApplicationLifetime.ApplicationStopped);
