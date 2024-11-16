@@ -27,7 +27,8 @@ public class ReceiveEmailsHandler(
         await foreach (var model in service.GetMessages(mailbox.UidValidity, mailbox.LastUid, ct))
         {
             var receivedEmail = await HandleEmail(model, mailbox, ct);
-            logger.LogInformation("Received email {ReceivedEmailId}", receivedEmail.Id);
+            logger.LogInformation("Received email {ReceivedEmailId} for {ToEmail}", receivedEmail.Id,
+                receivedEmail.ToEmail);
 
             mailbox.SetUid(model.Uid, model.UidValidity);
             dbContext.Add(receivedEmail);

@@ -50,10 +50,13 @@ public static class MassTransitServicesConfiguration
                 x.AddEntityFrameworkOutbox<TDbContext>(e =>
                 {
                     e.UsePostgres();
+                    e.QueryDelay = TimeSpan.FromSeconds(1);
+
                     if (!enableOutboxServices)
                     {
                         e.DisableInboxCleanupService();
                     }
+
 
                     e.UseBusOutbox(r =>
                     {
@@ -77,9 +80,9 @@ public static class MassTransitServicesConfiguration
                                       throw new Exception("Connection string not found for RabbitMQ");
             var csUri = new Uri(connectionStringRaw);
             cfg.Host(csUri);
-        
+
             cfg.ConfigureEndpoints(context);
-        
+
             cfg.UseConsumeFilter(typeof(MassTransitConsumeContextFilter<>), context);
         });
     }

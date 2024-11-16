@@ -45,7 +45,9 @@ public class SourceTests : TestsBase
 
         manualProcessingEmails.Items
             .Should()
-            .ContainEquivalentOf(new ManualProcessingEmailInfo
+            .ContainSingle(e => e.ToEmail == source.Email)
+            .Which.Should()
+            .BeEquivalentTo(new ManualProcessingEmailInfo
             {
                 ReceivedEmailId = "",
                 FromEmail = message.From,
@@ -64,11 +66,12 @@ public class SourceTests : TestsBase
         var source = await Actions.Collector.CreateSource();
         await Actions.ExternalSystem.SendConfirmationEmail(source);
         var manualProcessingEmails = await Actions.Collector.GetManualProcessingEmails();
+        var receivedEmail = manualProcessingEmails.Items.Single(e => e.ToEmail == source.Email);
 
         var client = GetPublicApiClient();
         await client.ConfirmSourceAsync(new ConfirmSourceRequest
         {
-            ReceivedEmailId = manualProcessingEmails.Items.Single().ReceivedEmailId
+            ReceivedEmailId = receivedEmail.ReceivedEmailId
         });
 
         var sources = await client.GetSourcesAsync();

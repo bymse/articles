@@ -15,7 +15,7 @@ public class ExternalSystemActions(IEmailSender emailSender) : IExternalSystemAc
             "me@localhost"
         );
         await emailSender.SendEmail(message);
-        await Task.Delay(TimeSpan.FromSeconds(15));
+        await Task.Delay(TimeSpan.FromSeconds(10));
 
         return message;
     }

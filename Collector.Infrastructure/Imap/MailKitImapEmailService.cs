@@ -63,7 +63,7 @@ public class MailKitImapEmailService(IOptions<ImapEmailServiceSettings> settings
                 lastUid = uid.Id;
             }
 
-            await Task.Delay(TimeSpan.FromSeconds(10), ct);
+            await Task.Delay(TimeSpan.FromSeconds(5), ct);
         }
 
         await client.DisconnectAsync(true, ct);
