@@ -1,4 +1,7 @@
-﻿namespace Bymse.Articles.AppHost;
+﻿using Aspire.Hosting;
+using Aspire.Hosting.ApplicationModel;
+
+namespace Bymse.Articles.AppHost;
 
 public static class GreenMailBuilderExtensions
 {
