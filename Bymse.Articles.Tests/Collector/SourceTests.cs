@@ -4,6 +4,7 @@ using Registry.Integration;
 
 namespace Bymse.Articles.Tests.Collector;
 
+[Parallelizable(ParallelScope.Children)]
 public class SourceTests : TestsBase
 {
     [Test]

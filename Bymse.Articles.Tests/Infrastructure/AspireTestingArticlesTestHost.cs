@@ -41,7 +41,7 @@ public class AspireTestingArticlesTestHost : IArticlesTestHost
 
         AddMassTransit(appHost.Services)
             .AddArticlesTestServices(_ => new SmtpEmailSender())
-            .AddSingleton(GetClient);
+            .AddSingleton<PublicApiClient>(_ => GetClient());
 
         app = await appHost.BuildAsync();
         await app.StartAsync();
