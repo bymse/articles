@@ -3,6 +3,7 @@ using Bymse.Articles.AppHost;
 using Bymse.Articles.PublicApi.Client;
 using Bymse.Articles.Tests.Actions;
 using Bymse.Articles.Tests.Emails;
+using Bymse.Articles.Tests.Infrastructure;
 using Bymse.Articles.Tests.TestConsumers;
 using Infrastructure.ServicesConfiguration;
 using MassTransit;
@@ -14,92 +15,29 @@ namespace Bymse.Articles.Tests;
 
 public abstract class TestsBase
 {
-    private DistributedApplication app;
-    private MassTransitHostedService massTransitHostedService;
-    private string? rabbitMqConnectionString;
-
-    private IHostApplicationLifetime ApplicationLifetime => app.Services.GetRequiredService<IHostApplicationLifetime>();
-
-    protected PublicApiClient GetPublicApiClient()
+    private static IEnumerable<IArticlesTestHost> TestHosts
     {
-        var httpClient = app.CreateHttpClient(ArticlesResources.Apis);
-        return new PublicApiClient(httpClient);
+        get { yield return new AspireTestingArticlesTestHost(); }
     }
 
-    protected IArticlesActions Actions => app.Services.GetRequiredService<IArticlesActions>();
+    private IArticlesTestHost testHost = null!;
 
-    protected MessagesReceiver MessagesReceiver => app.Services.GetRequiredService<MessagesReceiver>();
+    protected PublicApiClient GetPublicApiClient() => testHost.GetClient();
+
+    protected IArticlesActions Actions => testHost.Actions;
+
+    protected IEnumerable<T> GetReceivedMessages<T>() => testHost.GetReceivedMessages<T>();
 
     [OneTimeSetUp]
     public async Task SetUp()
     {
-        var appHost = await DistributedApplicationTestingBuilder
-            .CreateAsync<Projects.Bymse_Articles_AppHost>(["--no-volumes", "--run-green-mail"]);
-
-        AddTestServices(appHost.Services);
-
-        app = await appHost.BuildAsync();
-        await app.StartAsync();
-
-        await WaitForServices();
-
-        rabbitMqConnectionString = await app.GetConnectionStringAsync(ArticlesResources.RabbitMq);
-        massTransitHostedService = new MassTransitHostedService(
-            app.Services.GetRequiredService<IBusDepot>(),
-            app.Services.GetRequiredService<IOptions<MassTransitHostOptions>>()
-        );
-        await massTransitHostedService.StartAsync(ApplicationLifetime.ApplicationStopping);
-    }
-
-    private async Task WaitForServices()
-    {
-        var resourceNotificationService = app.Services.GetRequiredService<ResourceNotificationService>();
-        await resourceNotificationService
-            .WaitForResourceAsync(ArticlesResources.DbMigrator, KnownResourceStates.Finished)
-            .WaitAsync(TimeSpan.FromSeconds(60));
-
-        var resourcesToWait = ArticlesResources.Services
-            .Select(service => resourceNotificationService
-                .WaitForResourceAsync(service, KnownResourceStates.Running)
-                .WaitAsync(TimeSpan.FromSeconds(60)))
-            .ToArray();
-
-        await Task.WhenAll(resourcesToWait);
-    }
-
-    private void AddTestServices(IServiceCollection services)
-    {
-        services
-            .AddSingleton<IArticlesActions, ArticlesActions>()
-            .AddSingleton<ICollectorActions, CollectorActions>()
-            .AddSingleton<IExternalSystemActions, ExternalSystemActions>()
-            .AddSingleton<IEmailSender, SmtpEmailSender>()
-            .AddSingleton<MessagesReceiver>()
-            .AddScoped<ConsumeContextManager>()
-            .AddSingleton(_ => GetPublicApiClient())
-            .AddMassTransit(e =>
-            {
-                e.AddConsumer<GenericConsumer>();
-                e.UsingArticlesRabbitMq(() => rabbitMqConnectionString);
-            })
-            .AddOptions<MassTransitHostOptions>()
-            .Configure(options =>
-            {
-                options.WaitUntilStarted = true;
-            });
-
-        services.RemoveMassTransitHostedService();
-
-        var toRemove = services.Single(e => e.ImplementationType == typeof(ConfigureBusHealthCheckServiceOptions));
-        services.Remove(toRemove);
+        testHost = TestHosts.First(e => e.CanStart());
+        await testHost.Start();
     }
 
     [OneTimeTearDown]
     public async Task TearDown()
     {
-        await massTransitHostedService.StopAsync(ApplicationLifetime.ApplicationStopped);
-        await massTransitHostedService.DisposeAsync();
-        await app.StopAsync();
-        await app.DisposeAsync();
+        await testHost.DisposeAsync();
     }
 }

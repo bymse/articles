@@ -1,7 +1,5 @@
 ﻿using Bymse.Articles.PublicApi.Client;
-using Bymse.Articles.Tests.Emails;
 using FluentAssertions;
-using FluentAssertions.Extensions;
 using Registry.Integration;
 
 namespace Bymse.Articles.Tests.Collector;
@@ -93,9 +91,7 @@ public class SourceTests : TestsBase
         var confirmedSource = await Actions.Collector.CreateConfirmedSource();
         await Actions.ExternalSystem.SendArticlesEmail(confirmedSource, "digest-email.html");
 
-        var savedArticles = MessagesReceiver
-            .GetReceivedMessages<SaveArticleTask>()
-            .ToArray();
+        var savedArticles = GetReceivedMessages<SaveArticleTask>().ToArray();
 
         savedArticles.Should().BeEquivalentTo([
             new { Url = new Uri("https://exmaple.com/3"), },
