@@ -2,11 +2,11 @@
 
 namespace Bymse.Articles.Tests.Emails;
 
-public class SmtpEmailSender : IEmailSender
+public class SmtpEmailSender(string host = "localhost", int port = 13025) : IEmailSender
 {
     public async Task SendEmail(EmailMessage message)
     {
-        using var smtpClient = new SmtpClient("localhost", 13025);
+        using var smtpClient = new SmtpClient(host, port);
 
         var mailMessage = new MailMessage
         {

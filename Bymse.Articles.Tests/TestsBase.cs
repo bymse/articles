@@ -1,15 +1,6 @@
-﻿using Application.Contexts;
-using Bymse.Articles.AppHost;
-using Bymse.Articles.PublicApi.Client;
+﻿using Bymse.Articles.PublicApi.Client;
 using Bymse.Articles.Tests.Actions;
-using Bymse.Articles.Tests.Emails;
 using Bymse.Articles.Tests.Infrastructure;
-using Bymse.Articles.Tests.TestConsumers;
-using Infrastructure.ServicesConfiguration;
-using MassTransit;
-using MassTransit.Monitoring;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 
 namespace Bymse.Articles.Tests;
 
@@ -17,7 +8,11 @@ public abstract class TestsBase
 {
     private static IEnumerable<IArticlesTestHost> TestHosts
     {
-        get { yield return new AspireTestingArticlesTestHost(); }
+        get
+        {
+            yield return new SelfHostedArticlesTestHost();
+            yield return new AspireTestingArticlesTestHost();
+        }
     }
 
     private IArticlesTestHost testHost = null!;
