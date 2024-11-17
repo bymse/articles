@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+    <RunConfiguration>
+        <EnvironmentVariables>
+            <ARTICLES_SELF_HOST_Enable>true</ARTICLES_SELF_HOST_Enable>
+            <ARTICLES_SELF_HOST_SmtpPort>13025</ARTICLES_SELF_HOST_SmtpPort>
+            <ARTICLES_SELF_HOST_SmtpHost>localhost</ARTICLES_SELF_HOST_SmtpHost>
+            <ARTICLES_SELF_HOST_ApisUrl>localhost</ARTICLES_SELF_HOST_ApisUrl>
+            <ARTICLES_SELF_HOST_RabbitMqConnectionString>amqp://guest:guest@localhost:15672</ARTICLES_SELF_HOST_RabbitMqConnectionString>
+        </EnvironmentVariables>
+    </RunConfiguration>
+</RunSettings>

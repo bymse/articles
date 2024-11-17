@@ -42,11 +42,11 @@ public class SelfHostedArticlesTestHost : IArticlesTestHost
 
     public bool CanStart()
     {
-        var configurationBuilder = new ConfigurationBuilder()
-            .AddEnvironmentVariables("ARTICLES_")
+        var configuration = new ConfigurationBuilder()
+            .AddEnvironmentVariables("ARTICLES_SELF_HOST_")
             .Build();
 
-        settings = configurationBuilder.Get<SelfHostedSettings>() ?? new SelfHostedSettings();
+        settings = configuration.Get<SelfHostedSettings>() ?? new SelfHostedSettings();
         return settings.Enable;
     }
 
