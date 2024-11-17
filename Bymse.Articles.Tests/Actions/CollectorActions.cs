@@ -26,13 +26,16 @@ public class CollectorActions(PublicApiClient client, IExternalSystemActions ext
         var source = await CreateSource();
         await externalSystem.SendConfirmationEmail(source);
         var manualProcessingEmails = await GetManualProcessingEmails();
-        var receivedEmail = manualProcessingEmails.Items.Single(e => e.FromEmail == source.Email);
+        
+        var receivedEmail = manualProcessingEmails
+            .Items
+            .Single(e => e.ToEmail == source.Email);
         
         await client.ConfirmSourceAsync(new ConfirmSourceRequest
         {
             ReceivedEmailId = receivedEmail.ReceivedEmailId
         });
         
-        return (await client.GetSourcesAsync()).Items.Single();
+        return (await client.GetSourcesAsync()).Items.Single(s => s.Id == source.Id.Value);
     }
 }

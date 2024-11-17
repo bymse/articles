@@ -39,11 +39,23 @@ public class SaveArticlesHandler(
                     new ArticleTag(CollectorWellKnownTags.From, email.FromName ?? email.FromEmail),
                     new ArticleTag(CollectorWellKnownTags.EmailIds, email.Id.ToString())
                 ],
-                Desription = emailArticleInfo.Description?[..300]
+                Desription = Truncate(emailArticleInfo.Description, 300)
             };
 
             await publisher.PublishTask(task, ct);
             await context.SaveChangesAsync(ct);
         }
+    }
+    
+    private static string? Truncate(string? value, int maxLength)
+    {
+        if (value == null)
+        {
+            return null;
+        }
+
+        return value.Length > maxLength
+            ? value.Substring(0, maxLength)
+            : value;
     }
 }

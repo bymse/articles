@@ -74,13 +74,18 @@ public abstract class TestsBase
             .AddSingleton<ICollectorActions, CollectorActions>()
             .AddSingleton<IExternalSystemActions, ExternalSystemActions>()
             .AddSingleton<IEmailSender, SmtpEmailSender>()
-            .AddSingleton(new MessagesReceiver())
+            .AddSingleton<MessagesReceiver>()
             .AddScoped<ConsumeContextManager>()
             .AddSingleton(_ => GetPublicApiClient())
             .AddMassTransit(e =>
             {
-                e.UsingArticlesRabbitMq(() => rabbitMqConnectionString);
                 e.AddConsumer<GenericConsumer>();
+                e.UsingArticlesRabbitMq(() => rabbitMqConnectionString);
+            })
+            .AddOptions<MassTransitHostOptions>()
+            .Configure(options =>
+            {
+                options.WaitUntilStarted = true;
             });
 
         services.RemoveMassTransitHostedService();

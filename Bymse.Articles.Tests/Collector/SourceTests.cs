@@ -1,6 +1,7 @@
 ﻿using Bymse.Articles.PublicApi.Client;
 using Bymse.Articles.Tests.Emails;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using Registry.Integration;
 
 namespace Bymse.Articles.Tests.Collector;
