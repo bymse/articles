@@ -50,7 +50,7 @@ public static class MassTransitServicesConfiguration
                 x.AddEntityFrameworkOutbox<TDbContext>(e =>
                 {
                     e.UsePostgres();
-                    e.QueryDelay = TimeSpan.FromSeconds(1);
+                    e.QueryDelay = TimeSpan.FromSeconds(5);
 
                     if (!enableOutboxServices)
                     {

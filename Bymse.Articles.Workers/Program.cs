@@ -17,6 +17,8 @@ builder
     .AddCollectorServices()
     .AddPostgresDbContext<ArticlesDbContext>();
 
+builder.EnrichNpgsqlDbContext<ArticlesDbContext>();
+
 builder
     .AddMassTransitInfrastructure<ArticlesDbContext>(addConsumers: true, enableOutboxServices: true);
 
