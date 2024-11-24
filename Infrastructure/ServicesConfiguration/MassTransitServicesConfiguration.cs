@@ -66,6 +66,11 @@ public static class MassTransitServicesConfiguration
                         }
                     });
                 });
+                
+                x.AddConfigureEndpointsCallback((context, name, cfg) =>
+                {
+                    cfg.UseEntityFrameworkOutbox<TDbContext>(context);
+                });
             });
     }
 
