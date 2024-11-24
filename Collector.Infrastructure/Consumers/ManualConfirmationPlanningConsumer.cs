@@ -9,6 +9,6 @@ public class ManualConfirmationPlanningConsumer(PlanManualConfirmationHandler ha
 {
     protected override async Task Consume(ConfirmationEmailReceivedEvent @event, CancellationToken ct)
     {
-        throw new Exception();
+        await handler.Handle(new PlanManualConfirmationCommand(@event.ReceivedEmailId), ct);
     }
 }

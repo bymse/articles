@@ -12,7 +12,7 @@ public class ReceiveEmailsBackgroundWorker(
         {
             try
             {
-                using var scope = serviceProvider.CreateScope();
+                await using var scope = serviceProvider.CreateAsyncScope();
                 var handler = scope.ServiceProvider.GetRequiredService<ReceiveEmailsHandler>();
 
                 await handler.Handle(stoppingToken);
