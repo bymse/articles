@@ -1,7 +1,9 @@
-﻿using Application.Events;
+﻿using System.Diagnostics;
+using Application.Events;
 using Collector.Application.Entities;
 using Collector.Application.Events;
 using Collector.Application.Services;
+using Collector.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -24,15 +26,20 @@ public class ReceiveEmailsHandler(
             await dbContext.SaveChangesAsync(ct);
         }
 
-        await foreach (var model in service.GetMessages(mailbox.UidValidity, mailbox.LastUid, ct))
+        while (!ct.IsCancellationRequested)
         {
-            var receivedEmail = await HandleEmail(model, mailbox, ct);
-            logger.LogInformation("Received email {ReceivedEmailId} for {ToEmail}", receivedEmail.Id,
-                receivedEmail.ToEmail);
+            using var _ = CollectorActivitySource.Source.StartActivity("ReceiveEmails", ActivityKind.Internal, null);
 
-            mailbox.SetUid(model.Uid, model.UidValidity);
-            dbContext.Add(receivedEmail);
-            await dbContext.SaveChangesAsync(ct);
+            await foreach (var model in service.GetMessages(mailbox.UidValidity, mailbox.LastUid, 10, ct))
+            {
+                var receivedEmail = await HandleEmail(model, mailbox, ct);
+                logger.LogInformation("Received email {ReceivedEmailId} for {ToEmail}", receivedEmail.Id,
+                    receivedEmail.ToEmail);
+
+                mailbox.SetLastUid(model.Uid, model.UidValidity);
+                dbContext.Add(receivedEmail);
+                await dbContext.SaveChangesAsync(ct);
+            }
         }
     }
 

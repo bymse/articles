@@ -8,7 +8,7 @@ public class Mailbox
     
     public uint? LastUid { get; private set; }
     
-    public void SetUid(uint lastUid, uint uidValidity)
+    public void SetLastUid(uint lastUid, uint uidValidity)
     {
         UidValidity = uidValidity;
         LastUid = lastUid;

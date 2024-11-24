@@ -58,6 +58,7 @@ public static class Extensions
                     //.AddGrpcClientInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddSource("MassTransit")
+                    .AddSource("Bymse.Articles.Collector")
                     ;
             });
 

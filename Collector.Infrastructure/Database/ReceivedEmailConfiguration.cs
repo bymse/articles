@@ -24,5 +24,9 @@ public class ReceivedEmailConfiguration : IEntityTypeConfiguration<ReceivedEmail
                 v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, JsonSerializerOptions.Default) ??
                      new Dictionary<string, string>()
             );
+
+        builder
+            .HasIndex(e => new { e.Uid, e.UidValidity })
+            .IsUnique();
     }
 }
