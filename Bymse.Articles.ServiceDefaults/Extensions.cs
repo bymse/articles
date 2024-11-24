@@ -59,6 +59,7 @@ public static class Extensions
                     .AddHttpClientInstrumentation()
                     .AddSource("MassTransit")
                     .AddSource("Bymse.Articles.Collector")
+                    .AddSource("MailKit.Net.ImapClient")
                     ;
             });
 
