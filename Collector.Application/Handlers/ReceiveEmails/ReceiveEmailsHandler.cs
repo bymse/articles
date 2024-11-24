@@ -30,7 +30,9 @@ public class ReceiveEmailsHandler(
         {
             using var _ = CollectorActivitySource.Source.StartActivity("ReceiveEmails", ActivityKind.Internal, null);
 
-            await foreach (var model in service.GetMessages(mailbox.UidValidity, mailbox.LastUid, 10, ct))
+            var receivedCount = 0;
+            const int count = 10;
+            await foreach (var model in service.GetMessages(mailbox.UidValidity, mailbox.LastUid, count, ct))
             {
                 var receivedEmail = await HandleEmail(model, mailbox, ct);
                 logger.LogInformation("Received email {ReceivedEmailId} for {ToEmail}", receivedEmail.Id,
@@ -38,7 +40,13 @@ public class ReceiveEmailsHandler(
 
                 mailbox.SetLastUid(model.Uid, model.UidValidity);
                 dbContext.Add(receivedEmail);
-                await dbContext.SaveChangesAsync(ct);
+                await Save(mailbox, ct);
+                receivedCount++;
+            }
+
+            if (receivedCount < count)
+            {
+                await Task.Delay(5000, ct);
             }
         }
     }
@@ -79,5 +87,12 @@ public class ReceiveEmailsHandler(
         }
 
         return receivedEmail;
+    }
+
+    private async Task Save(Mailbox mailbox, CancellationToken ct)
+    {
+        await dbContext.SaveChangesAsync(ct);
+        dbContext.ChangeTracker.Clear();
+        dbContext.Attach(mailbox);
     }
 }
