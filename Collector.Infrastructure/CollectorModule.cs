@@ -25,6 +25,7 @@ public static class CollectorModule
                 .AddApplicationHandlers(applicationAssembly)
                 .AddConsumers(infrastructureAssembly)
                 .AddAutoRegistrations(applicationAssembly, infrastructureAssembly)
+                .AddScoped<ImapClientFactory>()
             ;
     }
 }

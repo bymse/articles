@@ -2,11 +2,10 @@
 
 public interface IImapEmailService
 {
-    IAsyncEnumerable<EmailModel> GetMessages(
-        uint? uidValidity,
+    IAsyncEnumerable<EmailModel> GetMessages(uint? uidValidity,
         uint? lastUid,
-        CancellationToken ct
-    );
+        int count,
+        CancellationToken ct);
 }
 
 public class EmailModel
