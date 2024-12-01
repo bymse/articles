@@ -7,7 +7,7 @@ using MailKit.Search;
 namespace Collector.Infrastructure.Imap;
 
 [AutoRegistration]
-public class MailKitImapEmailService(ImapClientFactory clientFactory) : IImapEmailService
+public class MailKitImapEmailService(ImapClientFactory clientFactory, CollectorMetrics metrics) : IImapEmailService
 {
     public async IAsyncEnumerable<EmailModel> GetMessages(uint? uidValidity,
         uint? lastUid,
@@ -55,7 +55,8 @@ public class MailKitImapEmailService(ImapClientFactory clientFactory) : IImapEma
                 UidValidity = inbox.UidValidity,
                 Uid = uid.Id
             };
-
+            
+            metrics.ReportFetched();
             yield return email;
         }
     }

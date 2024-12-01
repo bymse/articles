@@ -49,6 +49,7 @@ public static class Extensions
                     .AddHttpClientInstrumentation()
                     .AddRuntimeInstrumentation()
                     .AddMeter("MassTransit")
+                    .AddMeter("Collector")
                     ;
             })
             .WithTracing(tracing =>
