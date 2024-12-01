@@ -18,7 +18,7 @@ namespace Bymse.Articles.Database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -138,6 +138,10 @@ namespace Bymse.Articles.Database.Migrations
 
                     b.HasIndex("MailboxId")
                         .HasDatabaseName("ix_received_email_mailbox_id");
+
+                    b.HasIndex("Uid", "UidValidity")
+                        .IsUnique()
+                        .HasDatabaseName("ix_received_email_uid_uid_validity");
 
                     b.ToTable("received_email", (string)null);
                 });
