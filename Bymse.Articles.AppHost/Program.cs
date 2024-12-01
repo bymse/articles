@@ -32,20 +32,27 @@ var rabbitMq = builder
     .WithManagementPlugin(port: 15673)
     .If(!noVolumes, e => e.WithDataVolume());
 
+var dbMigrator = builder
+    .AddProject<Projects.Bymse_Articles_DbMigrator>(ArticlesResources.DbMigrator)
+    .WithReference(articlesSql)
+    .WaitFor(articlesSql);
+
 var apis = builder
     .AddProject<Projects.Bymse_Articles_Apis>(ArticlesResources.Apis)
     .WithExternalHttpEndpoints()
     .WithReference(articlesSql)
-    .WithReference(rabbitMq);
-
-var dbMigrator = builder
-    .AddProject<Projects.Bymse_Articles_DbMigrator>(ArticlesResources.DbMigrator)
-    .WithReference(articlesSql);
+    .WithReference(rabbitMq)
+    .WaitFor(articlesSql)
+    .WaitFor(rabbitMq)
+    .WaitFor(dbMigrator);
 
 var workers = builder
     .AddProject<Projects.Bymse_Articles_Workers>(ArticlesResources.Workers)
     .WithReference(articlesSql)
-    .WithReference(rabbitMq);
+    .WithReference(rabbitMq)
+    .WaitFor(articlesSql)
+    .WaitFor(rabbitMq)
+    .WaitForCompletion(dbMigrator);
 
 ConfigurationHelper.PopulateEnvironment(builder, apis, dbMigrator, workers);
 ImapHelper.AddImap(builder, workers, needGreenmail);

@@ -40,5 +40,4 @@ app
     .MapDefaultEndpoints()
     .MapControllers();
 
-Thread.Sleep(TimeSpan.FromSeconds(20));
 app.Run();
