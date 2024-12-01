@@ -14,11 +14,13 @@
     <ProjectReference Include="..\Identity.Infrastructure\Identity.Infrastructure.csproj" IsAspireProjectResource="false"/>
     <ProjectReference Include="..\Bymse.Articles.Apis\Bymse.Articles.Apis.csproj" />
   </ItemGroup>
-
+  
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
+  
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="8.2.1" />
-    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="8.2.1" />
-    <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="8.2.1" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.0.0" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.0.0" />
+    <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="9.0.0" />
   </ItemGroup>
 
 </Project>
